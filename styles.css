@@ -569,3 +569,62 @@ header h1 {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+#user-info {
+    font-weight: bold;
+    color: var(--primary-dark);
+}
+
+.library-title {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+}
+
+/* Estilos para listado de bibliotecas públicas */
+.users-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 20px 0;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+.user-item:last-child {
+    border-bottom: none;
+}
+
+.user-name {
+    font-weight: bold;
+    color: var(--primary-dark);
+}
+
+.view-library-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.view-library-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Notificaciones por tipo */
+.notification.error {
+    background-color: #e74c3c !important;
+}

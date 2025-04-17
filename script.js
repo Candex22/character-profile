@@ -1,5 +1,5 @@
 // Almacenamiento de personajes
-let characters = JSON.parse(localStorage.getItem('characters')) || [];
+let characters = [];
 let currentCharacterId = null;
 let currentPage = 1;
 const totalPages = 3;
@@ -135,39 +135,22 @@ function closeBook() {
 }
 
 // Renderizar círculos de personajes
-function renderCharacterCircles() {
-    characterCircleContainer.innerHTML = '';
-    
-    if (characters.length === 0) {
-        const emptyMessage = document.createElement('div');
-        emptyMessage.className = 'empty-message';
-        emptyMessage.textContent = 'No hay personajes. ¡Añade uno nuevo!';
-        characterCircleContainer.appendChild(emptyMessage);
-        return;
+async function loadCharacters() {
+    try {
+        if (!viewingUserId) return;
+        
+        const { data, error } = await supabaseClient
+            .from('characters')
+            .select('*')
+            .eq('user_id', viewingUserId);
+            
+        if (error) throw error;
+        
+        characters = data || [];
+        renderCharacterCircles();
+    } catch (error) {
+        showNotification(`Error al cargar personajes: ${error.message}`, 'error');
     }
-    
-    characters.forEach(character => {
-        const characterCircle = document.createElement('div');
-        characterCircle.className = 'character-circle';
-        characterCircle.dataset.characterId = character.id;
-        
-        const img = document.createElement('img');
-        img.src = character.image || '/api/placeholder/150/150';
-        img.alt = character.name;
-        
-        const nameDiv = document.createElement('div');
-        nameDiv.className = 'character-name';
-        nameDiv.textContent = character.name;
-        
-        characterCircle.appendChild(img);
-        characterCircle.appendChild(nameDiv);
-        
-        characterCircle.addEventListener('click', () => {
-            openBook(character.id);
-        });
-        
-        characterCircleContainer.appendChild(characterCircle);
-    });
 }
 
 // Llenar datos del personaje en el libro
@@ -303,6 +286,10 @@ function renderGallery(gallery) {
 
 // Modo de edición
 function toggleEditMode() {
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para editar este personaje', 'error');
+        return;
+    }
     setEditMode(!editMode);
 }
 
@@ -331,7 +318,12 @@ function setEditMode(enabled) {
 }
 
 // Guardar personaje
-function saveCharacter() {
+async function saveCharacter() {
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para editar este personaje', 'error');
+        return;
+    }
+    
     const character = characters.find(c => c.id === currentCharacterId);
     if (!character) return;
     
@@ -348,27 +340,53 @@ function saveCharacter() {
     character.race = document.getElementById('character-race').textContent;
     character.location = document.getElementById('character-location').textContent;
     
-    // Guardar en almacenamiento local
-    localStorage.setItem('characters', JSON.stringify(characters));
-    
-    // Actualizar círculos de personajes
-    renderCharacterCircles();
-    
-    // Desactivar modo de edición
-    setEditMode(false);
-    
-    // Mostrar notificación
-    showNotification('Personaje guardado con éxito');
+    try {
+        const { error } = await supabaseClient
+            .from('characters')
+            .update(character)
+            .eq('id', character.id)
+            .eq('user_id', currentUser.id);
+            
+        if (error) throw error;
+        
+        // Actualizar círculos de personajes
+        renderCharacterCircles();
+        
+        // Desactivar modo de edición
+        setEditMode(false);
+        
+        showNotification('Personaje guardado con éxito');
+    } catch (error) {
+        showNotification(`Error al guardar: ${error.message}`, 'error');
+    }
 }
 
 // Eliminar personaje
-function deleteCharacter() {
+async function deleteCharacter() {
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para eliminar este personaje', 'error');
+        return;
+    }
+    
     if (confirm('¿Estás seguro de que quieres eliminar este personaje? Esta acción no se puede deshacer.')) {
-        characters = characters.filter(c => c.id !== currentCharacterId);
-        localStorage.setItem('characters', JSON.stringify(characters));
-        closeBook();
-        renderCharacterCircles();
-        showNotification('Personaje eliminado');
+        try {
+            const { error } = await supabaseClient
+                .from('characters')
+                .delete()
+                .eq('id', currentCharacterId)
+                .eq('user_id', currentUser.id);
+                
+            if (error) throw error;
+            
+            // Actualizar lista local
+            characters = characters.filter(c => c.id !== currentCharacterId);
+            
+            closeBook();
+            renderCharacterCircles();
+            showNotification('Personaje eliminado');
+        } catch (error) {
+            showNotification(`Error al eliminar: ${error.message}`, 'error');
+        }
     }
 }
 
@@ -383,19 +401,33 @@ function previewImage(input, imgElement) {
     }
 }
 
-function updateCharacterImage(file) {
-    if (file) {
+async function updateCharacterImage(file) {
+    if (!file || !currentUser || viewingUserId !== currentUser.id) return;
+    
+    try {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = async function(e) {
+            const base64Image = e.target.result;
             const character = characters.find(c => c.id === currentCharacterId);
+            
             if (character) {
-                character.image = e.target.result;
-                localStorage.setItem('characters', JSON.stringify(characters));
+                character.image = base64Image;
+                
+                const { error } = await supabaseClient
+                    .from('characters')
+                    .update({ image: base64Image })
+                    .eq('id', character.id)
+                    .eq('user_id', currentUser.id);
+                    
+                if (error) throw error;
             }
         };
         reader.readAsDataURL(file);
+    } catch (error) {
+        showNotification(`Error al actualizar imagen: ${error.message}`, 'error');
     }
 }
+
 
 // Añadir personaje
 function showAddCharacterDialog() {
@@ -429,8 +461,59 @@ function addNewCharacter(e) {
     };
     
     // Añadir a la lista de personajes
-    characters.push(newCharacter);
-    localStorage.setItem('characters', JSON.stringify(characters));
+    async function addNewCharacter(e) {
+        e.preventDefault();
+        
+        // Verificar que el usuario está autenticado
+        if (!currentUser) {
+            showNotification('Debes iniciar sesión para crear personajes', 'error');
+            return;
+        }
+        
+        const nameInput = document.getElementById('new-character-name');
+        const name = nameInput.value.trim();
+        
+        if (!name) {
+            showNotification('Por favor, introduce un nombre para el personaje', 'error');
+            return;
+        }
+        
+        // Crear objeto del nuevo personaje
+        const newCharacterId = Date.now().toString();
+        const newCharacter = {
+            id: newCharacterId,
+            user_id: currentUser.id,
+            name: name,
+            image: newCharacterImagePreview.src !== '/api/placeholder/150/150' ? newCharacterImagePreview.src : null,
+            relations: [],
+            gallery: []
+        };
+        
+        try {
+            const { error } = await supabaseClient
+                .from('characters')
+                .insert([newCharacter]);
+                
+            if (error) throw error;
+            
+            // Añadir a la lista local
+            characters.push(newCharacter);
+            
+            // Actualizar UI
+            renderCharacterCircles();
+            hideAddCharacterDialog();
+            
+            // Abrir el libro del nuevo personaje
+            openBook(newCharacterId);
+            
+            // Activar modo de edición
+            setEditMode(true);
+            
+            showNotification('Personaje creado con éxito');
+        } catch (error) {
+            showNotification(`Error: ${error.message}`, 'error');
+        }
+    }
     
     // Actualizar UI
     renderCharacterCircles();
@@ -455,15 +538,20 @@ function hideAddRelationDialog() {
     addRelationDialog.classList.add('hidden');
 }
 
-function addNewRelation(e) {
+async function addNewRelation(e) {
     e.preventDefault();
+    
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para editar este personaje', 'error');
+        return;
+    }
     
     const nameInput = document.getElementById('relation-name');
     const name = nameInput.value.trim();
     const type = document.getElementById('relation-type').value;
     
     if (!name) {
-        alert('Por favor, introduce un nombre para la relación.');
+        showNotification('Por favor, introduce un nombre para la relación', 'error');
         return;
     }
     
@@ -482,28 +570,61 @@ function addNewRelation(e) {
         image: relationImagePreview.src !== '/api/placeholder/100/100' ? relationImagePreview.src : null
     };
     
-    // Añadir a la lista de relaciones
-    character.relations.push(newRelation);
-    localStorage.setItem('characters', JSON.stringify(characters));
-    
-    // Actualizar UI
-    renderRelations(character.relations);
-    hideAddRelationDialog();
+    try {
+        // Añadir a la lista de relaciones
+        character.relations.push(newRelation);
+        
+        const { error } = await supabaseClient
+            .from('characters')
+            .update({ relations: character.relations })
+            .eq('id', character.id)
+            .eq('user_id', currentUser.id);
+            
+        if (error) throw error;
+        
+        // Actualizar UI
+        renderRelations(character.relations);
+        hideAddRelationDialog();
+        showNotification('Relación añadida');
+    } catch (error) {
+        // Revertir cambio local en caso de error
+        character.relations.pop();
+        showNotification(`Error: ${error.message}`, 'error');
+    }
 }
 
-function removeRelation(index) {
+async function removeRelation(index) {
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para editar este personaje', 'error');
+        return;
+    }
+    
     const character = characters.find(c => c.id === currentCharacterId);
     if (!character || !character.relations) return;
     
-    character.relations.splice(index, 1);
-    localStorage.setItem('characters', JSON.stringify(characters));
-    renderRelations(character.relations);
+    try {
+        // Eliminar la relación
+        character.relations.splice(index, 1);
+        
+        const { error } = await supabaseClient
+            .from('characters')
+            .update({ relations: character.relations })
+            .eq('id', character.id)
+            .eq('user_id', currentUser.id);
+            
+        if (error) throw error;
+        
+        renderRelations(character.relations);
+        showNotification('Relación eliminada');
+    } catch (error) {
+        showNotification(`Error: ${error.message}`, 'error');
+    }
 }
 
 // Gestión de galería
-function addGalleryImage(e) {
+async function addGalleryImage(e) {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file || !currentUser || viewingUserId !== currentUser.id) return;
     
     const character = characters.find(c => c.id === currentCharacterId);
     if (!character) return;
@@ -513,46 +634,88 @@ function addGalleryImage(e) {
         character.gallery = [];
     }
     
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        character.gallery.push(e.target.result);
-        localStorage.setItem('characters', JSON.stringify(characters));
-        renderGallery(character.gallery);
-        
-        // Resetear el input
-        galleryImageUpload.value = '';
-    };
-    reader.readAsDataURL(file);
+    try {
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64Image = e.target.result;
+            
+            // Añadir imagen a la galería
+            character.gallery.push(base64Image);
+            
+            const { error } = await supabaseClient
+                .from('characters')
+                .update({ gallery: character.gallery })
+                .eq('id', character.id)
+                .eq('user_id', currentUser.id);
+                
+            if (error) throw error;
+            
+            renderGallery(character.gallery);
+            
+            // Resetear el input
+            galleryImageUpload.value = '';
+            showNotification('Imagen añadida a la galería');
+        };
+        reader.readAsDataURL(file);
+    } catch (error) {
+        showNotification(`Error: ${error.message}`, 'error');
+    }
 }
 
-function removeGalleryImage(index) {
+async function removeGalleryImage(index) {
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para editar este personaje', 'error');
+        return;
+    }
+    
     const character = characters.find(c => c.id === currentCharacterId);
     if (!character || !character.gallery) return;
     
-    character.gallery.splice(index, 1);
-    localStorage.setItem('characters', JSON.stringify(characters));
-    renderGallery(character.gallery);
+    try {
+        // Eliminar la imagen
+        character.gallery.splice(index, 1);
+        
+        const { error } = await supabaseClient
+            .from('characters')
+            .update({ gallery: character.gallery })
+            .eq('id', character.id)
+            .eq('user_id', currentUser.id);
+            
+        if (error) throw error;
+        
+        renderGallery(character.gallery);
+        showNotification('Imagen eliminada de la galería');
+    } catch (error) {
+        showNotification(`Error: ${error.message}`, 'error');
+    }
 }
 
 // Notificaciones
-function showNotification(message) {
+function showNotification(message, type = 'success') {
     // Crear elemento de notificación
     const notification = document.createElement('div');
-    notification.className = 'notification';
+    notification.className = `notification ${type}`;
     notification.textContent = message;
     
     // Estilos inline para la notificación
     notification.style.position = 'fixed';
     notification.style.bottom = '20px';
     notification.style.right = '20px';
-    notification.style.backgroundColor = 'var(--primary-color)';
-    notification.style.color = 'white';
     notification.style.padding = '10px 20px';
     notification.style.borderRadius = '5px';
     notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
     notification.style.zIndex = '9999';
     notification.style.opacity = '0';
     notification.style.transition = 'opacity 0.3s';
+    
+    // Estilos según el tipo
+    if (type === 'success') {
+        notification.style.backgroundColor = 'var(--primary-color)';
+        notification.style.color = 'white';
+    } else if (type === 'error') {
+        notification.style.backgroundColor = '#e74c3c';
+        notification.style.color = 'white';
+    }
     
     // Añadir al DOM
     document.body.appendChild(notification);
@@ -570,6 +733,7 @@ function showNotification(message) {
         }, 300);
     }, 3000);
 }
+
 
 // Inicializar la primera página al cargar
 showPage(1);
