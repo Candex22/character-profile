@@ -733,6 +733,62 @@ function showNotification(message, type = 'success') {
         }, 300);
     }, 3000);
 }
+// Formulario de registro
+registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById('register-username').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    
+    try {
+        // Registrar el usuario
+        const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    username
+                }
+            }
+        });
+        
+        if (error) throw error;
+        
+        // Si el registro fue exitoso pero requiere confirmación de correo
+        if (data.user && !data.session) {
+            showNotification('Revisa tu correo para confirmar tu cuenta', 'success');
+            hideRegisterDialog();
+            showLoginDialog();
+            return;
+        }
+        
+        // Si el registro fue exitoso y no requiere confirmación, crear el perfil
+        if (data.user) {
+            // Crear perfil de usuario en la tabla usuarios
+            const { error: profileError } = await supabaseClient
+                .from('users')
+                .insert([
+                    { id: data.user.id, username, email }
+                ]);
+                
+            if (profileError) throw profileError;
+            
+            await setAuthenticatedUser(data.user);
+            hideRegisterDialog();
+            showNotification('Cuenta creada correctamente');
+        }
+    } catch (error) {
+        console.error('Error durante el registro:', error);
+        
+        // Mensajes de error más específicos
+        if (error.message.includes('already registered')) {
+            showNotification('Este correo ya está registrado', 'error');
+        } else {
+            showNotification(`Error: ${error.message}`, 'error');
+        }
+    }
+});
 
 
 // Inicializar la primera página al cargar
