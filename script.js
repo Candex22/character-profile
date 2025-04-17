@@ -182,7 +182,9 @@ function fillCharacterData(character) {
     document.getElementById('character-goals').textContent = character.goals || 'Los objetivos del personaje aparecerán aquí...';
     document.getElementById('character-skills').textContent = character.skills || 'Habilidades del personaje...';
     document.getElementById('character-extra').textContent = character.extra || 'Información adicional...';
-    
+    document.getElementById('character-race').textContent = character.race || '???';
+    document.getElementById('character-location').textContent = character.location || '???';
+
     // Relaciones
     renderRelations(character.relations || []);
     
@@ -343,6 +345,8 @@ function saveCharacter() {
     character.skills = document.getElementById('character-skills').textContent;
     character.extra = document.getElementById('character-extra').textContent;
     character.story = document.getElementById('character-story').textContent;
+    character.race = document.getElementById('character-race').textContent;
+    character.location = document.getElementById('character-location').textContent;
     
     // Guardar en almacenamiento local
     localStorage.setItem('characters', JSON.stringify(characters));
