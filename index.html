@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Biblioteca de Personajes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Mi Biblioteca de Personajes</h1>
+            <button id="add-character-btn" class="action-button">
+                <i class="fas fa-plus"></i> Nuevo Personaje
+            </button>
+        </header>
+
+        <main>
+            <div class="character-circle-container" id="character-circle-container">
+                <!-- Los personajes se generarán dinámicamente aquí -->
+            </div>
+
+            <div id="book-container" class="book-container hidden">
+                <div class="book">
+                    <div class="book-controls">
+                        <button id="close-book" class="book-control"><i class="fas fa-times"></i></button>
+                        <button id="edit-character" class="book-control"><i class="fas fa-edit"></i></button>
+                        <button id="save-character" class="book-control hidden"><i class="fas fa-save"></i></button>
+                        <button id="delete-character" class="book-control"><i class="fas fa-trash"></i></button>
+                    </div>
+                    
+                    <div class="book-page-container">
+                        <!-- Página 1: Información del personaje -->
+                        <div class="book-page" id="page-1">
+                            <div class="page-content">
+                                <div class="character-header">
+                                    <div class="character-image-container">
+                                        <img id="character-main-image" src="/api/placeholder/200/200" alt="Personaje">
+                                        <div class="image-upload-overlay hidden">
+                                            <label for="character-image-upload" class="upload-label">
+                                                <i class="fas fa-camera"></i>
+                                            </label>
+                                            <input type="file" id="character-image-upload" accept="image/*" class="hidden">
+                                        </div>
+                                    </div>
+                                    <div class="character-title">
+                                        <h2 id="character-name" class="editable" contenteditable="false">Nombre del Personaje</h2>
+                                    </div>
+                                </div>
+                                
+                                <div class="character-info">
+                                    <div class="info-section">
+                                        <h3>Información Personal</h3>
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="info-label">Edad:</span>
+                                                <span id="character-age" class="editable" contenteditable="false">??</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Cumpleaños:</span>
+                                                <span id="character-birthday" class="editable" contenteditable="false">??/??</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Estatura:</span>
+                                                <span id="character-height" class="editable" contenteditable="false">???cm</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Ocupación:</span>
+                                                <span id="character-occupation" class="editable" contenteditable="false">???</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Raza:</span>
+                                                <span id="character-height" class="editable" contenteditable="false">???</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Ubicación:</span>
+                                                <span id="character-occupation" class="editable" contenteditable="false">???</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-section">
+                                        <h3>Objetivos</h3>
+                                        <p id="character-goals" class="editable" contenteditable="false">Los objetivos del personaje aparecerán aquí...</p>
+                                    </div>
+                                    
+                                    <div class="info-section">
+                                        <h3>Habilidades</h3>
+                                        <div id="character-skills" class="skill-list editable" contenteditable="false">
+                                            Habilidades del personaje...
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-section">
+                                        <h3>Relaciones</h3>
+                                        <div id="character-relations" class="relations-container">
+                                            <!-- Las relaciones se generarán dinámicamente aquí -->
+                                        </div>
+                                        <button id="add-relation-btn" class="small-action-button hidden">
+                                            <i class="fas fa-plus"></i> Añadir relación
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="info-section">
+                                        <h3>Notas adicionales</h3>
+                                        <p id="character-extra" class="editable" contenteditable="false">Información adicional...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page-number">1</div>
+                        </div>
+                        
+                        <!-- Página 2: Historia del personaje -->
+                        <div class="book-page" id="page-2">
+                            <div class="page-content">
+                                <h2>Historia</h2>
+                                <div id="character-story" class="story-content editable" contenteditable="false">
+                                    La historia del personaje aparecerá aquí...
+                                </div>
+                            </div>
+                            <div class="page-number">2</div>
+                        </div>
+                        
+                        <!-- Página 3: Galería de imágenes -->
+                        <div class="book-page" id="page-3">
+                            <div class="page-content">
+                                <h2>Galería</h2>
+                                <div id="character-gallery" class="gallery-grid">
+                                    <!-- Las imágenes se generarán dinámicamente aquí -->
+                                </div>
+                                <button id="add-gallery-image-btn" class="small-action-button hidden">
+                                    <i class="fas fa-plus"></i> Añadir imagen
+                                </button>
+                                <input type="file" id="gallery-image-upload" accept="image/*" class="hidden">
+                            </div>
+                            <div class="page-number">3</div>
+                        </div>
+                    </div>
+                    
+                    <div class="book-navigation">
+                        <button id="prev-page" class="nav-button"><i class="fas fa-chevron-left"></i></button>
+                        <span id="page-indicator">Página 1 de 3</span>
+                        <button id="next-page" class="nav-button"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Diálogo para añadir nuevo personaje -->
+    <div id="add-character-dialog" class="dialog-overlay hidden">
+        <div class="dialog">
+            <h2>Nuevo Personaje</h2>
+            <form id="new-character-form">
+                <div class="form-group">
+                    <label for="new-character-name">Nombre:</label>
+                    <input type="text" id="new-character-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-character-image">Imagen:</label>
+                    <div class="image-preview-container">
+                        <img id="new-character-image-preview" src="/api/placeholder/150/150" alt="Vista previa">
+                        <div class="image-upload-overlay">
+                            <label for="new-character-image" class="upload-label">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="new-character-image" accept="image/*" class="hidden">
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-buttons">
+                    <button type="button" id="cancel-add-character" class="button secondary">Cancelar</button>
+                    <button type="submit" class="button primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Diálogo para añadir relación -->
+    <div id="add-relation-dialog" class="dialog-overlay hidden">
+        <div class="dialog">
+            <h2>Nueva Relación</h2>
+            <form id="new-relation-form">
+                <div class="form-group">
+                    <label for="relation-name">Nombre:</label>
+                    <input type="text" id="relation-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="relation-type">Tipo de relación:</label>
+                    <select id="relation-type">
+                        <option value="mother">Madre</option>
+                        <option value="father">Padre</option>
+                        <option value="brother">Hermano</option>
+                        <option value="sister">Hermana</option>
+                        <option value="partner">Pareja</option>
+                        <option value="friend">Amistad</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="relation-image">Imagen:</label>
+                    <div class="image-preview-container small">
+                        <img id="relation-image-preview" src="/api/placeholder/100/100" alt="Vista previa">
+                        <div class="image-upload-overlay">
+                            <label for="relation-image" class="upload-label">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="relation-image" accept="image/*" class="hidden">
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-buttons">
+                    <button type="button" id="cancel-add-relation" class="button secondary">Cancelar</button>
+                    <button type="submit" class="button primary">Añadir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
