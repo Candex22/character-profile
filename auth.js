@@ -1,21 +1,35 @@
-// auth.js
-// Referencias a elementos del DOM para autenticación
-const loginDialog = document.getElementById('login-dialog');
-const registerDialog = document.getElementById('register-dialog');
-const loginForm = document.getElementById('login-form');
-const registerForm = document.getElementById('register-form');
-const logoutBtn = document.getElementById('logout-btn');
-const userInfoDisplay = document.getElementById('user-info');
-const switchToRegisterBtn = document.getElementById('switch-to-register');
-const switchToLoginBtn = document.getElementById('switch-to-login');
-const publicLibrariesBtn = document.getElementById('public-libraries-btn');
+let loginDialog, registerDialog, loginForm, registerForm, logoutBtn, userInfoDisplay, 
+    switchToRegisterBtn, switchToLoginBtn, publicLibrariesBtn;
 
 // Estado de autenticación
 let currentUser = null;
 let viewingUserId = null;
 
+// Inicialización cuando DOM está listo
+document.addEventListener('DOMContentLoaded', () => {
+    // Obtener referencias a elementos DOM
+    loginDialog = document.getElementById('login-dialog');
+    registerDialog = document.getElementById('register-dialog');
+    loginForm = document.getElementById('login-form');
+    registerForm = document.getElementById('register-form');
+    logoutBtn = document.getElementById('logout-btn');
+    userInfoDisplay = document.getElementById('user-info');
+    switchToRegisterBtn = document.getElementById('switch-to-register');
+    switchToLoginBtn = document.getElementById('switch-to-login');
+    publicLibrariesBtn = document.getElementById('public-libraries-btn');
+    
+    // Verificar si Supabase ya está inicializado
+    if (window.supabaseClient) {
+        initAuth();
+    } else {
+        // Esperar a que Supabase esté listo
+        document.addEventListener('supabaseReady', initAuth);
+    }
+});
+
 // Inicialización de autenticación
 async function initAuth() {
+    console.log('Inicializando autenticación...');
     // Comprobar si hay una sesión activa
     const { data: { session }, error } = await supabaseClient.auth.getSession();
     
@@ -38,43 +52,75 @@ function setupAuthEventListeners() {
         const password = document.getElementById('login-password').value;
         
         try {
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
+            console.log('Intentando iniciar sesión con:', email);
+            
+            // Verifica que supabaseClient exista
+            if (!window.supabaseClient) {
+                throw new Error('Cliente de Supabase no inicializado');
+            }
+            
+            const { data, error } = await window.supabaseClient.auth.signInWithPassword({
                 email,
                 password
             });
             
-            if (error) throw error;
+            if (error) {
+                console.error('Error de Supabase:', error);
+                throw error;
+            }
+            
+            console.log('Inicio de sesión exitoso:', data);
             
             await setAuthenticatedUser(data.user);
             hideLoginDialog();
             showNotification('Sesión iniciada correctamente');
         } catch (error) {
-            showNotification(`Error: ${error.message}`, 'error');
+            console.error('Error completo durante el inicio de sesión:', error);
+            
+            // Mensajes de error más específicos
+            if (error.message.includes('Invalid login credentials')) {
+                showNotification('Correo o contraseña incorrectos', 'error');
+            } else if (error.message.includes('Email not confirmed')) {
+                showNotification('Por favor, confirma tu correo electrónico antes de iniciar sesión', 'error');
+            } else {
+                showNotification(`Error: ${error.message}`, 'error');
+            }
         }
     });
     
     // Formulario de registro
-    registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const username = document.getElementById('register-username').value;
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        
-        try {
-            // Registrar el usuario
-            const { data, error } = await supabaseClient.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: {
-                        username
-                    }
+    // Formulario de registro
+registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById('register-username').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    
+    try {
+        // Registrar el usuario
+        const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    username
                 }
-            });
-            
-            if (error) throw error;
-            
+            }
+        });
+        
+        if (error) throw error;
+        
+        // Si el registro fue exitoso pero requiere confirmación de correo
+        if (data.user && !data.session) {
+            showNotification('Revisa tu correo para confirmar tu cuenta', 'success');
+            hideRegisterDialog();
+            showLoginDialog();
+            return;
+        }
+        
+        // Si el registro fue exitoso y no requiere confirmación, crear el perfil
+        if (data.user) {
             // Crear perfil de usuario en la tabla usuarios
             const { error: profileError } = await supabaseClient
                 .from('users')
@@ -87,10 +133,18 @@ function setupAuthEventListeners() {
             await setAuthenticatedUser(data.user);
             hideRegisterDialog();
             showNotification('Cuenta creada correctamente');
-        } catch (error) {
+        }
+    } catch (error) {
+        console.error('Error durante el registro:', error);
+        
+        // Mensajes de error más específicos
+        if (error.message.includes('already registered')) {
+            showNotification('Este correo ya está registrado', 'error');
+        } else {
             showNotification(`Error: ${error.message}`, 'error');
         }
-    });
+    }
+});
     
     // Botón de cerrar sesión
     logoutBtn.addEventListener('click', async () => {
