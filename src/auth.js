@@ -188,7 +188,7 @@ async function setAuthenticatedUser(user) {
 function updateUIForAuthState() {
     if (currentUser) {
         // Usuario logueado
-        userInfoDisplay.textContent = `Hola, ${currentUser.username || currentUser.email}`;
+        userInfoDisplay.textContent = `Hola, ${currentUser.username || currentUser.email}!`;
         userInfoDisplay.classList.remove('hidden');
         logoutBtn.classList.remove('hidden');
         publicLibrariesBtn.classList.remove('hidden');

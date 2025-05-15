@@ -20,6 +20,7 @@
 }
 
 body {
+    margin-top: 1rem;
     background-color: var(--background-color);
     color: var(--text-color);
 }
@@ -211,6 +212,11 @@ header h1 {
 .page-content {
     max-width: 800px;
     margin: 0 auto;
+}
+
+.infouser{
+    font-size: larger;
+    margin-left:1.2rem;
 }
 
 .page-number {
