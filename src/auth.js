@@ -3,6 +3,7 @@ let loginDialog, loginForm, logoutBtn, userInfoDisplay, publicLibrariesBtn;
 // Estado de autenticación
 let currentUser = null;
 let viewingUserId = null;
+let viewingUsername = null; // Para almacenar el nombre del usuario cuya biblioteca estamos viendo
 
 // Inicialización cuando DOM está listo
 document.addEventListener('DOMContentLoaded', () => {
@@ -96,6 +97,7 @@ function setupAuthEventListeners() {
     publicLibrariesBtn.addEventListener('click', showPublicLibraries);
 }
 
+
 // Establecer usuario autenticado
 async function setAuthenticatedUser(user) {
     currentUser = user;
@@ -110,6 +112,7 @@ async function setAuthenticatedUser(user) {
         
     if (!error && userData) {
         currentUser.username = userData.username;
+        viewingUsername = userData.username; // Inicialmente vemos nuestra propia biblioteca
     }
     
     updateUIForAuthState();
@@ -128,9 +131,13 @@ function updateUIForAuthState() {
         // Si estamos viendo nuestra propia biblioteca
         const isOwnLibrary = viewingUserId === currentUser.id;
         addCharacterBtn.classList.toggle('hidden', !isOwnLibrary);
-        document.getElementById('library-owner-info').textContent = isOwnLibrary ? 
-            'Mi biblioteca de personajes' : 
-            'Biblioteca de otro usuario';
+        
+        // Actualizar el título de la biblioteca dependiendo de si es propia o ajena
+        if (isOwnLibrary) {
+            document.getElementById('library-owner-info').textContent = 'Mi biblioteca de personajes';
+        } else {
+            document.getElementById('library-owner-info').textContent = `Biblioteca de ${viewingUsername || 'otro usuario'}`;
+        }
     } else {
         // Usuario no logueado
         userInfoDisplay.classList.add('hidden');
@@ -177,7 +184,7 @@ async function showPublicLibraries() {
             ${users.map(user => {
                 const isCurrentUser = currentUser && user.id === currentUser.id;
                 return `
-                <div class="user-item ${isCurrentUser ? 'current-user' : ''}" data-user-id="${user.id}">
+                <div class="user-item ${isCurrentUser ? 'current-user' : ''}" data-user-id="${user.id}" data-username="${user.username}">
                     <span class="user-name">${user.username} ${isCurrentUser ? '(Tú)' : ''}</span>
                     <button class="view-library-btn">Ver biblioteca</button>
                 </div>
@@ -228,8 +235,13 @@ async function showPublicLibraries() {
     // Configurar eventos
     document.querySelectorAll('.view-library-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
-            const userId = btn.parentElement.dataset.userId;
+            const userItem = btn.parentElement;
+            const userId = userItem.dataset.userId;
+            const username = userItem.dataset.username;
+            
             viewingUserId = userId;
+            viewingUsername = username; // Guardar el nombre del usuario que estamos viendo
+            
             await loadCharacters();
             updateUIForAuthState();
             dialog.remove();
@@ -247,6 +259,7 @@ async function showPublicLibraries() {
 function loadMyLibrary() {
     if (currentUser) {
         viewingUserId = currentUser.id;
+        viewingUsername = currentUser.username; // Estamos viendo nuestra propia biblioteca
         loadCharacters();
         updateUIForAuthState();
     }
