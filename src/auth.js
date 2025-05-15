@@ -1,5 +1,4 @@
-let loginDialog, registerDialog, loginForm, registerForm, logoutBtn, userInfoDisplay, 
-    switchToRegisterBtn, switchToLoginBtn, publicLibrariesBtn;
+let loginDialog, loginForm, logoutBtn, userInfoDisplay, publicLibrariesBtn;
 
 // Estado de autenticación
 let currentUser = null;
@@ -7,15 +6,11 @@ let viewingUserId = null;
 
 // Inicialización cuando DOM está listo
 document.addEventListener('DOMContentLoaded', () => {
-    // Obtener referencias a elementos DOM
+    // Obtener referencias a elementos DOM - eliminar referencias a registro
     loginDialog = document.getElementById('login-dialog');
-    registerDialog = document.getElementById('register-dialog');
     loginForm = document.getElementById('login-form');
-    registerForm = document.getElementById('register-form');
     logoutBtn = document.getElementById('logout-btn');
     userInfoDisplay = document.getElementById('user-info');
-    switchToRegisterBtn = document.getElementById('switch-to-register');
-    switchToLoginBtn = document.getElementById('switch-to-login');
     publicLibrariesBtn = document.getElementById('public-libraries-btn');
     
     // Verificar si Supabase ya está inicializado
@@ -88,63 +83,7 @@ function setupAuthEventListeners() {
         }
     });
     
-    // Formulario de registro
-    // Formulario de registro
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const username = document.getElementById('register-username').value;
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-    
-    try {
-        // Registrar el usuario
-        const { data, error } = await supabaseClient.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    username
-                }
-            }
-        });
-        
-        if (error) throw error;
-        
-        // Si el registro fue exitoso pero requiere confirmación de correo
-        if (data.user && !data.session) {
-            showNotification('Revisa tu correo para confirmar tu cuenta', 'success');
-            hideRegisterDialog();
-            showLoginDialog();
-            return;
-        }
-        
-        // Si el registro fue exitoso y no requiere confirmación, crear el perfil
-        if (data.user) {
-            // Crear perfil de usuario en la tabla usuarios
-            const { error: profileError } = await supabaseClient
-                .from('users')
-                .insert([
-                    { id: data.user.id, username, email }
-                ]);
-                
-            if (profileError) throw profileError;
-            
-            await setAuthenticatedUser(data.user);
-            hideRegisterDialog();
-            showNotification('Cuenta creada correctamente');
-        }
-    } catch (error) {
-        console.error('Error durante el registro:', error);
-        
-        // Mensajes de error más específicos
-        if (error.message.includes('already registered')) {
-            showNotification('Este correo ya está registrado', 'error');
-        } else {
-            showNotification(`Error: ${error.message}`, 'error');
-        }
-    }
-});
+    // Eliminar toda la sección de registro
     
     // Botón de cerrar sesión
     logoutBtn.addEventListener('click', async () => {
@@ -155,16 +94,7 @@ registerForm.addEventListener('submit', async (e) => {
         showNotification('Sesión cerrada');
     });
     
-    // Cambiar entre diálogos
-    switchToRegisterBtn.addEventListener('click', () => {
-        hideLoginDialog();
-        showRegisterDialog();
-    });
-    
-    switchToLoginBtn.addEventListener('click', () => {
-        hideRegisterDialog();
-        showLoginDialog();
-    });
+    // Eliminar sección de cambio entre diálogos
     
     // Ver bibliotecas públicas
     publicLibrariesBtn.addEventListener('click', showPublicLibraries);
@@ -224,15 +154,9 @@ function hideLoginDialog() {
     loginDialog.classList.add('hidden');
 }
 
-// Mostrar diálogo de registro
-function showRegisterDialog() {
-    registerDialog.classList.remove('hidden');
-}
-
-// Ocultar diálogo de registro
-function hideRegisterDialog() {
-    registerDialog.classList.add('hidden');
-}
+// Eliminar funciones de registro
+// function showRegisterDialog() { ... }
+// function hideRegisterDialog() { ... }
 
 // Mostrar bibliotecas públicas
 async function showPublicLibraries() {
