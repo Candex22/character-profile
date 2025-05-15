@@ -157,102 +157,121 @@ function hideLoginDialog() {
     loginDialog.classList.add('hidden');
 }
 
-// Mostrar bibliotecas públicas (modificada para facilitar la navegación)
+// Mostrar bibliotecas públicas (corregida para asegurar que se muestren los usuarios)
 async function showPublicLibraries() {
-    const { data: users, error } = await supabaseClient
-        .from('users')
-        .select('id, username');
+    try {
+        console.log('Consultando usuarios en la base de datos...');
         
-    if (error) {
-        showNotification(`Error: ${error.message}`, 'error');
-        return;
-    }
-    
-    // Crear diálogo para mostrar usuarios
-    const dialog = document.createElement('div');
-    dialog.className = 'dialog-overlay';
-    dialog.id = 'public-libraries-dialog';
-    
-    const dialogContent = document.createElement('div');
-    dialogContent.className = 'dialog';
-    
-    // Añadir título con descripción mejorada
-    dialogContent.innerHTML = `
-        <h2>Bibliotecas Disponibles</h2>
-        <p class="library-info">Todas las bibliotecas son públicas. Puedes ver cualquier biblioteca, pero solo editar la tuya.</p>
-        <div class="users-list">
-            ${users.map(user => {
-                const isCurrentUser = currentUser && user.id === currentUser.id;
-                return `
-                <div class="user-item ${isCurrentUser ? 'current-user' : ''}" data-user-id="${user.id}" data-username="${user.username}">
-                    <span class="user-name">${user.username} ${isCurrentUser ? '(Tú)' : ''}</span>
-                    <button class="view-library-btn">Ver biblioteca</button>
-                </div>
-                `;
-            }).join('')}
-        </div>
-        <div class="dialog-buttons">
-            <button id="close-public-libraries" class="button secondary">Cerrar</button>
-        </div>
-    `;
-    
-    dialog.appendChild(dialogContent);
-    document.body.appendChild(dialog);
-    
-    // Añadir estilos para mejorar la visualización
-    const style = document.createElement('style');
-    style.textContent = `
-        .library-info {
-            margin-bottom: 15px;
-            color: #666;
+        const { data: users, error } = await supabaseClient
+            .from('users')
+            .select('id, username');
+        
+        if (error) {
+            console.error('Error al obtener usuarios:', error);
+            showNotification(`Error al cargar usuarios: ${error.message}`, 'error');
+            return;
         }
-        .users-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 20px;
+        
+        console.log('Usuarios obtenidos:', users);
+        
+        if (!users || users.length === 0) {
+            showNotification('No se encontraron usuarios en la base de datos', 'error');
+            return;
         }
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .user-item.current-user {
-            background-color: rgba(var(--primary-color-rgb), 0.1);
-        }
-        .view-library-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Configurar eventos
-    document.querySelectorAll('.view-library-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-            const userItem = btn.parentElement;
-            const userId = userItem.dataset.userId;
-            const username = userItem.dataset.username;
-            
-            viewingUserId = userId;
-            viewingUsername = username; // Guardar el nombre del usuario que estamos viendo
-            
-            await loadCharacters();
-            updateUIForAuthState();
+        
+        // Crear diálogo para mostrar usuarios
+        const dialog = document.createElement('div');
+        dialog.className = 'dialog-overlay';
+        dialog.id = 'public-libraries-dialog';
+        
+        const dialogContent = document.createElement('div');
+        dialogContent.className = 'dialog';
+        
+        // Añadir título con descripción mejorada
+        dialogContent.innerHTML = `
+            <h2>Bibliotecas Disponibles</h2>
+            <p class="library-info">Todas las bibliotecas son públicas. Puedes ver cualquier biblioteca, pero solo editar la tuya.</p>
+            <div class="users-list">
+                ${users.map(user => {
+                    const isCurrentUser = currentUser && user.id === currentUser.id;
+                    return `
+                    <div class="user-item ${isCurrentUser ? 'current-user' : ''}" data-user-id="${user.id}" data-username="${user.username}">
+                        <span class="user-name">${user.username || 'Usuario sin nombre'} ${isCurrentUser ? '(Tú)' : ''}</span>
+                        <button class="view-library-btn">Ver biblioteca</button>
+                    </div>
+                    `;
+                }).join('')}
+            </div>
+            <div class="dialog-buttons">
+                <button id="close-public-libraries" class="button secondary">Cerrar</button>
+            </div>
+        `;
+        
+        dialog.appendChild(dialogContent);
+        document.body.appendChild(dialog);
+        
+        // Añadir estilos para mejorar la visualización
+        const style = document.createElement('style');
+        style.textContent = `
+            .library-info {
+                margin-bottom: 15px;
+                color: #666;
+            }
+            .users-list {
+                max-height: 300px;
+                overflow-y: auto;
+                margin-bottom: 20px;
+            }
+            .user-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                border-bottom: 1px solid #eee;
+            }
+            .user-item.current-user {
+                background-color: rgba(var(--primary-color-rgb), 0.1);
+            }
+            .view-library-btn {
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Configurar eventos
+        document.querySelectorAll('.view-library-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const userItem = btn.parentElement;
+                const userId = userItem.dataset.userId;
+                const username = userItem.dataset.username;
+                
+                console.log(`Cambiando a la biblioteca de usuario ID: ${userId}, Usuario: ${username}`);
+                
+                viewingUserId = userId;
+                viewingUsername = username; // Guardar el nombre del usuario que estamos viendo
+                
+                await loadCharacters();
+                updateUIForAuthState();
+                dialog.remove();
+                style.remove();
+                
+                showNotification(`Viendo la biblioteca de ${username || 'otro usuario'}`);
+            });
+        });
+        
+        document.getElementById('close-public-libraries').addEventListener('click', () => {
             dialog.remove();
             style.remove();
         });
-    });
-    
-    document.getElementById('close-public-libraries').addEventListener('click', () => {
-        dialog.remove();
-        style.remove();
-    });
+    } catch (e) {
+        console.error('Error inesperado al mostrar bibliotecas:', e);
+        showNotification(`Error inesperado: ${e.message}`, 'error');
+    }
 }
 
 // Cargar mi biblioteca
@@ -262,6 +281,7 @@ function loadMyLibrary() {
         viewingUsername = currentUser.username; // Estamos viendo nuestra propia biblioteca
         loadCharacters();
         updateUIForAuthState();
+        showNotification('Cargando tu biblioteca');
     }
 }
 
