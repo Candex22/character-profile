@@ -42,6 +42,44 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
 });
 
+// Renderizar círculos de personajes
+function renderCharacterCircles() {
+    characterCircleContainer.innerHTML = '';
+    
+    if (characters.length === 0) {
+        const emptyMessage = document.createElement('div');
+        emptyMessage.className = 'empty-message';
+        emptyMessage.textContent = 'No hay personajes. ¡Crea uno nuevo!';
+        characterCircleContainer.appendChild(emptyMessage);
+        return;
+    }
+    
+    characters.forEach(character => {
+        const circle = document.createElement('div');
+        circle.className = 'character-circle';
+        
+        const circleImage = document.createElement('div');
+        circleImage.className = 'circle-image';
+        
+        const img = document.createElement('img');
+        img.src = character.image || '/api/placeholder/150/150';
+        img.alt = character.name;
+        
+        const circleName = document.createElement('div');
+        circleName.className = 'circle-name';
+        circleName.textContent = character.name;
+        
+        circleImage.appendChild(img);
+        circle.appendChild(circleImage);
+        circle.appendChild(circleName);
+        
+        // Evento para abrir el libro de este personaje
+        circle.addEventListener('click', () => openBook(character.id));
+        
+        characterCircleContainer.appendChild(circle);
+    });
+}
+
 // Configuración de eventos
 function setupEventListeners() {
     // Navegación del libro
@@ -440,47 +478,57 @@ function hideAddCharacterDialog() {
     addCharacterDialog.classList.add('hidden');
 }
 
-function addNewCharacter(e) {
+async function addNewCharacter(e) {
     e.preventDefault();
+    
+    // Verificar que el usuario está autenticado
+    if (!currentUser) {
+        showNotification('Debes iniciar sesión para crear personajes', 'error');
+        return;
+    }
     
     const nameInput = document.getElementById('new-character-name');
     const name = nameInput.value.trim();
     
     if (!name) {
-        alert('Por favor, introduce un nombre para el personaje.');
+        showNotification('Por favor, introduce un nombre para el personaje', 'error');
         return;
     }
     
-    // Crear nuevo personaje
-    const newCharacter = {
-        id: Date.now().toString(),
-        name: name,
-        image: newCharacterImagePreview.src !== '/api/placeholder/150/150' ? newCharacterImagePreview.src : null,
-        relations: [],
-        gallery: []
-    };
-    
-    // Añadir a la lista de personajes
-    async function addNewCharacter(e) {
-        e.preventDefault();
-        
-        // Verificar que el usuario está autenticado
-        if (!currentUser) {
-            showNotification('Debes iniciar sesión para crear personajes', 'error');
-            return;
-        }
-        
-        const nameInput = document.getElementById('new-character-name');
-        const name = nameInput.value.trim();
-        
-        if (!name) {
-            showNotification('Por favor, introduce un nombre para el personaje', 'error');
-            return;
-        }
-        
-        // Crear objeto del nuevo personaje
-        const newCharacterId = Date.now().toString();
+    try {
+        // Primero, vamos a crear un objeto más simple y asegurarnos que tenga los campos correctos
+        // Basado en el error, posiblemente hay campos extra o con tipos incorrectos
         const newCharacter = {
+            user_id: currentUser.id,
+            name: name,
+            // Nos aseguramos de que la imagen sea null si es la imagen por defecto
+            // o un string válido si es una imagen personalizada
+            image: newCharacterImagePreview.src === '/api/placeholder/150/150' ? null : newCharacterImagePreview.src,
+            // Asegurar que estos campos sean arrays JSON válidos
+            relations: JSON.stringify([]),
+            gallery: JSON.stringify([])
+        };
+        
+        console.log("Intentando crear personaje:", newCharacter);
+        
+        // Intentar insertar el personaje con campos mínimos
+        const { data, error } = await supabaseClient
+            .from('characters')
+            .insert([newCharacter])
+            .select();
+            
+        if (error) {
+            console.error("Error detallado:", error);
+            throw error;
+        }
+        
+        console.log("Personaje creado:", data);
+        
+        // Si se creó correctamente, tomamos el ID generado por Supabase
+        const newCharacterId = data[0].id;
+        
+        // Añadir a la lista local con el ID correcto
+        const characterForUI = {
             id: newCharacterId,
             user_id: currentUser.id,
             name: name,
@@ -489,41 +537,24 @@ function addNewCharacter(e) {
             gallery: []
         };
         
-        try {
-            const { error } = await supabaseClient
-                .from('characters')
-                .insert([newCharacter]);
-                
-            if (error) throw error;
-            
-            // Añadir a la lista local
-            characters.push(newCharacter);
-            
-            // Actualizar UI
-            renderCharacterCircles();
-            hideAddCharacterDialog();
-            
-            // Abrir el libro del nuevo personaje
-            openBook(newCharacterId);
-            
-            // Activar modo de edición
-            setEditMode(true);
-            
-            showNotification('Personaje creado con éxito');
-        } catch (error) {
-            showNotification(`Error: ${error.message}`, 'error');
-        }
+        // Añadir a la lista local
+        characters.push(characterForUI);
+        
+        // Actualizar UI
+        renderCharacterCircles();
+        hideAddCharacterDialog();
+        
+        // Abrir el libro del nuevo personaje
+        openBook(newCharacterId);
+        
+        // Activar modo de edición
+        setEditMode(true);
+        
+        showNotification('Personaje creado con éxito');
+    } catch (error) {
+        console.error("Error completo:", error);
+        showNotification(`Error al crear el personaje: ${error.message}`, 'error');
     }
-    
-    // Actualizar UI
-    renderCharacterCircles();
-    hideAddCharacterDialog();
-    
-    // Abrir el libro del nuevo personaje
-    openBook(newCharacter.id);
-    
-    // Activar modo de edición
-    setEditMode(true);
 }
 
 // Gestión de relaciones
