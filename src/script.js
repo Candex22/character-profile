@@ -149,7 +149,7 @@ function nextPage() {
     }
 }
 
-// Abrir y cerrar el libro
+// Actualización de la función openBook para manejar los controles de edición según el propietario
 function openBook(characterId) {
     currentCharacterId = characterId;
     const character = characters.find(c => c.id === characterId);
@@ -164,6 +164,11 @@ function openBook(characterId) {
         
         // Resetear modo de edición
         setEditMode(false);
+        
+        // Mostrar u ocultar opciones de edición según si es el propietario
+        const isOwner = currentUser && currentUser.id === character.user_id;
+        editCharacterBtn.classList.toggle('hidden', !isOwner);
+        deleteCharacterBtn.classList.toggle('hidden', !isOwner);
     }
 }
 
@@ -323,11 +328,24 @@ function renderGallery(gallery) {
 }
 
 // Modo de edición
+// Modificación de la función toggleEditMode en script.js
 function toggleEditMode() {
-    if (!currentUser || viewingUserId !== currentUser.id) {
-        showNotification('No tienes permiso para editar este personaje', 'error');
+    // Verificamos que el usuario esté autenticado y sea el propietario del personaje que está viendo
+    if (!currentUser) {
+        showNotification('Debes iniciar sesión para editar este personaje', 'error');
         return;
     }
+    
+    // Buscar el personaje actual
+    const character = characters.find(c => c.id === currentCharacterId);
+    if (!character) return;
+    
+    // Verificar que el usuario actual sea el propietario del personaje
+    if (character.user_id !== currentUser.id) {
+        showNotification('Solo puedes editar tus propios personajes', 'error');
+        return;
+    }
+    
     setEditMode(!editMode);
 }
 
