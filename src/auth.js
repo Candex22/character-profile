@@ -83,8 +83,6 @@ function setupAuthEventListeners() {
         }
     });
     
-    // Eliminar toda la sección de registro
-    
     // Botón de cerrar sesión
     logoutBtn.addEventListener('click', async () => {
         await supabaseClient.auth.signOut();
@@ -93,8 +91,6 @@ function setupAuthEventListeners() {
         showLoginDialog();
         showNotification('Sesión cerrada');
     });
-    
-    // Eliminar sección de cambio entre diálogos
     
     // Ver bibliotecas públicas
     publicLibrariesBtn.addEventListener('click', showPublicLibraries);
@@ -154,11 +150,7 @@ function hideLoginDialog() {
     loginDialog.classList.add('hidden');
 }
 
-// Eliminar funciones de registro
-// function showRegisterDialog() { ... }
-// function hideRegisterDialog() { ... }
-
-// Mostrar bibliotecas públicas
+// Mostrar bibliotecas públicas (modificada para facilitar la navegación)
 async function showPublicLibraries() {
     const { data: users, error } = await supabaseClient
         .from('users')
@@ -177,15 +169,20 @@ async function showPublicLibraries() {
     const dialogContent = document.createElement('div');
     dialogContent.className = 'dialog';
     
+    // Añadir título con descripción mejorada
     dialogContent.innerHTML = `
-        <h2>Bibliotecas Públicas</h2>
+        <h2>Bibliotecas Disponibles</h2>
+        <p class="library-info">Todas las bibliotecas son públicas. Puedes ver cualquier biblioteca, pero solo editar la tuya.</p>
         <div class="users-list">
-            ${users.map(user => `
-                <div class="user-item" data-user-id="${user.id}">
-                    <span class="user-name">${user.username}</span>
+            ${users.map(user => {
+                const isCurrentUser = currentUser && user.id === currentUser.id;
+                return `
+                <div class="user-item ${isCurrentUser ? 'current-user' : ''}" data-user-id="${user.id}">
+                    <span class="user-name">${user.username} ${isCurrentUser ? '(Tú)' : ''}</span>
                     <button class="view-library-btn">Ver biblioteca</button>
                 </div>
-            `).join('')}
+                `;
+            }).join('')}
         </div>
         <div class="dialog-buttons">
             <button id="close-public-libraries" class="button secondary">Cerrar</button>
@@ -195,6 +192,39 @@ async function showPublicLibraries() {
     dialog.appendChild(dialogContent);
     document.body.appendChild(dialog);
     
+    // Añadir estilos para mejorar la visualización
+    const style = document.createElement('style');
+    style.textContent = `
+        .library-info {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        .users-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .user-item.current-user {
+            background-color: rgba(var(--primary-color-rgb), 0.1);
+        }
+        .view-library-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    `;
+    document.head.appendChild(style);
+    
     // Configurar eventos
     document.querySelectorAll('.view-library-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -203,11 +233,13 @@ async function showPublicLibraries() {
             await loadCharacters();
             updateUIForAuthState();
             dialog.remove();
+            style.remove();
         });
     });
     
     document.getElementById('close-public-libraries').addEventListener('click', () => {
         dialog.remove();
+        style.remove();
     });
 }
 
