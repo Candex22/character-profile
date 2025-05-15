@@ -573,7 +573,6 @@ header h1 {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-bottom: 20px;
 }
 
 #user-info {
@@ -584,7 +583,6 @@ header h1 {
 .library-title {
     font-size: 1.5rem;
     color: var(--primary-dark);
-    margin-bottom: 10px;
 }
 
 /* Estilos para listado de bibliotecas públicas */
@@ -627,4 +625,482 @@ header h1 {
 /* Notificaciones por tipo */
 .notification.error {
     background-color: #e74c3c !important;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .action-button {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .character-circle-container {
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .character-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .character-circle .character-name {
+        font-size: 0.7rem;
+        padding: 3px;
+    }
+
+    .book {
+        width: 98%;
+        height: 95vh;
+    }
+
+    .book-controls {
+        top: 8px;
+        right: 8px;
+        gap: 5px;
+    }
+
+    .book-control {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+
+    .book-page {
+        padding: 15px;
+        font-size: 0.8rem;
+    }
+
+    .page-number {
+        bottom: 8px;
+        right: 8px;
+        font-size: 0.7rem;
+    }
+
+    .book-navigation {
+        padding: 8px 10px;
+    }
+
+    .nav-button {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    #page-indicator {
+        font-size: 0.7rem;
+    }
+
+    .character-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .character-image-container {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .character-title h2 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+
+    .info-section {
+        margin-bottom: 15px;
+    }
+
+    .info-section h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .info-item {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    .skill-list {
+        font-size: 0.8rem;
+        padding: 8px;
+        min-height: 30px;
+    }
+
+    .relations-container {
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .relation-item {
+        width: 60px;
+        margin-bottom: 8px;
+    }
+
+    .relation-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .relation-name {
+        font-size: 0.7rem;
+        margin-top: 3px;
+    }
+
+    .relation-type {
+        font-size: 0.6rem;
+    }
+
+    .story-content {
+        padding: 10px;
+        min-height: 200px;
+        line-height: 1.4;
+        font-size: 0.8rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .gallery-item {
+        height: 100px;
+    }
+
+    .gallery-item .delete-gallery-item {
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
+    }
+
+    .dialog {
+        padding: 15px;
+    }
+
+    .dialog h2 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-group label {
+        font-size: 0.8rem;
+        margin-bottom: 3px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .image-preview-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .dialog-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .user-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    #user-info {
+        font-size: 0.9rem;
+    }
+
+    .library-title {
+        font-size: 1.1rem;
+    }
+
+    .users-list {
+        max-height: 200px;
+        margin: 15px 0;
+    }
+
+    .user-item {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .user-name {
+        font-size: 0.9rem;
+    }
+
+    .view-library-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Adjustments for tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+    header {
+        flex-direction: row;
+        text-align: left;
+        gap: 20px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .action-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .character-circle-container {
+        gap: 25px;
+        margin: 35px 0;
+    }
+
+    .character-circle {
+        width: 130px;
+        height: 130px;
+    }
+
+    .character-circle .character-name {
+        font-size: 0.8rem;
+        padding: 5px;
+    }
+
+    .book {
+        width: 95%;
+        height: 90vh;
+    }
+
+    .book-controls {
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+
+    .book-control {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+
+    .book-page {
+        padding: 20px;
+        font-size: 0.9rem;
+    }
+
+    .page-number {
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.8rem;
+    }
+
+    .book-navigation {
+        padding: 10px 15px;
+    }
+
+    .nav-button {
+        width: 35px;
+        height: 35px;
+        font-size: 1.1rem;
+    }
+
+    #page-indicator {
+        font-size: 0.8rem;
+    }
+
+    .character-header {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        margin-bottom: 25px;
+    }
+
+    .character-image-container {
+        width: 180px;
+        height: 180px;
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+
+    .character-title h2 {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+    .info-section {
+        margin-bottom: 20px;
+    }
+
+    .info-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+    }
+
+    .info-item {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .skill-list {
+        font-size: 0.9rem;
+        padding: 10px;
+        min-height: 40px;
+    }
+
+    .relations-container {
+        gap: 12px;
+        justify-content: flex-start;
+    }
+
+    .relation-item {
+        width: 70px;
+        margin-bottom: 10px;
+    }
+
+    .relation-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .relation-name {
+        font-size: 0.8rem;
+        margin-top: 5px;
+    }
+
+    .relation-type {
+        font-size: 0.7rem;
+    }
+
+    .story-content {
+        padding: 15px;
+        min-height: 300px;
+        line-height: 1.5;
+        font-size: 0.9rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .gallery-item {
+        height: 140px;
+    }
+
+    .gallery-item .delete-gallery-item {
+        width: 22px;
+        height: 22px;
+        font-size: 0.8rem;
+    }
+
+    .dialog {
+        padding: 20px;
+    }
+
+    .dialog h2 {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .image-preview-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .dialog-buttons {
+        flex-direction: row;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .user-controls {
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }
+
+    #user-info {
+        font-size: 1rem;
+    }
+
+    .library-title {
+        font-size: 1.3rem;
+    }
+
+    .users-list {
+        max-height: 250px;
+        margin: 20px 0;
+    }
+
+    .user-item {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .user-name {
+        font-size: 1rem;
+    }
+
+    .view-library-btn {
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
 }
