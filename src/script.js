@@ -281,7 +281,12 @@ function getRelationTypeText(type) {
         'father': 'Padre',
         'brother': 'Hermano',
         'sister': 'Hermana',
+        'grampa': 'abuelo',
+        'gradma': 'abuela',
+        'cousin': 'primo/a',
         'partner': 'Pareja',
+        'wife': 'esposa',
+        'husband': 'esposo',
         'friend': 'Amistad',
         'other': 'Otro'
     };
