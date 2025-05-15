@@ -33,6 +33,7 @@
             </div>
 
             <div id="book-container" class="book-container hidden">
+                <!-- Contenido del libro (sin cambios) -->
                 <div class="book">
                     <div class="book-controls">
                         <button id="close-book" class="book-control"><i class="fas fa-times"></i></button>
@@ -228,6 +229,8 @@
             </form>
         </div>
     </div>
+
+    <!-- Diálogo de inicio de sesión (modificado sin opción de registro) -->
     <div id="login-dialog" class="dialog-overlay">
         <div class="dialog">
             <h2>Iniciar Sesión</h2>
@@ -241,37 +244,14 @@
                     <input type="password" id="login-password" required>
                 </div>
                 <div class="dialog-buttons">
-                    <button type="button" id="switch-to-register" class="button secondary">Registrarse</button>
                     <button type="submit" class="button primary">Iniciar sesión</button>
                 </div>
             </form>
         </div>
     </div>
     
-    <!-- Diálogo de registro -->
-    <div id="register-dialog" class="dialog-overlay hidden">
-        <div class="dialog">
-            <h2>Crear Cuenta</h2>
-            <form id="register-form">
-                <div class="form-group">
-                    <label for="register-username">Nombre de usuario:</label>
-                    <input type="text" id="register-username" required>
-                </div>
-                <div class="form-group">
-                    <label for="register-email">Email:</label>
-                    <input type="email" id="register-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="register-password">Contraseña:</label>
-                    <input type="password" id="register-password" required minlength="6">
-                </div>
-                <div class="dialog-buttons">
-                    <button type="button" id="switch-to-login" class="button secondary">Iniciar sesión</button>
-                    <button type="submit" class="button primary">Registrarse</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Eliminar el diálogo de registro -->
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="src/supabase-config.js"></script>
     <script src="src/auth.js"></script>
