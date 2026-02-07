@@ -254,28 +254,28 @@ function fillCharacterData(character) {
     
     // Página 2: Nueva sección de Personalidad
     // Impresión general - Temperamento
-    document.getElementById('temperament-1').textContent = character.temperament_1 || 'Palabra clave 1';
-    document.getElementById('temperament-2').textContent = character.temperament_2 || 'Palabra clave 2';
-    document.getElementById('temperament-3').textContent = character.temperament_3 || 'Palabra clave 3';
+    document.getElementById('temperament-1').textContent = character.temperament_1 || '—';
+    document.getElementById('temperament-2').textContent = character.temperament_2 || '—';
+    document.getElementById('temperament-3').textContent = character.temperament_3 || '—';
     
     // Presencia
-    document.getElementById('presence-text').textContent = character.presence || 'Describe cómo el personaje ocupa el espacio, su energía, ritmo y la sensación que produce su cercanía o ausencia...';
+    document.getElementById('presence-text').textContent = character.presence || 'Cómo se siente su presencia. Energía, ritmo y sensación que deja.';
     
     // Primera impresión social
-    document.getElementById('first-impression-text').textContent = character.first_impression || 'Define cómo suele ser interpretado por otros al conocerlo, incluyendo malentendidos frecuentes o rasgos que se perciben antes de conocerlo en profundidad...';
+    document.getElementById('first-impression-text').textContent = character.first_impression || 'Qué se prejuzga sin conocerlo.';
     
     // Núcleo interno - Necesidad primaria
-    document.getElementById('primary-need').textContent = character.primary_need || 'El impulso fundamental que guía al personaje';
+    document.getElementById('primary-need').textContent = character.primary_need || 'Aquello que necesita para sentirse completo (Ej.: Pertenecer / Control).';
     
     // Creencia raíz
-    document.getElementById('root-belief').textContent = character.root_belief || '"La idea profunda que el personaje sostiene sobre sí mismo o sobre el mundo"';
+    document.getElementById('root-belief').textContent = character.root_belief || 'Ej.: “Si no soy útil, no valgo.” / “El afecto siempre tiene un costo.”';
     
     // Impulso automático
-    document.getElementById('automatic-impulse').textContent = character.automatic_impulse || 'Cómo responde instintivamente cuando su necesidad primaria o creencia raíz se ven amenazadas...';
+    document.getElementById('automatic-impulse').textContent = character.automatic_impulse || 'Reacción instintiva ante la amenaza.';
     
     // Conflicto interno
-    document.getElementById('conflict-force-a').textContent = character.conflict_force_a || 'Primera fuerza en conflicto';
-    document.getElementById('conflict-force-b').textContent = character.conflict_force_b || 'Segunda fuerza en conflicto';
+    document.getElementById('conflict-force-a').textContent = character.conflict_force_a || 'Ej.: Desea cercanía';
+    document.getElementById('conflict-force-b').textContent = character.conflict_force_b || 'Ej.: Teme depender';
     
     // Página 3: Rasgos de Personalidad - cargar valores de los sliders
     if (character.personality) {
