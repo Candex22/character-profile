@@ -535,7 +535,7 @@ async function addNewCharacter(e) {
     try {
         // Crear objeto de personalidad por defecto
         const defaultPersonality = {};
-        for (let i = 1; i <= 17; i++) {
+        for (let i = 1; i <= 18; i++) {
             const slider = document.getElementById(`trait-${i}`);
             if (slider) {
                 defaultPersonality[slider.getAttribute('data-trait')] = 50;
