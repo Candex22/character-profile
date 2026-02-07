@@ -368,6 +368,121 @@ header h1 {
     color: var(--text-light);
 }
 
+/* Estilos adicionales para la sección de Personalidad */
+
+.personality-section {
+    /*background-color: var(--secondary-color);*/
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+}
+
+.personality-trait {
+    display: grid;
+    grid-template-columns: 120px 1fr 120px;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+}
+
+.personality-trait:last-child {
+    margin-bottom: 0;
+}
+
+.trait-left,
+.trait-right {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.trait-left {
+    text-align: right;
+}
+
+.trait-right {
+    text-align: left;
+}
+
+/* Estilos para el slider */
+.personality-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Track del slider (la línea) */
+.personality-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, var(--primary-light) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
+    border-radius: 3px;
+}
+
+.personality-slider::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, var(--primary-light) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
+    border-radius: 3px;
+}
+
+/* Thumb del slider (el punto) */
+.personality-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--primary-dark);
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.personality-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--primary-dark);
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+/* Hover effect en el thumb */
+.personality-slider::-webkit-slider-thumb:hover {
+    background: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.personality-slider::-moz-range-thumb:hover {
+    background: var(--primary-color);
+    transform: scale(1.2);
+}
+
+/* Estado deshabilitado */
+.personality-slider:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.personality-slider:disabled::-webkit-slider-thumb {
+    cursor: not-allowed;
+}
+
+.personality-slider:disabled::-moz-range-thumb {
+    cursor: not-allowed;
+}
+
 .story-content {
     background-color: var(--secondary-color);
     padding: 20px;
@@ -574,7 +689,30 @@ header h1 {
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .personality-trait {
+        grid-template-columns: 90px 1fr 90px;
+        gap: 10px;
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+    
+    .trait-left,
+    .trait-right {
+        font-size: 0.75rem;
+    }
+    
+    .personality-slider::-webkit-slider-thumb {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .personality-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+    }
 }
+
 .user-controls {
     display: flex;
     align-items: center;
@@ -869,6 +1007,31 @@ header h1 {
     .view-library-btn {
         padding: 4px 8px;
         font-size: 0.8rem;
+    }
+    
+    .personality-trait {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .trait-left {
+        text-align: left;
+        order: 1;
+    }
+    
+    .personality-slider {
+        order: 2;
+    }
+    
+    .trait-right {
+        text-align: right;
+        order: 3;
+    }
+    
+    .trait-left,
+    .trait-right {
+        font-size: 0.7rem;
     }
 }
 

@@ -2,7 +2,7 @@
 let characters = [];
 let currentCharacterId = null;
 let currentPage = 1;
-const totalPages = 3;
+const totalPages = 4; // Actualizado a 4 páginas
 let editMode = false;
 
 // Elementos del DOM
@@ -11,6 +11,7 @@ const bookContainer = document.getElementById('book-container');
 const page1 = document.getElementById('page-1');
 const page2 = document.getElementById('page-2');
 const page3 = document.getElementById('page-3');
+const page4 = document.getElementById('page-4');
 const pageIndicator = document.getElementById('page-indicator');
 const prevPageBtn = document.getElementById('prev-page');
 const nextPageBtn = document.getElementById('next-page');
@@ -120,12 +121,32 @@ function setupEventListeners() {
     // Galería
     addGalleryImageBtn.addEventListener('click', () => galleryImageUpload.click());
     galleryImageUpload.addEventListener('change', addGalleryImage);
+    
+    // Event listeners para sliders de personalidad
+    setupPersonalitySliders();
+}
+
+// Configurar sliders de personalidad
+function setupPersonalitySliders() {
+    const sliders = document.querySelectorAll('.personality-slider');
+    sliders.forEach(slider => {
+        slider.addEventListener('input', function() {
+            // Actualizar visualmente si es necesario
+            updateSliderVisual(this);
+        });
+    });
+}
+
+// Actualizar visual del slider (opcional)
+function updateSliderVisual(slider) {
+    const value = slider.value;
+    // Puedes agregar lógica adicional aquí para feedback visual
 }
 
 // Funciones de navegación del libro
 function showPage(pageNumber) {
     // Ocultar todas las páginas
-    [page1, page2, page3].forEach(page => {
+    [page1, page2, page3, page4].forEach(page => {
         page.classList.remove('active');
     });
     
@@ -209,7 +230,6 @@ function fillCharacterData(character) {
     document.getElementById('character-origin').textContent = character.origin || '—';
     document.getElementById('character-location').textContent = character.location || '—';
 
-
     // Apariencia física
     document.getElementById('character-face').textContent = character.face || '—';
     document.getElementById('character-height').textContent = character.height || '—cm';
@@ -231,10 +251,29 @@ function fillCharacterData(character) {
     document.getElementById('character-pronunciation').textContent = character.pronunciation || '—';
     document.getElementById('character-accent').textContent = character.accent || '—';
     
-    // Página 2: Historia
+    // Página 2: Personalidad - cargar valores de los sliders
+    if (character.personality) {
+        const personality = typeof character.personality === 'string' 
+            ? JSON.parse(character.personality) 
+            : character.personality;
+        
+        Object.keys(personality).forEach(trait => {
+            const slider = document.querySelector(`[data-trait="${trait}"]`);
+            if (slider) {
+                slider.value = personality[trait];
+            }
+        });
+    } else {
+        // Valores por defecto (50 = centro)
+        document.querySelectorAll('.personality-slider').forEach(slider => {
+            slider.value = 50;
+        });
+    }
+    
+    // Página 3: Historia
     document.getElementById('character-story').textContent = character.story || 'La historia del personaje aparecerá aquí...';
     
-    // Página 3: Galería
+    // Página 4: Galería
     renderGallery(character.gallery || []);
 }
 
@@ -313,6 +352,12 @@ function setEditMode(enabled) {
         el.contentEditable = enabled;
     });
     
+    // Habilitar/deshabilitar sliders de personalidad
+    const sliders = document.querySelectorAll('.personality-slider');
+    sliders.forEach(slider => {
+        slider.disabled = !enabled;
+    });
+    
     // Re-renderizar galería para mostrar/ocultar botones de eliminación
     const character = characters.find(c => c.id === currentCharacterId);
     if (character) {
@@ -336,7 +381,7 @@ async function saveCharacter() {
     character.birthday = document.getElementById('character-birthday').textContent;
     character.occupation = document.getElementById('character-occupation').textContent;
     character.race = document.getElementById('character-race').textContent;
-        character.origin = document.getElementById('character-origin').textContent;
+    character.origin = document.getElementById('character-origin').textContent;
     character.location = document.getElementById('character-location').textContent;
     
     // Apariencia física
@@ -359,6 +404,14 @@ async function saveCharacter() {
     character.speaking_tempo = document.getElementById('character-speaking-tempo').textContent;
     character.pronunciation = document.getElementById('character-pronunciation').textContent;
     character.accent = document.getElementById('character-accent').textContent;
+    
+    // Personalidad - guardar valores de los sliders
+    const personality = {};
+    document.querySelectorAll('.personality-slider').forEach(slider => {
+        const trait = slider.getAttribute('data-trait');
+        personality[trait] = parseInt(slider.value);
+    });
+    character.personality = personality;
     
     // Historia
     character.story = document.getElementById('character-story').textContent;
@@ -451,7 +504,6 @@ async function updateCharacterImage(file) {
     }
 }
 
-
 // Añadir personaje
 function showAddCharacterDialog() {
     addCharacterDialog.classList.remove('hidden');
@@ -481,10 +533,20 @@ async function addNewCharacter(e) {
     }
     
     try {
+        // Crear objeto de personalidad por defecto
+        const defaultPersonality = {};
+        for (let i = 1; i <= 17; i++) {
+            const slider = document.getElementById(`trait-${i}`);
+            if (slider) {
+                defaultPersonality[slider.getAttribute('data-trait')] = 50;
+            }
+        }
+        
         const newCharacter = {
             user_id: currentUser.id,
             name: name,
             image: newCharacterImagePreview.src === '/api/placeholder/150/150' ? null : newCharacterImagePreview.src,
+            personality: JSON.stringify(defaultPersonality),
             gallery: JSON.stringify([])
         };
         
@@ -509,6 +571,7 @@ async function addNewCharacter(e) {
             user_id: currentUser.id,
             name: name,
             image: newCharacterImagePreview.src !== '/api/placeholder/150/150' ? newCharacterImagePreview.src : null,
+            personality: defaultPersonality,
             gallery: []
         };
         

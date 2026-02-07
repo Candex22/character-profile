@@ -11,7 +11,7 @@
 
 <body>
     <span id="user-info" class="hidden infouser"></span>
-    <div class="app-container"> 
+    <div class="app-container">
         <header>
             <div class="user-controls">
                 <div id="library-owner-info" class="library-title">Mi biblioteca de personajes</div>
@@ -45,7 +45,7 @@
                     <div class="book-page-container">
                         <!-- Página 1: Información del personaje -->
                         <div class="book-page" id="page-1">
-                            <div class="page-content">
+                            <div class="info-section">
                                 <div class="character-header">
                                     <div class="character-image-container">
                                         <img id="character-main-image" src="/api/placeholder/200/200" alt="Personaje">
@@ -107,7 +107,7 @@
                                                 <span class="info-label">Rostro ocupado:</span>
                                                 <span id="character-face" class="editable"
                                                     contenteditable="false">—</span>
-                                            </div>                                            
+                                            </div>
                                             <div class="info-item">
                                                 <span class="info-label">Piel:</span>
                                                 <span id="character-skin" class="editable"
@@ -201,21 +201,135 @@
                             <div class="page-number">1</div>
                         </div>
 
-                        <!-- Página 2: Historia del personaje -->
+                        <!-- Página 2: Personalidad -->
                         <div class="book-page" id="page-2">
-                            <div class="page-content">
-                                <h2>Historia</h2>
-                                <div id="character-story" class="story-content editable" contenteditable="false">
-                                    La historia del personaje aparecerá aquí...
+                            <div class="info-section">
+                                <div class="character-title"><h2>Personalidad</h2></div>
+                                <div class="personality-section">
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Introvertido</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-1" data-trait="introvertido_extrovertido">
+                                        <label class="trait-right">Extrovertido</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Lógico</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-2" data-trait="logico_emocional">
+                                        <label class="trait-right">Emocional</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Intuitivo</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-3" data-trait="intuitivo_analitico">
+                                        <label class="trait-right">Analítico</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Planificador</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-4" data-trait="planificador_espontaneo">
+                                        <label class="trait-right">Espontáneo</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Arriesgado</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-5" data-trait="arriesgado_cauteloso">
+                                        <label class="trait-right">Cauteloso</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Optimista</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-6" data-trait="optimista_realista">
+                                        <label class="trait-right">Pesimista</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Tradicional</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-7" data-trait="tradicional_disruptivo">
+                                        <label class="trait-right">Disruptivo</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Multitasking</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-8" data-trait="multitasking_enfoque">
+                                        <label class="trait-right">Enfoque profundo</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Hablador</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-9" data-trait="hablador_oyente">
+                                        <label class="trait-right">Oyente</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Resiliente</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-10" data-trait="resiliente_sensible">
+                                        <label class="trait-right">Sensible</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Proactivo</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-11" data-trait="proactivo_reactivo">
+                                        <label class="trait-right">Reactivo</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Empático</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-12" data-trait="empatico_desapegado">
+                                        <label class="trait-right">Desapegado</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Confrontativo</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-13" data-trait="confrontativo_evasivo">
+                                        <label class="trait-right">Evasivo</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Disciplinado</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-14" data-trait="disciplinado_caotico">
+                                        <label class="trait-right">Caótico</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Escéptico</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-15" data-trait="esceptico_confiado">
+                                        <label class="trait-right">Confiado</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Libro abierto</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-16" data-trait="libroabierto_reservado">
+                                        <label class="trait-right">Reservado</label>
+                                    </div>
+                                    <div class="personality-trait">
+                                        <label class="trait-left">Soñador</label>
+                                        <input type="range" min="0" max="100" value="50" class="personality-slider"
+                                            id="trait-17" data-trait="sonador_realista">
+                                        <label class="trait-right">Realista</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="page-number">2</div>
                         </div>
 
-                        <!-- Página 3: Galería de imágenes -->
+                        <!-- Página 3: Historia del personaje -->
                         <div class="book-page" id="page-3">
-                            <div class="page-content">
-                                <h2>Galería</h2>
+                            <div class="info-section">
+                                <div class="character-title">
+                                    <h2>Historia</h2>
+                                    <div id="character-story" class="story-content editable" contenteditable="false">
+                                        La historia del personaje aparecerá aquí...
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page-number">3</div>
+                        </div>
+
+                        <!-- Página 4: Galería de imágenes -->
+                        <div class="book-page" id="page-4">
+                            <div class="info-section">
+                                <div class="character-title"><h2>Galería</h2></div>
                                 <div id="character-gallery" class="gallery-grid">
                                     <!-- Las imágenes se generarán dinámicamente aquí -->
                                 </div>
@@ -224,13 +338,13 @@
                                 </button>
                                 <input type="file" id="gallery-image-upload" accept="image/*" class="hidden">
                             </div>
-                            <div class="page-number">3</div>
+                            <div class="page-number">4</div>
                         </div>
                     </div>
 
                     <div class="book-navigation">
                         <button id="prev-page" class="nav-button"><i class="fas fa-chevron-left"></i></button>
-                        <span id="page-indicator">Página 1 de 3</span>
+                        <span id="page-indicator">Página 1 de 4</span>
                         <button id="next-page" class="nav-button"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
