@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Biblioteca de Personajes</title>
+    <title>Copipedia</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -33,7 +33,7 @@
             </div>
 
             <div id="book-container" class="book-container hidden">
-                <!-- Contenido del libro (sin cambios) -->
+                <!-- Contenido del libro -->
                 <div class="book">
                     <div class="book-controls">
                         <button id="close-book" class="book-control"><i class="fas fa-times"></i></button>
@@ -70,63 +70,131 @@
                                             <div class="info-item">
                                                 <span class="info-label">Edad:</span>
                                                 <span id="character-age" class="editable"
-                                                    contenteditable="false">??</span>
+                                                    contenteditable="false">—</span>
                                             </div>
                                             <div class="info-item">
-                                                <span class="info-label">Cumpleaños:</span>
+                                                <span class="info-label">Fecha de Nacimiento:</span>
                                                 <span id="character-birthday" class="editable"
-                                                    contenteditable="false">??/??</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Estatura:</span>
-                                                <span id="character-height" class="editable"
-                                                    contenteditable="false">???cm</span>
+                                                    contenteditable="false">DD/MM/YYYY</span>
                                             </div>
                                             <div class="info-item">
                                                 <span class="info-label">Ocupación:</span>
                                                 <span id="character-occupation" class="editable"
-                                                    contenteditable="false">???</span>
+                                                    contenteditable="false">—</span>
                                             </div>
                                             <div class="info-item">
                                                 <span class="info-label">Raza:</span>
                                                 <span id="character-race" class="editable"
-                                                    contenteditable="false">???</span>
+                                                    contenteditable="false">—</span>
                                             </div>
                                             <div class="info-item">
-                                                <span class="info-label">Ubicación:</span>
+                                                <span class="info-label">Lugar de Origen:</span>
+                                                <span id="character-origin" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Ubicación actual:</span>
                                                 <span id="character-location" class="editable"
-                                                    contenteditable="false">???</span>
+                                                    contenteditable="false">—</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="info-section">
-                                        <h3>Objetivos</h3>
-                                        <p id="character-goals" class="editable" contenteditable="false">Los objetivos
-                                            del personaje aparecerán aquí...</p>
-                                    </div>
-
-                                    <div class="info-section">
-                                        <h3>Habilidades</h3>
-                                        <div id="character-skills" class="skill-list editable" contenteditable="false">
-                                            Habilidades del personaje...
+                                        <h3>Apariencia Física</h3>
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="info-label">Rostro ocupado:</span>
+                                                <span id="character-face" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>                                            
+                                            <div class="info-item">
+                                                <span class="info-label">Piel:</span>
+                                                <span id="character-skin" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Estatura:</span>
+                                                <span id="character-height" class="editable"
+                                                    contenteditable="false">—cm</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Peso:</span>
+                                                <span id="character-weight" class="editable"
+                                                    contenteditable="false">—kg</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Color de pelo:</span>
+                                                <span id="character-hair-color" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Estilo de pelo:</span>
+                                                <span id="character-hair-style" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Decorativos faciales:</span>
+                                                <span id="character-facial-decorations" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Cicatrices:</span>
+                                                <span id="character-scars" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Tatuajes:</span>
+                                                <span id="character-tattoos" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Perforaciones:</span>
+                                                <span id="character-piercings" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Marcas de nacimiento:</span>
+                                                <span id="character-birthmarks" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="info-section">
-                                        <h3>Relaciones</h3>
-                                        <div id="character-relations" class="relations-container">
-                                            <!-- Las relaciones se generarán dinámicamente aquí -->
+                                        <h3>Voz</h3>
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="info-label">Voz ocupada:</span>
+                                                <span id="character-voice" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Forma de hablar:</span>
+                                                <span id="character-speaking-style" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Ritmo al hablar:</span>
+                                                <span id="character-speaking-rhythm" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Tempo al hablar:</span>
+                                                <span id="character-speaking-tempo" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Pronunciación:</span>
+                                                <span id="character-pronunciation" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Acento:</span>
+                                                <span id="character-accent" class="editable"
+                                                    contenteditable="false">—</span>
+                                            </div>
                                         </div>
-                                        <button id="add-relation-btn" class="small-action-button hidden">
-                                            <i class="fas fa-plus"></i> Añadir relación
-                                        </button>
-                                    </div>
-
-                                    <div class="info-section">
-                                        <h3>Notas adicionales</h3>
-                                        <p id="character-extra" class="editable" contenteditable="false">Información
-                                            adicional...</p>
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +313,7 @@
         </div>
     </div>
 
-    <!-- Diálogo de inicio de sesión (modificado sin opción de registro) -->
+    <!-- Diálogo de inicio de sesión -->
     <div id="login-dialog" class="dialog-overlay">
         <div class="dialog">
             <h2>Iniciar Sesión</h2>
@@ -264,8 +332,6 @@
             </form>
         </div>
     </div>
-
-    <!-- Eliminar el diálogo de registro -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="src/supabase-config.js"></script>

@@ -24,7 +24,6 @@ const newCharacterForm = document.getElementById('new-character-form');
 const cancelAddCharacterBtn = document.getElementById('cancel-add-character');
 const newCharacterImageInput = document.getElementById('new-character-image');
 const newCharacterImagePreview = document.getElementById('new-character-image-preview');
-const addRelationBtn = document.getElementById('add-relation-btn');
 const addRelationDialog = document.getElementById('add-relation-dialog');
 const newRelationForm = document.getElementById('new-relation-form');
 const cancelAddRelationBtn = document.getElementById('cancel-add-relation');
@@ -112,7 +111,9 @@ function setupEventListeners() {
     });
     
     // Relaciones
-    addRelationBtn.addEventListener('click', showAddRelationDialog);
+    if (document.getElementById('add-relation-btn')) {
+        document.getElementById('add-relation-btn').addEventListener('click', showAddRelationDialog);
+    }
     cancelAddRelationBtn.addEventListener('click', hideAddRelationDialog);
     newRelationForm.addEventListener('submit', addNewRelation);
     
@@ -201,96 +202,40 @@ function fillCharacterData(character) {
     // Página 1: Información básica
     document.getElementById('character-name').textContent = character.name;
     document.getElementById('character-main-image').src = character.image || '/api/placeholder/200/200';
-    document.getElementById('character-age').textContent = character.age || '??';
-    document.getElementById('character-birthday').textContent = character.birthday || '??/??';
-    document.getElementById('character-height').textContent = character.height || '???cm';
-    document.getElementById('character-occupation').textContent = character.occupation || '???';
-    document.getElementById('character-goals').textContent = character.goals || 'Los objetivos del personaje aparecerán aquí...';
-    document.getElementById('character-skills').textContent = character.skills || 'Habilidades del personaje...';
-    document.getElementById('character-extra').textContent = character.extra || 'Información adicional...';
-    document.getElementById('character-race').textContent = character.race || '???';
-    document.getElementById('character-location').textContent = character.location || '???';
+    document.getElementById('character-age').textContent = character.age || '—';
+    document.getElementById('character-birthday').textContent = character.birthday || 'DD/MM/YYYY';
+    document.getElementById('character-occupation').textContent = character.occupation || '—';
+    document.getElementById('character-race').textContent = character.race || '—';
+    document.getElementById('character-origin').textContent = character.origin || '—';
+    document.getElementById('character-location').textContent = character.location || '—';
 
-    // Relaciones
-    renderRelations(character.relations || []);
+
+    // Apariencia física
+    document.getElementById('character-face').textContent = character.face || '—';
+    document.getElementById('character-height').textContent = character.height || '—cm';
+    document.getElementById('character-weight').textContent = character.weight || '—kg';
+    document.getElementById('character-hair-color').textContent = character.hair_color || '—';
+    document.getElementById('character-hair-style').textContent = character.hair_style || '—';
+    document.getElementById('character-facial-decorations').textContent = character.facial_decorations || '—';
+    document.getElementById('character-skin').textContent = character.skin || '—';
+    document.getElementById('character-scars').textContent = character.scars || '—';
+    document.getElementById('character-tattoos').textContent = character.tattoos || '—';
+    document.getElementById('character-piercings').textContent = character.piercings || '—';
+    document.getElementById('character-birthmarks').textContent = character.birthmarks || '—';
+
+    // Voz
+    document.getElementById('character-voice').textContent = character.voice || '—';
+    document.getElementById('character-speaking-style').textContent = character.speaking_style || '—';
+    document.getElementById('character-speaking-rhythm').textContent = character.speaking_rhythm || '—';
+    document.getElementById('character-speaking-tempo').textContent = character.speaking_tempo || '—';
+    document.getElementById('character-pronunciation').textContent = character.pronunciation || '—';
+    document.getElementById('character-accent').textContent = character.accent || '—';
     
     // Página 2: Historia
     document.getElementById('character-story').textContent = character.story || 'La historia del personaje aparecerá aquí...';
     
     // Página 3: Galería
     renderGallery(character.gallery || []);
-}
-
-// Renderizar relaciones
-function renderRelations(relations) {
-    const relationsContainer = document.getElementById('character-relations');
-    relationsContainer.innerHTML = '';
-    
-    if (relations.length === 0) {
-        const emptyRelations = document.createElement('p');
-        emptyRelations.className = 'empty-placeholder';
-        emptyRelations.textContent = 'No hay relaciones.';
-        relationsContainer.appendChild(emptyRelations);
-        return;
-    }
-    
-    relations.forEach((relation, index) => {
-        const relationItem = document.createElement('div');
-        relationItem.className = 'relation-item';
-        relationItem.dataset.index = index;
-        
-        const relationImage = document.createElement('div');
-        relationImage.className = 'relation-image';
-        
-        const img = document.createElement('img');
-        img.src = relation.image || '/api/placeholder/70/70';
-        img.alt = relation.name;
-        
-        const relationName = document.createElement('div');
-        relationName.className = 'relation-name';
-        relationName.textContent = relation.name;
-        
-        const relationType = document.createElement('div');
-        relationType.className = 'relation-type';
-        relationType.textContent = getRelationTypeText(relation.type);
-        
-        relationImage.appendChild(img);
-        relationItem.appendChild(relationImage);
-        relationItem.appendChild(relationName);
-        relationItem.appendChild(relationType);
-        
-        // En modo edición, agregar botón para eliminar
-        if (editMode) {
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'delete-relation';
-            deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
-            deleteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                removeRelation(index);
-            });
-            relationItem.appendChild(deleteBtn);
-        }
-        
-        relationsContainer.appendChild(relationItem);
-    });
-}
-
-function getRelationTypeText(type) {
-    const types = {
-        'mother': 'Madre',
-        'father': 'Padre',
-        'brother': 'Hermano',
-        'sister': 'Hermana',
-        'grampa': 'Abuelo',
-        'gradma': 'Abuela',
-        'cousin': 'Primo/a',
-        'partner': 'Pareja',
-        'wife': 'Esposa',
-        'husband': 'Esposo',
-        'friend': 'Amistad',
-        'other': 'Otro'
-    };
-    return types[type] || 'Otro';
 }
 
 // Renderizar galería
@@ -333,7 +278,6 @@ function renderGallery(gallery) {
 }
 
 // Modo de edición
-// Modificación de la función toggleEditMode en script.js
 function toggleEditMode() {
     // Verificamos que el usuario esté autenticado y sea el propietario del personaje que está viendo
     if (!currentUser) {
@@ -360,7 +304,6 @@ function setEditMode(enabled) {
     // Mostrar/ocultar botones según el modo
     editCharacterBtn.classList.toggle('hidden', enabled);
     saveCharacterBtn.classList.toggle('hidden', !enabled);
-    addRelationBtn.classList.toggle('hidden', !enabled);
     addGalleryImageBtn.classList.toggle('hidden', !enabled);
     imageUploadOverlay.classList.toggle('hidden', !enabled);
     
@@ -370,10 +313,9 @@ function setEditMode(enabled) {
         el.contentEditable = enabled;
     });
     
-    // Re-renderizar relaciones y galería para mostrar/ocultar botones de eliminación
+    // Re-renderizar galería para mostrar/ocultar botones de eliminación
     const character = characters.find(c => c.id === currentCharacterId);
     if (character) {
-        renderRelations(character.relations || []);
         renderGallery(character.gallery || []);
     }
 }
@@ -388,18 +330,38 @@ async function saveCharacter() {
     const character = characters.find(c => c.id === currentCharacterId);
     if (!character) return;
     
-    // Actualizar datos del personaje
+    // Actualizar datos del personaje - Información personal
     character.name = document.getElementById('character-name').textContent;
     character.age = document.getElementById('character-age').textContent;
     character.birthday = document.getElementById('character-birthday').textContent;
-    character.height = document.getElementById('character-height').textContent;
     character.occupation = document.getElementById('character-occupation').textContent;
-    character.goals = document.getElementById('character-goals').textContent;
-    character.skills = document.getElementById('character-skills').textContent;
-    character.extra = document.getElementById('character-extra').textContent;
-    character.story = document.getElementById('character-story').textContent;
     character.race = document.getElementById('character-race').textContent;
+        character.origin = document.getElementById('character-origin').textContent;
     character.location = document.getElementById('character-location').textContent;
+    
+    // Apariencia física
+    character.face = document.getElementById('character-face').textContent;
+    character.height = document.getElementById('character-height').textContent;
+    character.weight = document.getElementById('character-weight').textContent;
+    character.hair_color = document.getElementById('character-hair-color').textContent;
+    character.hair_style = document.getElementById('character-hair-style').textContent;
+    character.facial_decorations = document.getElementById('character-facial-decorations').textContent;
+    character.skin = document.getElementById('character-skin').textContent;
+    character.scars = document.getElementById('character-scars').textContent;
+    character.tattoos = document.getElementById('character-tattoos').textContent;
+    character.piercings = document.getElementById('character-piercings').textContent;
+    character.birthmarks = document.getElementById('character-birthmarks').textContent;
+    
+    // Voz
+    character.voice = document.getElementById('character-voice').textContent;
+    character.speaking_style = document.getElementById('character-speaking-style').textContent;
+    character.speaking_rhythm = document.getElementById('character-speaking-rhythm').textContent;
+    character.speaking_tempo = document.getElementById('character-speaking-tempo').textContent;
+    character.pronunciation = document.getElementById('character-pronunciation').textContent;
+    character.accent = document.getElementById('character-accent').textContent;
+    
+    // Historia
+    character.story = document.getElementById('character-story').textContent;
     
     try {
         const { error } = await supabaseClient
@@ -519,22 +481,15 @@ async function addNewCharacter(e) {
     }
     
     try {
-        // Primero, vamos a crear un objeto más simple y asegurarnos que tenga los campos correctos
-        // Basado en el error, posiblemente hay campos extra o con tipos incorrectos
         const newCharacter = {
             user_id: currentUser.id,
             name: name,
-            // Nos aseguramos de que la imagen sea null si es la imagen por defecto
-            // o un string válido si es una imagen personalizada
             image: newCharacterImagePreview.src === '/api/placeholder/150/150' ? null : newCharacterImagePreview.src,
-            // Asegurar que estos campos sean arrays JSON válidos
-            relations: JSON.stringify([]),
             gallery: JSON.stringify([])
         };
         
         console.log("Intentando crear personaje:", newCharacter);
         
-        // Intentar insertar el personaje con campos mínimos
         const { data, error } = await supabaseClient
             .from('characters')
             .insert([newCharacter])
@@ -547,30 +502,20 @@ async function addNewCharacter(e) {
         
         console.log("Personaje creado:", data);
         
-        // Si se creó correctamente, tomamos el ID generado por Supabase
         const newCharacterId = data[0].id;
         
-        // Añadir a la lista local con el ID correcto
         const characterForUI = {
             id: newCharacterId,
             user_id: currentUser.id,
             name: name,
             image: newCharacterImagePreview.src !== '/api/placeholder/150/150' ? newCharacterImagePreview.src : null,
-            relations: [],
             gallery: []
         };
         
-        // Añadir a la lista local
         characters.push(characterForUI);
-        
-        // Actualizar UI
         renderCharacterCircles();
         hideAddCharacterDialog();
-        
-        // Abrir el libro del nuevo personaje
         openBook(newCharacterId);
-        
-        // Activar modo de edición
         setEditMode(true);
         
         showNotification('Personaje creado con éxito');
@@ -612,12 +557,10 @@ async function addNewRelation(e) {
     const character = characters.find(c => c.id === currentCharacterId);
     if (!character) return;
     
-    // Inicializar el array de relaciones si no existe
     if (!character.relations) {
         character.relations = [];
     }
     
-    // Crear nueva relación
     const newRelation = {
         name: name,
         type: type,
@@ -625,7 +568,6 @@ async function addNewRelation(e) {
     };
     
     try {
-        // Añadir a la lista de relaciones
         character.relations.push(newRelation);
         
         const { error } = await supabaseClient
@@ -636,41 +578,10 @@ async function addNewRelation(e) {
             
         if (error) throw error;
         
-        // Actualizar UI
-        renderRelations(character.relations);
         hideAddRelationDialog();
         showNotification('Relación añadida');
     } catch (error) {
-        // Revertir cambio local en caso de error
         character.relations.pop();
-        showNotification(`Error: ${error.message}`, 'error');
-    }
-}
-
-async function removeRelation(index) {
-    if (!currentUser || viewingUserId !== currentUser.id) {
-        showNotification('No tienes permiso para editar este personaje', 'error');
-        return;
-    }
-    
-    const character = characters.find(c => c.id === currentCharacterId);
-    if (!character || !character.relations) return;
-    
-    try {
-        // Eliminar la relación
-        character.relations.splice(index, 1);
-        
-        const { error } = await supabaseClient
-            .from('characters')
-            .update({ relations: character.relations })
-            .eq('id', character.id)
-            .eq('user_id', currentUser.id);
-            
-        if (error) throw error;
-        
-        renderRelations(character.relations);
-        showNotification('Relación eliminada');
-    } catch (error) {
         showNotification(`Error: ${error.message}`, 'error');
     }
 }
@@ -683,7 +594,6 @@ async function addGalleryImage(e) {
     const character = characters.find(c => c.id === currentCharacterId);
     if (!character) return;
     
-    // Inicializar la galería si no existe
     if (!character.gallery) {
         character.gallery = [];
     }
@@ -693,7 +603,6 @@ async function addGalleryImage(e) {
         reader.onload = async function(e) {
             const base64Image = e.target.result;
             
-            // Añadir imagen a la galería
             character.gallery.push(base64Image);
             
             const { error } = await supabaseClient
@@ -705,8 +614,6 @@ async function addGalleryImage(e) {
             if (error) throw error;
             
             renderGallery(character.gallery);
-            
-            // Resetear el input
             galleryImageUpload.value = '';
             showNotification('Imagen añadida a la galería');
         };
@@ -726,7 +633,6 @@ async function removeGalleryImage(index) {
     if (!character || !character.gallery) return;
     
     try {
-        // Eliminar la imagen
         character.gallery.splice(index, 1);
         
         const { error } = await supabaseClient
@@ -746,12 +652,10 @@ async function removeGalleryImage(index) {
 
 // Notificaciones
 function showNotification(message, type = 'success') {
-    // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
     
-    // Estilos inline para la notificación
     notification.style.position = 'fixed';
     notification.style.bottom = '20px';
     notification.style.right = '20px';
@@ -762,7 +666,6 @@ function showNotification(message, type = 'success') {
     notification.style.opacity = '0';
     notification.style.transition = 'opacity 0.3s';
     
-    // Estilos según el tipo
     if (type === 'success') {
         notification.style.backgroundColor = 'var(--primary-color)';
         notification.style.color = 'white';
@@ -771,15 +674,12 @@ function showNotification(message, type = 'success') {
         notification.style.color = 'white';
     }
     
-    // Añadir al DOM
     document.body.appendChild(notification);
     
-    // Animar
     setTimeout(() => {
         notification.style.opacity = '1';
     }, 10);
     
-    // Eliminar después de 3 segundos
     setTimeout(() => {
         notification.style.opacity = '0';
         setTimeout(() => {
@@ -787,7 +687,6 @@ function showNotification(message, type = 'success') {
         }, 300);
     }, 3000);
 }
-
 
 // Inicializar la primera página al cargar
 showPage(1);
