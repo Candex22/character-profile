@@ -2,7 +2,7 @@
 let characters = [];
 let currentCharacterId = null;
 let currentPage = 1;
-const totalPages = 4; // Actualizado a 4 páginas
+const totalPages = 5; // Actualizado a 5 páginas
 let editMode = false;
 
 // Elementos del DOM
@@ -12,6 +12,7 @@ const page1 = document.getElementById('page-1');
 const page2 = document.getElementById('page-2');
 const page3 = document.getElementById('page-3');
 const page4 = document.getElementById('page-4');
+const page5 = document.getElementById('page-5');
 const pageIndicator = document.getElementById('page-indicator');
 const prevPageBtn = document.getElementById('prev-page');
 const nextPageBtn = document.getElementById('next-page');
@@ -146,7 +147,7 @@ function updateSliderVisual(slider) {
 // Funciones de navegación del libro
 function showPage(pageNumber) {
     // Ocultar todas las páginas
-    [page1, page2, page3, page4].forEach(page => {
+    [page1, page2, page3, page4, page5].forEach(page => {
         page.classList.remove('active');
     });
     
@@ -251,7 +252,32 @@ function fillCharacterData(character) {
     document.getElementById('character-pronunciation').textContent = character.pronunciation || '—';
     document.getElementById('character-accent').textContent = character.accent || '—';
     
-    // Página 2: Personalidad - cargar valores de los sliders
+    // Página 2: Nueva sección de Personalidad
+    // Impresión general - Temperamento
+    document.getElementById('temperament-1').textContent = character.temperament_1 || 'Palabra clave 1';
+    document.getElementById('temperament-2').textContent = character.temperament_2 || 'Palabra clave 2';
+    document.getElementById('temperament-3').textContent = character.temperament_3 || 'Palabra clave 3';
+    
+    // Presencia
+    document.getElementById('presence-text').textContent = character.presence || 'Describe cómo el personaje ocupa el espacio, su energía, ritmo y la sensación que produce su cercanía o ausencia...';
+    
+    // Primera impresión social
+    document.getElementById('first-impression-text').textContent = character.first_impression || 'Define cómo suele ser interpretado por otros al conocerlo, incluyendo malentendidos frecuentes o rasgos que se perciben antes de conocerlo en profundidad...';
+    
+    // Núcleo interno - Necesidad primaria
+    document.getElementById('primary-need').textContent = character.primary_need || 'El impulso fundamental que guía al personaje';
+    
+    // Creencia raíz
+    document.getElementById('root-belief').textContent = character.root_belief || '"La idea profunda que el personaje sostiene sobre sí mismo o sobre el mundo"';
+    
+    // Impulso automático
+    document.getElementById('automatic-impulse').textContent = character.automatic_impulse || 'Cómo responde instintivamente cuando su necesidad primaria o creencia raíz se ven amenazadas...';
+    
+    // Conflicto interno
+    document.getElementById('conflict-force-a').textContent = character.conflict_force_a || 'Primera fuerza en conflicto';
+    document.getElementById('conflict-force-b').textContent = character.conflict_force_b || 'Segunda fuerza en conflicto';
+    
+    // Página 3: Rasgos de Personalidad - cargar valores de los sliders
     if (character.personality) {
         const personality = typeof character.personality === 'string' 
             ? JSON.parse(character.personality) 
@@ -270,10 +296,10 @@ function fillCharacterData(character) {
         });
     }
     
-    // Página 3: Historia
+    // Página 4: Historia
     document.getElementById('character-story').textContent = character.story || 'La historia del personaje aparecerá aquí...';
     
-    // Página 4: Galería
+    // Página 5: Galería
     renderGallery(character.gallery || []);
 }
 
@@ -405,7 +431,22 @@ async function saveCharacter() {
     character.pronunciation = document.getElementById('character-pronunciation').textContent;
     character.accent = document.getElementById('character-accent').textContent;
     
-    // Personalidad - guardar valores de los sliders
+    // Página 2: Nueva sección de Personalidad
+    // Impresión general
+    character.temperament_1 = document.getElementById('temperament-1').textContent;
+    character.temperament_2 = document.getElementById('temperament-2').textContent;
+    character.temperament_3 = document.getElementById('temperament-3').textContent;
+    character.presence = document.getElementById('presence-text').textContent;
+    character.first_impression = document.getElementById('first-impression-text').textContent;
+    
+    // Núcleo interno
+    character.primary_need = document.getElementById('primary-need').textContent;
+    character.root_belief = document.getElementById('root-belief').textContent;
+    character.automatic_impulse = document.getElementById('automatic-impulse').textContent;
+    character.conflict_force_a = document.getElementById('conflict-force-a').textContent;
+    character.conflict_force_b = document.getElementById('conflict-force-b').textContent;
+    
+    // Página 3: Rasgos de Personalidad - guardar valores de los sliders
     const personality = {};
     document.querySelectorAll('.personality-slider').forEach(slider => {
         const trait = slider.getAttribute('data-trait');

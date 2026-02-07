@@ -368,7 +368,151 @@ header h1 {
     color: var(--text-light);
 }
 
-/* Estilos adicionales para la sección de Personalidad */
+/* ========================================
+   ESTILOS NUEVA SECCIÓN DE PERSONALIDAD
+   ======================================== */
+
+/* Sección principal de Personalidad */
+.personality-main-section {
+    margin-bottom: 35px;
+    padding: 20px;
+    background-color: rgba(224, 195, 255, 0.3);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-color);
+}
+
+.personality-section-title {
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+/* Subsecciones */
+.personality-subsection {
+    margin-bottom: 25px;
+}
+
+.personality-subsection:last-child {
+    margin-bottom: 0;
+}
+
+.subsection-title {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.subsection-content {
+    background-color: var(--white);
+    padding: 15px;
+    border-radius: 6px;
+    line-height: 1.6;
+    color: var(--text-color);
+    min-height: 80px;
+    border: 1px solid var(--secondary-color);
+}
+
+/* Temperamento - Tags */
+.temperament-tags {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.temperament-tag {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--secondary-color);
+    color: var(--text-light);
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.temperament-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.4);
+}
+
+/* Necesidad Primaria */
+.primary-need-container {
+    text-align: center;
+    padding: 25px;
+    background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
+}
+
+.primary-need-text {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.4;
+}
+
+/* Creencia Raíz */
+.belief-text {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    border-left: 4px solid var(--primary-color);
+    min-height: 60px;
+}
+
+/* Conflicto Interno */
+.internal-conflict-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid var(--secondary-color);
+}
+
+.conflict-side {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.conflict-label {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.conflict-text {
+    background-color: var(--secondary-color);
+    padding: 12px;
+    border-radius: 6px;
+    line-height: 1.5;
+    min-height: 60px;
+}
+
+.conflict-divider {
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    user-select: none;
+}
+
+/* ========================================
+   ESTILOS SLIDERS DE PERSONALIDAD
+   ======================================== */
 
 .personality-section {
     /*background-color: var(--secondary-color);*/
@@ -1040,6 +1184,47 @@ header h1 {
     .trait-left,
     .trait-right {
         font-size: 0.7rem;
+    }
+    
+    /* Responsive para nueva sección de Personalidad */
+    .personality-main-section {
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .personality-section-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .subsection-title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .temperament-tag {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .primary-need-text {
+        font-size: 1.1rem;
+    }
+    
+    .belief-text {
+        font-size: 0.95rem;
+        padding: 15px;
+    }
+    
+    .internal-conflict-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .conflict-divider {
+        transform: rotate(90deg);
+        font-size: 1.5rem;
     }
 }
 

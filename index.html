@@ -201,10 +201,94 @@
                             <div class="page-number">1</div>
                         </div>
 
-                        <!-- Página 2: Personalidad -->
+                        <!-- Página 2: Personalidad (Nueva estructura) -->
                         <div class="book-page" id="page-2">
                             <div class="info-section">
                                 <div class="character-title"><h2>Personalidad</h2></div>
+                                
+                                <!-- 1. Impresión general -->
+                                <div class="personality-main-section">
+                                    <h3 class="personality-section-title">Impresión general</h3>
+                                    
+                                    <!-- Temperamento -->
+                                    <div class="personality-subsection">
+                                        <h4 class="subsection-title">Temperamento</h4>
+                                        <div class="temperament-tags">
+                                            <span id="temperament-1" class="temperament-tag editable" contenteditable="false">—</span>
+                                            <span id="temperament-2" class="temperament-tag editable" contenteditable="false">—</span>
+                                            <span id="temperament-3" class="temperament-tag editable" contenteditable="false">—</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Presencia -->
+                                    <div class="personality-subsection">
+                                        <h4 class="subsection-title">Presencia</h4>
+                                        <p id="presence-text" class="subsection-content editable" contenteditable="false">
+                                           Cómo se siente su presencia. Energía, ritmo y sensación que deja.
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Primera impresión social -->
+                                    <div class="personality-subsection">
+                                        <h4 class="subsection-title">Primera impresión social</h4>
+                                        <p id="first-impression-text" class="subsection-content editable" contenteditable="false">
+                                           Qué se prejuzga sin conocerlo.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- 2. Núcleo interno -->
+                                <div class="personality-main-section">
+                                    <h3 class="personality-section-title">Núcleo interno</h3>
+                                    
+                                    <!-- Necesidad primaria -->
+                                    <div class="personality-subsection">
+                                        <h4 class="subsection-title">Necesidad central</h4>
+                                        <div class="primary-need-container">
+                                            <span id="primary-need" class="primary-need-text editable" contenteditable="false">Aquello que necesita para sentirse completo (Ej.: Pertenecer / Control).</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Creencia raíz -->
+                                    <div class="personality-subsection">
+                                        <h4 class="subsection-title">Creencia</h4>
+                                        <p id="root-belief" class="belief-text editable" contenteditable="false">
+                                            Ej.: “Si no soy útil, no valgo.” / “El afecto siempre tiene un costo.”
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Impulso automático -->
+                                    <div class="personality-subsection">
+                                        <h4 class="subsection-title">Impulso automático</h4>
+                                        <p id="automatic-impulse" class="subsection-content editable" contenteditable="false">
+                                            Reacción instintiva ante la amenaza.
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Conflicto interno -->
+                                    <div class="personality-subsection">
+                                        <h4 class="subsection-title">Conflicto interno</h4>
+                                        <div class="internal-conflict-container">
+                                            <div class="conflict-side">
+                                                <span class="conflict-label">Fuerza A:</span>
+                                                <p id="conflict-force-a" class="conflict-text editable" contenteditable="false">Ej.: Desea cercanía</p>
+                                            </div>
+                                            <div class="conflict-divider">⟷</div>
+                                            <div class="conflict-side">
+                                                <span class="conflict-label">Fuerza B:</span>
+                                                <p id="conflict-force-b" class="conflict-text editable" contenteditable="false">Ej.: Teme depender</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page-number">2</div>
+                        </div>
+
+                        <!-- Página 3: Rasgos de Personalidad (Sliders) -->
+                        <div class="book-page" id="page-3">
+                            <div class="info-section">
+                                <div class="character-title"><h2>Rasgos de Personalidad</h2></div>
                                 <div class="personality-section">
                                     <div class="personality-trait">
                                         <label class="trait-left">Introvertido</label>
@@ -316,11 +400,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="page-number">2</div>
+                            <div class="page-number">3</div>
                         </div>
 
-                        <!-- Página 3: Historia del personaje -->
-                        <div class="book-page" id="page-3">
+                        <!-- Página 4: Historia del personaje -->
+                        <div class="book-page" id="page-4">
                             <div class="info-section">
                                 <div class="character-title">
                                     <h2>Historia</h2>
@@ -329,11 +413,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="page-number">3</div>
+                            <div class="page-number">4</div>
                         </div>
 
-                        <!-- Página 4: Galería de imágenes -->
-                        <div class="book-page" id="page-4">
+                        <!-- Página 5: Galería de imágenes -->
+                        <div class="book-page" id="page-5">
                             <div class="info-section">
                                 <div class="character-title"><h2>Galería</h2></div>
                                 <div id="character-gallery" class="gallery-grid">
@@ -344,13 +428,13 @@
                                 </button>
                                 <input type="file" id="gallery-image-upload" accept="image/*" class="hidden">
                             </div>
-                            <div class="page-number">4</div>
+                            <div class="page-number">5</div>
                         </div>
                     </div>
 
                     <div class="book-navigation">
                         <button id="prev-page" class="nav-button"><i class="fas fa-chevron-left"></i></button>
-                        <span id="page-indicator">Página 1 de 4</span>
+                        <span id="page-indicator">Página 1 de 5</span>
                         <button id="next-page" class="nav-button"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
