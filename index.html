@@ -237,47 +237,190 @@
                                     </div>
                                 </div>
 
+
                                 <!-- 2. Núcleo interno -->
                                 <div class="personality-main-section">
                                     <h3 class="personality-section-title">Núcleo interno</h3>
                                     
-                                    <!-- Necesidad primaria -->
-                                    <div class="personality-subsection">
-                                        <h4 class="subsection-title">Necesidad central</h4>
-                                        <div class="primary-need-container">
-                                            <span id="primary-need" class="primary-need-text editable" contenteditable="false">Aquello que necesita para sentirse completo (Ej.: Pertenecer / Control).</span>
+                                    <div class="core-grid">
+                                        <!-- Necesidad central -->
+                                        <div class="core-item">
+                                            <h4 class="core-label">Necesidad central</h4>
+                                            <p id="primary-need" class="core-text editable" contenteditable="false">Ej.: Sentirse útil</p>
+                                        </div>
+                                        
+                                        <!-- Creencia raíz -->
+                                        <div class="core-item">
+                                            <h4 class="core-label">Creencia raíz</h4>
+                                            <p id="root-belief" class="core-text editable" contenteditable="false">Ej.: Si no soy perfecto, no valgo</p>
+                                        </div>
+                                        
+                                        <!-- Impulso automático -->
+                                        <div class="core-item">
+                                            <h4 class="core-label">Impulso automático</h4>
+                                            <p id="automatic-impulse" class="core-text editable" contenteditable="false">Ej.: Huir y aislarse</p>
+                                        </div>
+                                        
+                                        <!-- Mayor temor -->
+                                        <div class="core-item">
+                                            <h4 class="core-label">Mayor temor</h4>
+                                            <p id="greatest-fear" class="core-text editable" contenteditable="false">Ej.: Ser abandonado</p>
+                                        </div>
+                                        
+                                        <!-- Conflicto interno -->
+                                        <div class="core-item core-conflict">
+                                            <h4 class="core-label">Conflicto interno</h4>
+                                            <div class="conflict-compact">
+                                                <p id="conflict-force-a" class="conflict-text-compact editable" contenteditable="false">Ej.: Desea cercanía</p>
+                                                <span class="conflict-vs">VS</span>
+                                                <p id="conflict-force-b" class="conflict-text-compact editable" contenteditable="false">Ej.: Teme depender</p>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <!-- 3. Espectro de reacciones emocionales -->
+                                <div class="personality-main-section">
+                                    <h3 class="personality-section-title">Espectro emocional</h3>
                                     
-                                    <!-- Creencia raíz -->
-                                    <div class="personality-subsection">
-                                        <h4 class="subsection-title">Creencia</h4>
-                                        <p id="root-belief" class="belief-text editable" contenteditable="false">
-                                            Ej.: “Si no soy útil, no valgo.” / “El afecto siempre tiene un costo.”
-                                        </p>
-                                    </div>
-                                    
-                                    <!-- Impulso automático -->
-                                    <div class="personality-subsection">
-                                        <h4 class="subsection-title">Impulso automático</h4>
-                                        <p id="automatic-impulse" class="subsection-content editable" contenteditable="false">
-                                            Reacción instintiva ante la amenaza.
-                                        </p>
-                                    </div>
-                                    
-                                    <!-- Conflicto interno -->
-                                    <div class="personality-subsection">
-                                        <h4 class="subsection-title">Conflicto interno</h4>
-                                        <div class="internal-conflict-container">
-                                            <div class="conflict-side">
-                                                <span class="conflict-label">Fuerza A:</span>
-                                                <p id="conflict-force-a" class="conflict-text editable" contenteditable="false">Ej.: Desea cercanía</p>
+                                    <div class="emotion-spectrum">
+                                        <!-- Enojo -->
+                                        <div class="emotion-item">
+                                            <div class="emotion-header">
+                                                <span class="emotion-label">Enojo</span>
+                                                <span class="emotion-value" id="anger-value">5/10</span>
                                             </div>
-                                            <div class="conflict-divider">⟷</div>
-                                            <div class="conflict-side">
-                                                <span class="conflict-label">Fuerza B:</span>
-                                                <p id="conflict-force-b" class="conflict-text editable" contenteditable="false">Ej.: Teme depender</p>
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-anger" data-emotion="anger">
+                                            <div class="emotion-expression">
+                                                <span class="expression-label">¿Cómo lo expresa?</span>
+                                                <p id="anger-expression" class="expression-text editable" contenteditable="false">Sarcasmo cortante</p>
                                             </div>
+                                        </div>
+
+                                        <!-- Alegría -->
+                                        <div class="emotion-item">
+                                            <div class="emotion-header">
+                                                <span class="emotion-label">Alegría</span>
+                                                <span class="emotion-value" id="joy-value">5/10</span>
+                                            </div>
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-joy" data-emotion="joy">
+                                            <div class="emotion-expression">
+                                                <span class="expression-label">¿Cómo lo expresa?</span>
+                                                <p id="joy-expression" class="expression-text editable" contenteditable="false">Sonrisa contenida</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Miedo -->
+                                        <div class="emotion-item">
+                                            <div class="emotion-header">
+                                                <span class="emotion-label">Miedo</span>
+                                                <span class="emotion-value" id="fear-value">5/10</span>
+                                            </div>
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-fear" data-emotion="fear">
+                                            <div class="emotion-expression">
+                                                <span class="expression-label">¿Cómo lo expresa?</span>
+                                                <p id="fear-expression" class="expression-text editable" contenteditable="false">Hiperactividad, necesidad de control</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tristeza -->
+                                        <div class="emotion-item">
+                                            <div class="emotion-header">
+                                                <span class="emotion-label">Tristeza</span>
+                                                <span class="emotion-value" id="sadness-value">5/10</span>
+                                            </div>
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-sadness" data-emotion="sadness">
+                                            <div class="emotion-expression">
+                                                <span class="expression-label">¿Cómo lo expresa?</span>
+                                                <p id="sadness-expression" class="expression-text editable" contenteditable="false">Silencio, aislamiento</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Sorpresa -->
+                                        <div class="emotion-item">
+                                            <div class="emotion-header">
+                                                <span class="emotion-label">Sorpresa</span>
+                                                <span class="emotion-value" id="surprise-value">5/10</span>
+                                            </div>
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-surprise" data-emotion="surprise">
+                                            <div class="emotion-expression">
+                                                <span class="expression-label">¿Cómo lo expresa?</span>
+                                                <p id="surprise-expression" class="expression-text editable" contenteditable="false">Ligera elevación de cejas</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Disgusto/Asco -->
+                                        <div class="emotion-item">
+                                            <div class="emotion-header">
+                                                <span class="emotion-label">Disgusto</span>
+                                                <span class="emotion-value" id="disgust-value">5/10</span>
+                                            </div>
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-disgust" data-emotion="disgust">
+                                            <div class="emotion-expression">
+                                                <span class="expression-label">¿Cómo lo expresa?</span>
+                                                <p id="disgust-expression" class="expression-text editable" contenteditable="false">Mueca sutil</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 4. Gatillos emocionales -->
+                                <div class="personality-main-section">
+                                    <h3 class="personality-section-title">Gatillos emocionales</h3>
+                                    
+                                    <div class="triggers-compact">
+                                        <div class="trigger-row trigger-red">
+                                            <span class="trigger-emoji">🔴</span>
+                                            <div class="trigger-content">
+                                                <strong>Lo hacen explotar:</strong>
+                                                <p id="trigger-red" class="trigger-text editable" contenteditable="false">Que lo subestimen, perder el control</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="trigger-row trigger-yellow">
+                                            <span class="trigger-emoji">🟡</span>
+                                            <div class="trigger-content">
+                                                <strong>Lo ponen nervioso:</strong>
+                                                <p id="trigger-yellow" class="trigger-text editable" contenteditable="false">Silencios prolongados, preguntas sobre su pasado</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="trigger-row trigger-green">
+                                            <span class="trigger-emoji">🟢</span>
+                                            <div class="trigger-content">
+                                                <strong>Lo calman/alegran:</strong>
+                                                <p id="trigger-green" class="trigger-text editable" contenteditable="false">Rutinas predecibles, que le pidan consejo</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 5. Capas de personalidad -->
+                                <div class="personality-main-section">
+                                    <h3 class="personality-section-title">Capas de personalidad</h3>
+                                    
+                                    <div class="personality-layers">
+                                        <div class="layer-box layer-public">
+                                            <h4 class="layer-title">Máscara pública</h4>
+                                            <p class="layer-subtitle">Lo que proyecta</p>
+                                            <p id="layer-public-text" class="layer-content editable" contenteditable="false">
+                                                Cómo se presenta al mundo
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="layer-box layer-private">
+                                            <h4 class="layer-title">Con la guardia baja</h4>
+                                            <p class="layer-subtitle">Con gente cercana</p>
+                                            <p id="layer-private-text" class="layer-content editable" contenteditable="false">
+                                                Cómo es con quienes confía
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="layer-box layer-alone">
+                                            <h4 class="layer-title">A solas</h4>
+                                            <p class="layer-subtitle">Consigo mismo</p>
+                                            <p id="layer-alone-text" class="layer-content editable" contenteditable="false">
+                                                Cómo es cuando nadie lo ve
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

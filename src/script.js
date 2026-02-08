@@ -111,6 +111,18 @@ function setupEventListeners() {
         previewImage(e.target, characterMainImage);
         updateCharacterImage(e.target.files[0]);
     });
+
+     const emotionSliders = document.querySelectorAll('.emotion-slider');
+    emotionSliders.forEach(slider => {
+        slider.addEventListener('input', function() {
+            const emotion = this.dataset.emotion;
+            const value = this.value;
+            const valueDisplay = document.getElementById(`${emotion}-value`);
+            if (valueDisplay) {
+                valueDisplay.textContent = `${value}/10`;
+            }
+        });
+    });
     
     // Relaciones
     if (document.getElementById('add-relation-btn')) {
@@ -276,7 +288,44 @@ function fillCharacterData(character) {
     // Conflicto interno
     document.getElementById('conflict-force-a').textContent = character.conflict_force_a || 'Ej.: Desea cercanía';
     document.getElementById('conflict-force-b').textContent = character.conflict_force_b || 'Ej.: Teme depender';
+    // Mayor temor (NUEVO)
+    document.getElementById('greatest-fear').textContent = character.greatest_fear || 'Ser abandonado';
     
+    // ESPECTRO EMOCIONAL (NUEVO - reemplaza la sección anterior si existía)
+    // Cargar intensidad de emociones
+    document.getElementById('emotion-anger').value = character.emotion_anger || 5;
+    document.getElementById('emotion-joy').value = character.emotion_joy || 5;
+    document.getElementById('emotion-fear').value = character.emotion_fear || 5;
+    document.getElementById('emotion-sadness').value = character.emotion_sadness || 5;
+    document.getElementById('emotion-surprise').value = character.emotion_surprise || 5;
+    document.getElementById('emotion-disgust').value = character.emotion_disgust || 5;
+    
+    // Actualizar valores mostrados
+    document.getElementById('anger-value').textContent = `${character.emotion_anger || 5}/10`;
+    document.getElementById('joy-value').textContent = `${character.emotion_joy || 5}/10`;
+    document.getElementById('fear-value').textContent = `${character.emotion_fear || 5}/10`;
+    document.getElementById('sadness-value').textContent = `${character.emotion_sadness || 5}/10`;
+    document.getElementById('surprise-value').textContent = `${character.emotion_surprise || 5}/10`;
+    document.getElementById('disgust-value').textContent = `${character.emotion_disgust || 5}/10`;
+    
+    // Cargar expresiones de emociones
+    document.getElementById('anger-expression').textContent = character.anger_expression || 'Sarcasmo cortante';
+    document.getElementById('joy-expression').textContent = character.joy_expression || 'Sonrisa contenida';
+    document.getElementById('fear-expression').textContent = character.fear_expression || 'Hiperactividad, necesidad de control';
+    document.getElementById('sadness-expression').textContent = character.sadness_expression || 'Silencio, aislamiento';
+    document.getElementById('surprise-expression').textContent = character.surprise_expression || 'Ligera elevación de cejas';
+    document.getElementById('disgust-expression').textContent = character.disgust_expression || 'Mueca sutil';
+    
+    // GATILLOS EMOCIONALES (NUEVO - versión simplificada)
+    document.getElementById('trigger-red').textContent = character.trigger_red || 'Que lo subestimen, perder el control';
+    document.getElementById('trigger-yellow').textContent = character.trigger_yellow || 'Silencios prolongados, preguntas sobre su pasado';
+    document.getElementById('trigger-green').textContent = character.trigger_green || 'Rutinas predecibles, que le pidan consejo';
+    
+    // CAPAS DE PERSONALIDAD (probablemente ya existe, pero por las dudas)
+    document.getElementById('layer-public-text').textContent = character.layer_public || 'Cómo se presenta al mundo';
+    document.getElementById('layer-private-text').textContent = character.layer_private || 'Cómo es con quienes confía';
+    document.getElementById('layer-alone-text').textContent = character.layer_alone || 'Cómo es cuando nadie lo ve';
+
     // Página 3: Rasgos de Personalidad - cargar valores de los sliders
     if (character.personality) {
         const personality = typeof character.personality === 'string' 
@@ -445,6 +494,34 @@ async function saveCharacter() {
     character.automatic_impulse = document.getElementById('automatic-impulse').textContent;
     character.conflict_force_a = document.getElementById('conflict-force-a').textContent;
     character.conflict_force_b = document.getElementById('conflict-force-b').textContent;
+
+    // Mayor temor (NUEVO)
+    character.greatest_fear = document.getElementById('greatest-fear').textContent;
+    
+    // ESPECTRO EMOCIONAL (NUEVO)
+    character.emotion_anger = parseInt(document.getElementById('emotion-anger').value);
+    character.emotion_joy = parseInt(document.getElementById('emotion-joy').value);
+    character.emotion_fear = parseInt(document.getElementById('emotion-fear').value);
+    character.emotion_sadness = parseInt(document.getElementById('emotion-sadness').value);
+    character.emotion_surprise = parseInt(document.getElementById('emotion-surprise').value);
+    character.emotion_disgust = parseInt(document.getElementById('emotion-disgust').value);
+    
+    character.anger_expression = document.getElementById('anger-expression').textContent;
+    character.joy_expression = document.getElementById('joy-expression').textContent;
+    character.fear_expression = document.getElementById('fear-expression').textContent;
+    character.sadness_expression = document.getElementById('sadness-expression').textContent;
+    character.surprise_expression = document.getElementById('surprise-expression').textContent;
+    character.disgust_expression = document.getElementById('disgust-expression').textContent;
+    
+    // GATILLOS EMOCIONALES (NUEVO - versión simplificada)
+    character.trigger_red = document.getElementById('trigger-red').textContent;
+    character.trigger_yellow = document.getElementById('trigger-yellow').textContent;
+    character.trigger_green = document.getElementById('trigger-green').textContent;
+    
+    // CAPAS DE PERSONALIDAD (probablemente ya existe)
+    character.layer_public = document.getElementById('layer-public-text').textContent;
+    character.layer_private = document.getElementById('layer-private-text').textContent;
+    character.layer_alone = document.getElementById('layer-alone-text').textContent;
     
     // Página 3: Rasgos de Personalidad - guardar valores de los sliders
     const personality = {};
