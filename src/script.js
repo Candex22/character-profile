@@ -2,7 +2,7 @@
 let characters = [];
 let currentCharacterId = null;
 let currentPage = 1;
-const totalPages = 5; // Actualizado a 5 páginas
+const totalPages = 6; // Actualizado a 6 páginas
 let editMode = false;
 
 // Elementos del DOM
@@ -13,6 +13,7 @@ const page2 = document.getElementById('page-2');
 const page3 = document.getElementById('page-3');
 const page4 = document.getElementById('page-4');
 const page5 = document.getElementById('page-5');
+const page6 = document.getElementById('page-6');
 const pageIndicator = document.getElementById('page-indicator');
 const prevPageBtn = document.getElementById('prev-page');
 const nextPageBtn = document.getElementById('next-page');
@@ -36,6 +37,11 @@ const characterMainImage = document.getElementById('character-main-image');
 const imageUploadOverlay = document.querySelector('.image-upload-overlay');
 const addGalleryImageBtn = document.getElementById('add-gallery-image-btn');
 const galleryImageUpload = document.getElementById('gallery-image-upload');
+
+// Elementos para vínculos familiares
+const addFamilyBondDialog = document.getElementById('add-family-bond-dialog');
+const newFamilyBondForm = document.getElementById('new-family-bond-form');
+const cancelAddBondBtn = document.getElementById('cancel-add-bond');
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
@@ -175,6 +181,13 @@ function setupEventListeners() {
     addGalleryImageBtn.addEventListener('click', () => galleryImageUpload.click());
     galleryImageUpload.addEventListener('change', addGalleryImage);
     
+    // Vínculos familiares
+    if (document.getElementById('add-family-bond-btn')) {
+        document.getElementById('add-family-bond-btn').addEventListener('click', showAddFamilyBondDialog);
+    }
+    cancelAddBondBtn.addEventListener('click', hideAddFamilyBondDialog);
+    newFamilyBondForm.addEventListener('submit', addNewFamilyBond);
+    
     // Event listeners para sliders de personalidad
     setupPersonalitySliders();
 }
@@ -199,7 +212,7 @@ function updateSliderVisual(slider) {
 // Funciones de navegación del libro
 function showPage(pageNumber) {
     // Ocultar todas las páginas
-    [page1, page2, page3, page4, page5].forEach(page => {
+    [page1, page2, page3, page4, page5, page6].forEach(page => {
         page.classList.remove('active');
     });
     
@@ -398,8 +411,24 @@ function fillCharacterData(character) {
         });
     }
     
-    // Página 4: Historia
+    // Página 4: Vínculos Familiares
+    document.getElementById('family-climate').textContent = character.family_climate || '—';
+    document.getElementById('family-role-current').textContent = character.family_role_current || '—';
+    document.getElementById('family-role-desired').textContent = character.family_role_desired || '—';
+    document.getElementById('family-disappointment').textContent = character.family_disappointment || '—';
+    document.getElementById('family-pride').textContent = character.family_pride || '—';
+    document.getElementById('family-traditions').textContent = character.family_traditions || '—';
+    document.getElementById('family-taboos').textContent = character.family_taboos || '—';
+    
+    // Renderizar vínculos familiares
+    const familyBonds = character.family_bonds ? 
+        (typeof character.family_bonds === 'string' ? JSON.parse(character.family_bonds) : character.family_bonds) : 
+        [];
+    renderFamilyBonds(familyBonds);
+    
+    // Página 5: Historia
     document.getElementById('character-story').textContent = character.story || 'La historia del personaje aparecerá aquí...';
+
     
     // Página 5: Galería
     renderGallery(character.gallery || []);
@@ -482,6 +511,12 @@ function setEditMode(enabled) {
     addGalleryImageBtn.classList.toggle('hidden', !enabled);
     imageUploadOverlay.classList.toggle('hidden', !enabled);
     
+    // Mostrar/ocultar botón de añadir vínculos familiares
+    const addFamilyBondBtn = document.getElementById('add-family-bond-btn');
+    if (addFamilyBondBtn) {
+        addFamilyBondBtn.classList.toggle('hidden', !enabled);
+    }
+    
     // Hacer campos editables
     const editables = document.querySelectorAll('.editable');
     editables.forEach(el => {
@@ -503,10 +538,14 @@ function setEditMode(enabled) {
         slider.disabled = !enabled;
     });
     
-    // Re-renderizar galería para mostrar/ocultar botones de eliminación
+    // Re-renderizar galería y vínculos familiares para mostrar/ocultar botones de eliminación
     const character = characters.find(c => c.id === currentCharacterId);
     if (character) {
         renderGallery(character.gallery || []);
+        const familyBonds = character.family_bonds ? 
+            (typeof character.family_bonds === 'string' ? JSON.parse(character.family_bonds) : character.family_bonds) : 
+            [];
+        renderFamilyBonds(familyBonds);
     }
 }
 
@@ -659,6 +698,30 @@ async function saveCharacter() {
         personality[trait] = parseInt(slider.value);
     });
     character.personality = personality;
+    
+    // Página 4: Vínculos Familiares - guardar datos generales
+    character.family_climate = document.getElementById('family-climate').textContent;
+    character.family_role_current = document.getElementById('family-role-current').textContent;
+    character.family_role_desired = document.getElementById('family-role-desired').textContent;
+    character.family_disappointment = document.getElementById('family-disappointment').textContent;
+    character.family_pride = document.getElementById('family-pride').textContent;
+    character.family_traditions = document.getElementById('family-traditions').textContent;
+    character.family_taboos = document.getElementById('family-taboos').textContent;
+    
+    // Actualizar notas de vínculos familiares editables
+    if (character.family_bonds) {
+        const familyBonds = typeof character.family_bonds === 'string' ? 
+            JSON.parse(character.family_bonds) : character.family_bonds;
+        
+        familyBonds.forEach(bond => {
+            const notesElement = document.querySelector(`.bond-notes-content[data-bond-id="${bond.id}"]`);
+            if (notesElement) {
+                bond.notes = notesElement.textContent;
+            }
+        });
+        
+        character.family_bonds = familyBonds;
+    }
     
     // Historia
     character.story = document.getElementById('character-story').textContent;
@@ -1000,3 +1063,300 @@ function showNotification(message, type = 'success') {
 
 // Inicializar la primera página al cargar
 showPage(1);
+// ===== FUNCIONES PARA VÍNCULOS FAMILIARES =====
+
+// Mostrar diálogo para añadir vínculo familiar
+function showAddFamilyBondDialog() {
+    addFamilyBondDialog.classList.remove('hidden');
+    document.getElementById('bond-name').value = '';
+    document.getElementById('bond-relationship').value = '';
+    document.getElementById('bond-affinity').value = 5;
+    document.getElementById('bond-trust').value = 5;
+    document.getElementById('bond-admiration').value = 5;
+    document.getElementById('bond-influence').value = 5;
+    document.getElementById('bond-dependence').value = 5;
+    document.getElementById('bond-notes').value = '';
+}
+
+// Ocultar diálogo de vínculo familiar
+function hideAddFamilyBondDialog() {
+    addFamilyBondDialog.classList.add('hidden');
+}
+
+// Añadir nuevo vínculo familiar
+async function addNewFamilyBond(e) {
+    e.preventDefault();
+    
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para editar este personaje', 'error');
+        return;
+    }
+    
+    const name = document.getElementById('bond-name').value.trim();
+    const relationship = document.getElementById('bond-relationship').value.trim();
+    const affinity = parseInt(document.getElementById('bond-affinity').value);
+    const trust = parseInt(document.getElementById('bond-trust').value);
+    const admiration = parseInt(document.getElementById('bond-admiration').value);
+    const influence = parseInt(document.getElementById('bond-influence').value);
+    const dependence = parseInt(document.getElementById('bond-dependence').value);
+    const notes = document.getElementById('bond-notes').value.trim();
+    
+    if (!name || !relationship) {
+        showNotification('Por favor, completa el nombre y vínculo', 'error');
+        return;
+    }
+    
+    const character = characters.find(c => c.id === currentCharacterId);
+    if (!character) return;
+    
+    if (!character.family_bonds) {
+        character.family_bonds = [];
+    }
+    
+    const newBond = {
+        id: Date.now().toString(),
+        name: name,
+        relationship: relationship,
+        metrics: {
+            affinity: affinity,
+            trust: trust,
+            admiration: admiration,
+            influence: influence,
+            dependence: dependence
+        },
+        notes: notes
+    };
+    
+    try {
+        character.family_bonds.push(newBond);
+        
+        const { error } = await supabaseClient
+            .from('characters')
+            .update({ family_bonds: character.family_bonds })
+            .eq('id', character.id)
+            .eq('user_id', currentUser.id);
+            
+        if (error) throw error;
+        
+        renderFamilyBonds(character.family_bonds);
+        hideAddFamilyBondDialog();
+        showNotification('Vínculo familiar añadido');
+    } catch (error) {
+        character.family_bonds.pop();
+        showNotification(`Error: ${error.message}`, 'error');
+    }
+}
+
+// Eliminar vínculo familiar
+async function removeFamilyBond(bondId) {
+    if (!currentUser || viewingUserId !== currentUser.id) {
+        showNotification('No tienes permiso para editar este personaje', 'error');
+        return;
+    }
+    
+    const character = characters.find(c => c.id === currentCharacterId);
+    if (!character || !character.family_bonds) return;
+    
+    const bondIndex = character.family_bonds.findIndex(b => b.id === bondId);
+    if (bondIndex === -1) return;
+    
+    const removedBond = character.family_bonds[bondIndex];
+    
+    try {
+        character.family_bonds.splice(bondIndex, 1);
+        
+        const { error } = await supabaseClient
+            .from('characters')
+            .update({ family_bonds: character.family_bonds })
+            .eq('id', character.id)
+            .eq('user_id', currentUser.id);
+            
+        if (error) throw error;
+        
+        renderFamilyBonds(character.family_bonds);
+        showNotification('Vínculo eliminado');
+    } catch (error) {
+        character.family_bonds.splice(bondIndex, 0, removedBond);
+        showNotification(`Error: ${error.message}`, 'error');
+    }
+}
+
+// Renderizar vínculos familiares
+function renderFamilyBonds(bonds) {
+    const container = document.getElementById('family-bonds-container');
+    container.innerHTML = '';
+    
+    if (!bonds || bonds.length === 0) {
+        const emptyMessage = document.createElement('p');
+        emptyMessage.className = 'empty-placeholder';
+        emptyMessage.textContent = 'No hay vínculos familiares añadidos.';
+        container.appendChild(emptyMessage);
+        return;
+    }
+    
+    bonds.forEach(bond => {
+        const bondCard = document.createElement('div');
+        bondCard.className = 'family-bond-card';
+        
+        const bondHeader = document.createElement('div');
+        bondHeader.className = 'bond-header';
+        
+        const bondInfo = document.createElement('div');
+        const bondTitle = document.createElement('div');
+        bondTitle.className = 'bond-title';
+        bondTitle.textContent = bond.name;
+        
+        const bondRelationship = document.createElement('div');
+        bondRelationship.className = 'bond-relationship';
+        bondRelationship.textContent = bond.relationship;
+        
+        bondInfo.appendChild(bondTitle);
+        bondInfo.appendChild(bondRelationship);
+        bondHeader.appendChild(bondInfo);
+        
+        // Botón eliminar (solo en modo edición)
+        if (editMode) {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-bond-btn';
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteBtn.addEventListener('click', () => removeFamilyBond(bond.id));
+            bondHeader.appendChild(deleteBtn);
+        }
+        
+        const bondContent = document.createElement('div');
+        bondContent.className = 'bond-content';
+        
+        // Gráfico de araña
+        const chartContainer = document.createElement('div');
+        chartContainer.className = 'radar-chart-container';
+        const canvas = document.createElement('canvas');
+        canvas.className = 'radar-chart';
+        canvas.id = `radar-chart-${bond.id}`;
+        chartContainer.appendChild(canvas);
+        
+        // Notas
+        const notesSection = document.createElement('div');
+        notesSection.className = 'bond-notes-section';
+        
+        const notesLabel = document.createElement('div');
+        notesLabel.className = 'bond-notes-label';
+        notesLabel.textContent = 'Notas sobre la relación:';
+        
+        const notesContent = document.createElement('div');
+        notesContent.className = 'bond-notes-content editable';
+        notesContent.contentEditable = editMode ? 'true' : 'false';
+        notesContent.textContent = bond.notes || 'Sin notas adicionales.';
+        notesContent.dataset.bondId = bond.id;
+        
+        notesSection.appendChild(notesLabel);
+        notesSection.appendChild(notesContent);
+        
+        bondContent.appendChild(chartContainer);
+        bondContent.appendChild(notesSection);
+        
+        bondCard.appendChild(bondHeader);
+        bondCard.appendChild(bondContent);
+        container.appendChild(bondCard);
+        
+        // Dibujar gráfico de araña
+        drawRadarChart(canvas.id, bond.metrics);
+    });
+}
+
+// Dibujar gráfico de araña usando Canvas
+function drawRadarChart(canvasId, metrics) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 80;
+    
+    // Limpiar canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Datos del gráfico
+    const labels = ['Afinidad', 'Confianza', 'Admiración', 'Influencia', 'Dependencia'];
+    const values = [
+        metrics.affinity,
+        metrics.trust,
+        metrics.admiration,
+        metrics.influence,
+        metrics.dependence
+    ];
+    
+    const angleStep = (Math.PI * 2) / labels.length;
+    
+    // Dibujar círculos de fondo
+    ctx.strokeStyle = 'rgba(138, 43, 226, 0.2)';
+    ctx.lineWidth = 1;
+    for (let i = 1; i <= 5; i++) {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, (radius / 5) * i, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+    
+    // Dibujar líneas desde el centro
+    ctx.strokeStyle = 'rgba(138, 43, 226, 0.2)';
+    labels.forEach((_, i) => {
+        const angle = angleStep * i - Math.PI / 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(
+            centerX + Math.cos(angle) * radius,
+            centerY + Math.sin(angle) * radius
+        );
+        ctx.stroke();
+    });
+    
+    // Dibujar polígono de datos
+    ctx.fillStyle = 'rgba(138, 43, 226, 0.3)';
+    ctx.strokeStyle = 'rgba(138, 43, 226, 0.8)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    
+    values.forEach((value, i) => {
+        const angle = angleStep * i - Math.PI / 2;
+        const distance = (value / 10) * radius;
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
+        
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    });
+    
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    
+    // Dibujar puntos
+    ctx.fillStyle = 'rgb(138, 43, 226)';
+    values.forEach((value, i) => {
+        const angle = angleStep * i - Math.PI / 2;
+        const distance = (value / 10) * radius;
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
+        
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    
+    // Dibujar etiquetas
+    ctx.fillStyle = '#e4dde9';
+    ctx.font = '11px Arial';
+    ctx.textAlign = 'center';
+    
+    labels.forEach((label, i) => {
+        const angle = angleStep * i - Math.PI / 2;
+        const labelDistance = radius + 20;
+        const x = centerX + Math.cos(angle) * labelDistance;
+        const y = centerY + Math.sin(angle) * labelDistance;
+        
+        ctx.fillText(label, x, y);
+    });
+}

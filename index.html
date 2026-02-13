@@ -547,8 +547,65 @@
                             <div class="page-number">3</div>
                         </div>
 
-                        <!-- Página 4: Historia del personaje -->
+                        <!-- Página 4: Vínculos Familiares -->
                         <div class="book-page" id="page-4">
+                            <div class="info-section">
+                                <div class="character-title"><h2>Vínculos Familiares</h2></div>
+                                
+                                <!-- Bloque 1: Relaciones Generales -->
+                                <div class="family-general-section">
+                                    <h3>Contexto Familiar General</h3>
+                                    <div class="family-info-grid">
+                                        <div class="family-info-item full-width">
+                                            <span class="info-label">Clima emocional general:</span>
+                                            <span id="family-climate" class="info-item editable" contenteditable="false">—</span>
+                                        </div>
+                                        <div class="family-info-item">
+                                            <span class="info-label">Rol que ocupa:</span>
+                                            <span id="family-role-current" class="info-item editable" contenteditable="false">—</span>
+                                        </div>
+                                        <div class="family-info-item">
+                                            <span class="info-label">Rol que desea ocupar:</span>
+                                            <span id="family-role-desired" class="info-item editable" contenteditable="false">—</span>
+                                        </div>
+                                        <div class="family-info-item">
+                                            <span class="info-label">Mayor decepción:</span>
+                                            <span id="family-disappointment" class="info-item editable" contenteditable="false">—</span>
+                                        </div>
+                                        <div class="family-info-item">
+                                            <span class="info-label">Mayor orgullo:</span>
+                                            <span id="family-pride" class="info-item editable" contenteditable="false">—</span>
+                                        </div>
+                                        <div class="family-info-item full-width">
+                                            <span class="info-label">Tradiciones que mantienen:</span>
+                                            <span id="family-traditions" class="info-item editable" contenteditable="false">—</span>
+                                        </div>
+                                        <div class="family-info-item full-width">
+                                            <span class="info-label">Tabúes familiares:</span>
+                                            <span id="family-taboos" class="info-item editable" contenteditable="false">—</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bloque 2: Vínculos Individuales -->
+                                <div class="family-bonds-section">
+                                    <div class="family-bonds-header">
+                                        <h3>Vínculos Individuales</h3>
+                                        <button id="add-family-bond-btn" class="small-action-button hidden">
+                                            <i class="fas fa-plus"></i> Añadir vínculo
+                                        </button>
+                                    </div>
+                                    <div id="family-bonds-container" class="family-bonds-container">
+                                        <!-- Los vínculos se generarán dinámicamente aquí -->
+                                        <p class="empty-placeholder">No hay vínculos familiares añadidos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page-number">4</div>
+                        </div>
+
+                        <!-- Página 5: Historia del personaje -->
+                        <div class="book-page" id="page-5">
                             <div class="info-section">
                                 <div class="character-title">
                                     <h2>Historia</h2>
@@ -557,11 +614,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="page-number">4</div>
+                            <div class="page-number">5</div>
                         </div>
 
-                        <!-- Página 5: Galería de imágenes -->
-                        <div class="book-page" id="page-5">
+                        <!-- Página 6: Galería de imágenes -->
+                        <div class="book-page" id="page-6">
                             <div class="info-section">
                                 <div class="character-title"><h2>Galería</h2></div>
                                 <div id="character-gallery" class="gallery-grid">
@@ -572,13 +629,13 @@
                                 </button>
                                 <input type="file" id="gallery-image-upload" accept="image/*" class="hidden">
                             </div>
-                            <div class="page-number">5</div>
+                            <div class="page-number">6</div>
                         </div>
                     </div>
 
                     <div class="book-navigation">
                         <button id="prev-page" class="nav-button"><i class="fas fa-chevron-left"></i></button>
-                        <span id="page-indicator">Página 1 de 5</span>
+                        <span id="page-indicator">Página 1 de 6</span>
                         <button id="next-page" class="nav-button"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
@@ -676,6 +733,56 @@
                 </div>
                 <div class="dialog-buttons">
                     <button type="submit" class="button primary">Iniciar sesión</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Diálogo para añadir vínculo familiar -->
+    <div id="add-family-bond-dialog" class="dialog-overlay hidden">
+        <div class="dialog large-dialog">
+            <h2>Nuevo Vínculo Familiar</h2>
+            <form id="new-family-bond-form">
+                <div class="form-group">
+                    <label for="bond-name">Nombre del familiar:</label>
+                    <input type="text" id="bond-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="bond-relationship">Vínculo:</label>
+                    <input type="text" id="bond-relationship" placeholder="Ej: Madre, Hermano, Tío..." required>
+                </div>
+                <div class="form-group">
+                    <label>Métricas de relación (0-10):</label>
+                    <div class="bond-metrics">
+                        <div class="metric-input">
+                            <label for="bond-affinity">Afinidad:</label>
+                            <input type="number" id="bond-affinity" min="0" max="10" value="5">
+                        </div>
+                        <div class="metric-input">
+                            <label for="bond-trust">Confianza:</label>
+                            <input type="number" id="bond-trust" min="0" max="10" value="5">
+                        </div>
+                        <div class="metric-input">
+                            <label for="bond-admiration">Admiración:</label>
+                            <input type="number" id="bond-admiration" min="0" max="10" value="5">
+                        </div>
+                        <div class="metric-input">
+                            <label for="bond-influence">Influencia:</label>
+                            <input type="number" id="bond-influence" min="0" max="10" value="5">
+                        </div>
+                        <div class="metric-input">
+                            <label for="bond-dependence">Dependencia:</label>
+                            <input type="number" id="bond-dependence" min="0" max="10" value="5">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bond-notes">Notas adicionales:</label>
+                    <textarea id="bond-notes" rows="4" placeholder="Descripción de la relación, dinámicas, eventos importantes..."></textarea>
+                </div>
+                <div class="dialog-buttons">
+                    <button type="button" id="cancel-add-bond" class="button secondary">Cancelar</button>
+                    <button type="submit" class="button primary">Añadir Vínculo</button>
                 </div>
             </form>
         </div>
