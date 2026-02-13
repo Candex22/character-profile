@@ -41,7 +41,47 @@ const galleryImageUpload = document.getElementById('gallery-image-upload');
 document.addEventListener('DOMContentLoaded', () => {
     renderCharacterCircles();
     setupEventListeners();
+    setupLightbox();
 });
+
+// Configurar lightbox para imágenes
+function setupLightbox() {
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxClose = document.getElementById('lightbox-close');
+    
+    // Cerrar lightbox al hacer clic en el botón de cerrar
+    lightboxClose.addEventListener('click', closeLightbox);
+    
+    // Cerrar lightbox al hacer clic fuera de la imagen
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // Cerrar lightbox con la tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+}
+
+// Abrir lightbox con una imagen
+function openLightbox(imageSrc) {
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    
+    lightboxImage.src = imageSrc;
+    lightbox.classList.add('active');
+}
+
+// Cerrar lightbox
+function closeLightbox() {
+    const lightbox = document.getElementById('image-lightbox');
+    lightbox.classList.remove('active');
+}
 
 // Renderizar círculos de personajes
 function renderCharacterCircles() {
@@ -235,7 +275,20 @@ async function loadCharacters() {
 function fillCharacterData(character) {
     // Página 1: Información básica
     document.getElementById('character-name').textContent = character.name;
-    document.getElementById('character-main-image').src = character.image || '/api/placeholder/200/200';
+    
+    const mainImage = document.getElementById('character-main-image');
+    mainImage.src = character.image || '/api/placeholder/200/200';
+    mainImage.classList.add('clickable-image');
+    
+    // Agregar evento de click para abrir en lightbox (remover eventos previos)
+    const newMainImage = mainImage.cloneNode(true);
+    mainImage.parentNode.replaceChild(newMainImage, mainImage);
+    newMainImage.addEventListener('click', () => {
+        if (!editMode && newMainImage.src) {
+            openLightbox(newMainImage.src);
+        }
+    });
+    
     document.getElementById('character-age').textContent = character.age || '—';
     document.getElementById('character-birthday').textContent = character.birthday || 'DD/MM/YYYY';
     document.getElementById('character-occupation').textContent = character.occupation || '—';
@@ -372,6 +425,14 @@ function renderGallery(gallery) {
         const img = document.createElement('img');
         img.src = image || '/api/placeholder/180/180';
         img.alt = 'Imagen de galería';
+        img.classList.add('clickable-image');
+        
+        // Agregar evento de click para abrir en lightbox
+        img.addEventListener('click', (e) => {
+            if (!editMode) {
+                openLightbox(img.src);
+            }
+        });
         
         galleryItem.appendChild(img);
         

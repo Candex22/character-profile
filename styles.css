@@ -48,6 +48,81 @@ header h1 {
     color: var(--primary-dark);
 }
 
+/* Lightbox para imágenes */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    z-index: 10001;
+    background: none;
+    border: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-close:hover {
+    color: var(--primary-light);
+}
+
+/* Cursor pointer para imágenes clickeables */
+.clickable-image {
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.clickable-image:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
 .action-button {
     background-color: var(--primary-color);
     color: var(--white);
