@@ -425,6 +425,15 @@ function setEditMode(enabled) {
     const editables = document.querySelectorAll('.editable');
     editables.forEach(el => {
         el.contentEditable = enabled;
+        
+        if (enabled) {
+            // Configurar eventos para limpiar placeholders automáticamente
+            setupPlaceholderClear(el);
+        } else {
+            // Remover eventos cuando se desactiva el modo de edición
+            el.removeEventListener('focus', handlePlaceholderFocus);
+            el.removeEventListener('blur', handlePlaceholderBlur);
+        }
     });
     
     // Habilitar/deshabilitar sliders de personalidad
@@ -437,6 +446,65 @@ function setEditMode(enabled) {
     const character = characters.find(c => c.id === currentCharacterId);
     if (character) {
         renderGallery(character.gallery || []);
+    }
+}
+
+// Lista de valores que se consideran placeholders
+const placeholderValues = [
+    '—',
+    'DD/MM/YYYY',
+    '—cm',
+    '—kg',
+    'La historia del personaje aparecerá aquí...',
+    'Cómo se siente su presencia. Energía, ritmo y sensación que deja.',
+    'Qué se prejuzga sin conocerlo.',
+    'Aquello que necesita para sentirse completo (Ej.: Pertenecer / Control).',
+    'Ej.: "Si no soy útil, no valgo." / "El afecto siempre tiene un costo."',
+    'Reacción instintiva ante la amenaza.',
+    'Ej.: Desea cercanía',
+    'Ej.: Teme depender',
+    'Ser abandonado',
+    'Sarcasmo cortante',
+    'Sonrisa contenida',
+    'Hiperactividad, necesidad de control',
+    'Silencio, aislamiento',
+    'Ligera elevación de cejas',
+    'Mueca sutil',
+    'Que lo subestimen, perder el control',
+    'Silencios prolongados, preguntas sobre su pasado',
+    'Rutinas predecibles, que le pidan consejo',
+    'Cómo se presenta al mundo',
+    'Cómo es con quienes confía',
+    'Cómo es cuando nadie lo ve'
+];
+
+// Configurar limpieza automática de placeholders
+function setupPlaceholderClear(element) {
+    element.addEventListener('focus', handlePlaceholderFocus);
+    element.addEventListener('blur', handlePlaceholderBlur);
+}
+
+// Manejar el foco en un campo editable
+function handlePlaceholderFocus(e) {
+    const element = e.target;
+    const currentText = element.textContent.trim();
+    
+    // Si el texto actual es un placeholder, limpiarlo
+    if (placeholderValues.includes(currentText)) {
+        element.setAttribute('data-placeholder', currentText);
+        element.textContent = '';
+    }
+}
+
+// Manejar la pérdida de foco en un campo editable
+function handlePlaceholderBlur(e) {
+    const element = e.target;
+    const currentText = element.textContent.trim();
+    
+    // Si el campo quedó vacío, restaurar el placeholder
+    if (currentText === '' && element.hasAttribute('data-placeholder')) {
+        element.textContent = element.getAttribute('data-placeholder');
+        element.removeAttribute('data-placeholder');
     }
 }
 
