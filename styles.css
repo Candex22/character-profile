@@ -1968,20 +1968,21 @@ header h1 {
 
 .bond-content {
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 370px 1fr;
     gap: 20px;
     align-items: start;
 }
 
 .radar-chart-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .radar-chart {
-    width: 220px;
-    height: 220px;
+    width: 350px;
+    height: 350px;
 }
 
 .bond-notes-section {
@@ -2054,4 +2055,58 @@ header h1 {
 
 .family-bonds-container::-webkit-scrollbar-thumb:hover {
     background: var(--primary-dark);
+}
+
+/* Controles para editar métricas del gráfico de araña */
+.metrics-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.metric-control-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    font-weight: 500;
+    flex: 1;
+}
+
+.metric-input {
+    width: 100px;
+    padding: 2px 4px;
+    border: 1px solid var(--primary-light);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--text-color);
+    text-align: center;
+    font-weight: bold;
+}
+
+.metric-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+}
+
+/* Actualizar tamaño del contenedor del radar */
+.radar-chart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.radar-chart {
+    display: block;
 }

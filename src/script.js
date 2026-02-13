@@ -718,6 +718,13 @@ async function saveCharacter() {
             if (notesElement) {
                 bond.notes = notesElement.textContent;
             }
+            
+            // Guardar métricas editadas desde los inputs
+            const metricInputs = document.querySelectorAll(`.metric-input[data-bond-id="${bond.id}"]`);
+            metricInputs.forEach(input => {
+                const metricKey = input.dataset.metric;
+                bond.metrics[metricKey] = parseInt(input.value);
+            });
         });
         
         character.family_bonds = familyBonds;
@@ -1229,9 +1236,64 @@ function renderFamilyBonds(bonds) {
         // Gráfico de araña
         const chartContainer = document.createElement('div');
         chartContainer.className = 'radar-chart-container';
+        
+        // Crear canvas para el gráfico
         const canvas = document.createElement('canvas');
         canvas.className = 'radar-chart';
         canvas.id = `radar-chart-${bond.id}`;
+        canvas.width = 480;
+        canvas.height = 450;
+        
+        // Crear controles para editar valores (solo en modo edición)
+        if (editMode) {
+            const metricsControls = document.createElement('div');
+            metricsControls.className = 'metrics-controls';
+            
+            const metricsLabels = [
+                { key: 'affinity', label: 'Afinidad' },
+                { key: 'trust', label: 'Confianza' },
+                { key: 'admiration', label: 'Admiración' },
+                { key: 'influence', label: 'Influencia' },
+                { key: 'dependence', label: 'Dependencia' }
+            ];
+            
+            metricsLabels.forEach(metric => {
+                const controlRow = document.createElement('div');
+                controlRow.className = 'metric-control-row';
+                
+                const label = document.createElement('span');
+                label.className = 'metric-label';
+                label.textContent = metric.label;
+                
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.min = '0';
+                input.max = '10';
+                input.value = bond.metrics[metric.key];
+                input.className = 'metric-input';
+                input.dataset.bondId = bond.id;
+                input.dataset.metric = metric.key;
+                
+                // Actualizar gráfico al cambiar valor
+                input.addEventListener('input', function() {
+                    const character = characters.find(c => c.id === currentCharacterId);
+                    if (!character || !character.family_bonds) return;
+                    
+                    const bondToUpdate = character.family_bonds.find(b => b.id === this.dataset.bondId);
+                    if (bondToUpdate) {
+                        bondToUpdate.metrics[this.dataset.metric] = parseInt(this.value);
+                        drawRadarChart(canvas.id, bondToUpdate.metrics);
+                    }
+                });
+                
+                controlRow.appendChild(label);
+                controlRow.appendChild(input);
+                metricsControls.appendChild(controlRow);
+            });
+            
+            chartContainer.appendChild(metricsControls);
+        }
+        
         chartContainer.appendChild(canvas);
         
         // Notas
@@ -1269,12 +1331,14 @@ function drawRadarChart(canvasId, metrics) {
     if (!canvas) return;
     
     const ctx = canvas.getContext('2d');
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = 80;
+    const width = canvas.width;
+    const height = canvas.height;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = Math.min(width, height) / 3.2; // Reducido para dejar más espacio a las etiquetas
     
     // Limpiar canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, width, height);
     
     // Datos del gráfico
     const labels = ['Afinidad', 'Confianza', 'Admiración', 'Influencia', 'Dependencia'];
@@ -1286,20 +1350,45 @@ function drawRadarChart(canvasId, metrics) {
         metrics.dependence
     ];
     
-    const angleStep = (Math.PI * 2) / labels.length;
+    const numPoints = labels.length;
+    const angleStep = (Math.PI * 2) / numPoints;
     
-    // Dibujar círculos de fondo
-    ctx.strokeStyle = 'rgba(138, 43, 226, 0.2)';
+    // Configuración de colores
+    const gridColor = 'rgba(200, 200, 200, 0.3)';
+    const axisColor = 'rgba(150, 150, 150, 0.5)';
+    const dataFillColor = 'rgba(188, 107, 255, 0.4)';
+    const dataStrokeColor = 'rgb(165, 87, 255)';
+    const labelColor = '#333333';
+    
+    // Dibujar círculos concéntricos de fondo (grid)
+    ctx.strokeStyle = gridColor;
     ctx.lineWidth = 1;
-    for (let i = 1; i <= 5; i++) {
+    const levels = 5;
+    
+    for (let i = 1; i <= levels; i++) {
         ctx.beginPath();
-        ctx.arc(centerX, centerY, (radius / 5) * i, 0, Math.PI * 2);
+        const levelRadius = (radius / levels) * i;
+        
+        for (let j = 0; j <= numPoints; j++) {
+            const angle = angleStep * j - Math.PI / 2;
+            const x = centerX + Math.cos(angle) * levelRadius;
+            const y = centerY + Math.sin(angle) * levelRadius;
+            
+            if (j === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+        ctx.closePath();
         ctx.stroke();
     }
     
-    // Dibujar líneas desde el centro
-    ctx.strokeStyle = 'rgba(138, 43, 226, 0.2)';
-    labels.forEach((_, i) => {
+    // Dibujar líneas de los ejes desde el centro
+    ctx.strokeStyle = axisColor;
+    ctx.lineWidth = 1;
+    
+    for (let i = 0; i < numPoints; i++) {
         const angle = angleStep * i - Math.PI / 2;
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
@@ -1308,16 +1397,32 @@ function drawRadarChart(canvasId, metrics) {
             centerY + Math.sin(angle) * radius
         );
         ctx.stroke();
-    });
+    }
+    
+    // Dibujar números en los niveles
+    ctx.fillStyle = 'rgba(150, 150, 150, 0.8)';
+    ctx.font = '10px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    for (let i = 1; i <= levels; i++) {
+        const levelValue = (10 / levels) * i;
+        const levelRadius = (radius / levels) * i;
+        const x = centerX;
+        const y = centerY - levelRadius;
+        
+        ctx.fillText(Math.round(levelValue), x, y - 5);
+    }
     
     // Dibujar polígono de datos
-    ctx.fillStyle = 'rgba(138, 43, 226, 0.3)';
-    ctx.strokeStyle = 'rgba(138, 43, 226, 0.8)';
-    ctx.lineWidth = 2;
+    ctx.fillStyle = dataFillColor;
+    ctx.strokeStyle = dataStrokeColor;
+    ctx.lineWidth = 2.5;
     ctx.beginPath();
     
-    values.forEach((value, i) => {
+    for (let i = 0; i < numPoints; i++) {
         const angle = angleStep * i - Math.PI / 2;
+        const value = values[i] || 0;
         const distance = (value / 10) * radius;
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
@@ -1327,36 +1432,73 @@ function drawRadarChart(canvasId, metrics) {
         } else {
             ctx.lineTo(x, y);
         }
-    });
+    }
     
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
     
-    // Dibujar puntos
-    ctx.fillStyle = 'rgb(138, 43, 226)';
-    values.forEach((value, i) => {
+    // Dibujar puntos en cada vértice
+    ctx.fillStyle = dataStrokeColor;
+    
+    for (let i = 0; i < numPoints; i++) {
         const angle = angleStep * i - Math.PI / 2;
+        const value = values[i] || 0;
         const distance = (value / 10) * radius;
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
         
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
         ctx.fill();
-    });
+        
+        // Borde blanco en los puntos
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.strokeStyle = dataStrokeColor;
+        ctx.lineWidth = 2.5;
+    }
     
     // Dibujar etiquetas
-    ctx.fillStyle = '#e4dde9';
-    ctx.font = '11px Arial';
+    ctx.fillStyle = labelColor;
+    ctx.font = 'bold 13px Arial';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     
-    labels.forEach((label, i) => {
+    for (let i = 0; i < numPoints; i++) {
         const angle = angleStep * i - Math.PI / 2;
-        const labelDistance = radius + 20;
-        const x = centerX + Math.cos(angle) * labelDistance;
-        const y = centerY + Math.sin(angle) * labelDistance;
+        const labelDistance = radius + 35; // Aumentado para que no se corten
+        let x = centerX + Math.cos(angle) * labelDistance;
+        let y = centerY + Math.sin(angle) * labelDistance;
         
-        ctx.fillText(label, x, y);
-    });
+        // Ajustar alineación según la posición
+        if (Math.abs(angle + Math.PI / 2) < 0.1) {
+            // Top
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            y -= 5;
+        } else if (Math.abs(angle - Math.PI / 2) < 0.1) {
+            // Bottom
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            y += 5;
+        } else if (angle > -Math.PI / 2 && angle < Math.PI / 2) {
+            // Right side
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            x += 8;
+        } else {
+            // Left side
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            x -= 8;
+        }
+        
+        ctx.fillText(labels[i], x, y);
+    }
+    
+    // Restaurar valores por defecto
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
 }
