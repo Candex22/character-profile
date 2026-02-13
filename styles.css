@@ -1,12 +1,12 @@
 :root {
-    --primary-color: #8a2be2; /* Violeta principal */
+    --primary-color: #61469b;/*#8a2be2; /* Violeta principal */
     --primary-light: #b980ff;
-    --primary-dark: #5e1d9d;
+    --primary-dark: #a673da;
     --secondary-color: #e0c3ff;
     --text-color: #333;
     --text-light: #666;
-    --background-color: #f5f0ff;
-    --white: #ffffff;
+    --background-color: #3E314A;/*#f5f0ff;*/
+    --white: #e4dde9;
     --shadow: 0 4px 8px rgba(138, 43, 226, 0.2);
     --book-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     --border-radius: 8px;
@@ -145,7 +145,7 @@ header h1 {
 }
 
 .book {
-    background-color: var(--white);
+    background-color: var(--white); /*aca*/
     width: 90%;
     max-width: 2000px;
     height: 85vh;
