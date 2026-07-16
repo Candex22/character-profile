@@ -63,4 +63,23 @@ function setupEventListeners() {
     document.querySelectorAll('.personality-slider').forEach(slider => {
         slider.addEventListener('input', function () { /* feedback visual si se necesita */ });
     });
+
+    // Carpetas
+    addFolderBtn.addEventListener('click', showAddFolderDialog);
+    cancelAddFolderBtn.addEventListener('click', hideAddFolderDialog);
+    newFolderForm.addEventListener('submit', addNewFolder);
+    backToRootBtn.addEventListener('click', () => openFolder(null));
+    cancelMoveToFolderBtn.addEventListener('click', hideMoveToFolderDialog);
+    moveToFolderForm.addEventListener('submit', moveCharacterToFolder);
+
+    // Permitir soltar un personaje sobre el área raíz para sacarlo de su carpeta
+    characterCircleContainer.addEventListener('dragover', (e) => {
+        if (currentFolderId !== null) e.preventDefault();
+    });
+    characterCircleContainer.addEventListener('drop', (e) => {
+        if (currentFolderId !== null) return;
+        e.preventDefault();
+        const characterId = e.dataTransfer.getData('text/character-id');
+        if (characterId) assignCharacterToFolderDirect(characterId, null);
+    });
 }

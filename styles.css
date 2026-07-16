@@ -159,6 +159,137 @@ header h1 {
     background-color: var(--primary-dark);
 }
 
+/* ---------- Carpetas ---------- */
+
+.folder-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    color: var(--white);
+}
+
+#folder-breadcrumb-trail {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.breadcrumb-link {
+    background: none;
+    border: none;
+    color: var(--primary-light);
+    cursor: pointer;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+}
+
+.breadcrumb-link:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.breadcrumb-crumb {
+    padding: 0;
+}
+
+.breadcrumb-separator {
+    color: var(--text-light);
+}
+
+.breadcrumb-current {
+    font-weight: bold;
+    color: var(--white);
+}
+
+.folder-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.folder-card {
+    width: 150px;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.folder-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(138, 43, 226, 0.3);
+}
+
+.folder-card.drag-over {
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px var(--primary-color);
+}
+
+.folder-icon {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.folder-name {
+    font-weight: bold;
+    color: var(--text-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.folder-count {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+
+.folder-actions {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.folder-card:hover .folder-actions {
+    opacity: 1;
+}
+
+.folder-action-btn {
+    background-color: rgba(138, 43, 226, 0.85);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.folder-action-btn:hover {
+    background-color: var(--primary-dark);
+}
+
 /* Contenedor de círculos de personajes */
 .character-circle-container {
     display: flex;
@@ -166,38 +297,82 @@ header h1 {
     justify-content: center;
     gap: 30px;
     margin: 40px 0;
+    min-height: 60px;
+}
+
+.empty-message {
+    width: 100%;
+    text-align: center;
+    color: var(--white);
+    opacity: 0.7;
+    padding: 20px;
+    font-style: italic;
 }
 
 .character-circle {
+    width: 150px;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+
+.character-circle.dragging {
+    opacity: 0.4;
+}
+
+.circle-image {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-    cursor: pointer;
     box-shadow: var(--shadow);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.character-circle:hover {
+.character-circle:hover .circle-image {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(138, 43, 226, 0.3);
 }
 
-.character-circle img {
+.circle-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.character-circle .character-name {
+.circle-move-btn {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(138, 43, 226, 0.85);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.character-circle:hover .circle-move-btn {
+    opacity: 1;
+}
+
+.circle-move-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.character-circle .circle-name {
+    margin-top: 6px;
     background-color: rgba(138, 43, 226, 0.8);
     color: var(--white);
     padding: 5px;
+    border-radius: var(--border-radius);
     text-align: center;
     font-size: 0.9rem;
     overflow: hidden;
@@ -1284,12 +1459,21 @@ header h1 {
 
     .character-circle {
         width: 100px;
+    }
+
+    .circle-image {
+        width: 100px;
         height: 100px;
     }
 
-    .character-circle .character-name {
+    .character-circle .circle-name {
         font-size: 0.7rem;
         padding: 3px;
+    }
+
+    .folder-card {
+        width: 100px;
+        padding: 10px 6px;
     }
 
     .book {
@@ -1644,10 +1828,14 @@ header h1 {
 
     .character-circle {
         width: 130px;
+    }
+
+    .circle-image {
+        width: 130px;
         height: 130px;
     }
 
-    .character-circle .character-name {
+    .character-circle .circle-name {
         font-size: 0.8rem;
         padding: 5px;
     }

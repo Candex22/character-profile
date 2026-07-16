@@ -22,6 +22,9 @@
                 <button id="public-libraries-btn" class="action-button hidden">
                     <i class="fas fa-users"></i> Bibliotecas públicas
                 </button>
+                <button id="add-folder-btn" class="action-button">
+                    <i class="fas fa-folder-plus"></i> Nueva Carpeta
+                </button>
                 <button id="add-character-btn" class="action-button">
                     <i class="fas fa-plus"></i> Nuevo Personaje
                 </button>
@@ -29,6 +32,17 @@
         </header>
 
         <main>
+            <div id="folder-breadcrumb" class="folder-breadcrumb hidden">
+                <button id="back-to-root-btn" class="breadcrumb-link">
+                    <i class="fas fa-arrow-left"></i> Mi biblioteca
+                </button>
+                <span id="folder-breadcrumb-trail"></span>
+            </div>
+
+            <div class="folder-container" id="folder-container">
+                <!-- Las carpetas se generarán dinámicamente aquí -->
+            </div>
+
             <div class="character-circle-container" id="character-circle-container">
                 <!-- Los personajes se generarán dinámicamente aquí -->
             </div>
@@ -672,6 +686,40 @@
         </div>
     </div>
 
+    <!-- Diálogo para añadir nueva carpeta -->
+    <div id="add-folder-dialog" class="dialog-overlay hidden">
+        <div class="dialog">
+            <h2>Nueva Carpeta</h2>
+            <form id="new-folder-form">
+                <div class="form-group">
+                    <label for="new-folder-name">Nombre:</label>
+                    <input type="text" id="new-folder-name" placeholder="Ej: Protagonistas" required>
+                </div>
+                <div class="dialog-buttons">
+                    <button type="button" id="cancel-add-folder" class="button secondary">Cancelar</button>
+                    <button type="submit" class="button primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Diálogo para mover un personaje a una carpeta -->
+    <div id="move-to-folder-dialog" class="dialog-overlay hidden">
+        <div class="dialog">
+            <h2>Mover a carpeta</h2>
+            <form id="move-to-folder-form">
+                <div class="form-group">
+                    <label for="move-to-folder-select">Carpeta de destino:</label>
+                    <select id="move-to-folder-select"></select>
+                </div>
+                <div class="dialog-buttons">
+                    <button type="button" id="cancel-move-to-folder" class="button secondary">Cancelar</button>
+                    <button type="submit" class="button primary">Mover</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Diálogo para añadir relación -->
     <div id="add-relation-dialog" class="dialog-overlay hidden">
         <div class="dialog">
@@ -804,6 +852,7 @@
     <script src="src/relations.js"></script>
     <script src="src/family-bonds.js"></script>
     <script src="src/characters.js"></script>
+    <script src="src/folders.js"></script>
     <script src="src/main.js"></script>
 </body>
 

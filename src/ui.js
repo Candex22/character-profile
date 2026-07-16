@@ -60,20 +60,110 @@ function closeLightbox() {
     document.getElementById('image-lightbox').classList.remove('active');
 }
 
+// ---------- Carpetas ----------
+
+function renderFolders() {
+    if (!folderContainer) return;
+    folderContainer.innerHTML = '';
+
+    const isOwnLibrary = currentUser && viewingUserId === currentUser.id;
+
+    const visibleFolders = folders.filter(f => (f.parent_id || null) === currentFolderId);
+
+    visibleFolders.forEach(folder => {
+        const folderEl = document.createElement('div');
+        folderEl.className = 'folder-card';
+
+        const count = characters.filter(c => c.folder_id === folder.id).length;
+        const subfolderCount = folders.filter(f => f.parent_id === folder.id).length;
+
+        const icon = document.createElement('div');
+        icon.className = 'folder-icon';
+        icon.innerHTML = '<i class="fas fa-folder"></i>';
+
+        const name = document.createElement('div');
+        name.className = 'folder-name';
+        name.textContent = folder.name;
+
+        const countEl = document.createElement('div');
+        countEl.className = 'folder-count';
+        const parts = [`${count} ${count === 1 ? 'personaje' : 'personajes'}`];
+        if (subfolderCount > 0) {
+            parts.push(`${subfolderCount} ${subfolderCount === 1 ? 'subcarpeta' : 'subcarpetas'}`);
+        }
+        countEl.textContent = parts.join(' · ');
+
+        folderEl.appendChild(icon);
+        folderEl.appendChild(name);
+        folderEl.appendChild(countEl);
+
+        folderEl.addEventListener('click', () => openFolder(folder.id));
+
+        if (isOwnLibrary) {
+            const actions = document.createElement('div');
+            actions.className = 'folder-actions';
+
+            const renameBtn = document.createElement('button');
+            renameBtn.className = 'folder-action-btn';
+            renameBtn.title = 'Renombrar carpeta';
+            renameBtn.innerHTML = '<i class="fas fa-pen"></i>';
+            renameBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                renameFolder(folder.id);
+            });
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'folder-action-btn';
+            deleteBtn.title = 'Eliminar carpeta';
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteFolder(folder.id);
+            });
+
+            actions.appendChild(renameBtn);
+            actions.appendChild(deleteBtn);
+            folderEl.appendChild(actions);
+
+            // Permitir soltar un personaje arrastrado sobre la carpeta
+            folderEl.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                folderEl.classList.add('drag-over');
+            });
+            folderEl.addEventListener('dragleave', () => {
+                folderEl.classList.remove('drag-over');
+            });
+            folderEl.addEventListener('drop', (e) => {
+                e.preventDefault();
+                folderEl.classList.remove('drag-over');
+                const characterId = e.dataTransfer.getData('text/character-id');
+                if (characterId) assignCharacterToFolderDirect(characterId, folder.id);
+            });
+        }
+
+        folderContainer.appendChild(folderEl);
+    });
+}
+
 // ---------- Círculos de personajes ----------
 
 function renderCharacterCircles() {
     characterCircleContainer.innerHTML = '';
 
-    if (characters.length === 0) {
+    const visibleCharacters = characters.filter(c => (c.folder_id || null) === currentFolderId);
+    const isOwnLibrary = currentUser && viewingUserId === currentUser.id;
+
+    if (visibleCharacters.length === 0) {
         const emptyMessage = document.createElement('div');
         emptyMessage.className = 'empty-message';
-        emptyMessage.textContent = 'No hay personajes. ¡Crea uno nuevo!';
+        emptyMessage.textContent = currentFolderId
+            ? 'Esta carpeta no tiene personajes todavía. Arrastra uno aquí o crea uno nuevo.'
+            : 'No hay personajes. ¡Crea uno nuevo!';
         characterCircleContainer.appendChild(emptyMessage);
         return;
     }
 
-    characters.forEach(character => {
+    visibleCharacters.forEach(character => {
         const circle = document.createElement('div');
         circle.className = 'character-circle';
 
@@ -93,6 +183,25 @@ function renderCharacterCircles() {
         circle.appendChild(circleName);
 
         circle.addEventListener('click', () => openBook(character.id));
+
+        if (isOwnLibrary) {
+            circle.draggable = true;
+            circle.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/character-id', character.id);
+                circle.classList.add('dragging');
+            });
+            circle.addEventListener('dragend', () => circle.classList.remove('dragging'));
+
+            const moveBtn = document.createElement('button');
+            moveBtn.className = 'circle-move-btn';
+            moveBtn.title = 'Mover a carpeta';
+            moveBtn.innerHTML = '<i class="fas fa-folder-open"></i>';
+            moveBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showMoveToFolderDialog(character.id);
+            });
+            circle.appendChild(moveBtn);
+        }
 
         characterCircleContainer.appendChild(circle);
     });

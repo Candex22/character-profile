@@ -196,6 +196,7 @@ function updateUIForAuthState() {
         // Si estamos viendo nuestra propia biblioteca
         const isOwnLibrary = viewingUserId === currentUser.id;
         addCharacterBtn.classList.toggle('hidden', !isOwnLibrary);
+        addFolderBtn.classList.toggle('hidden', !isOwnLibrary);
 
         // Actualizar el título de la biblioteca dependiendo de si es propia o ajena
         if (isOwnLibrary) {
@@ -209,6 +210,7 @@ function updateUIForAuthState() {
         logoutBtn.classList.add('hidden');
         publicLibrariesBtn.classList.add('hidden');
         addCharacterBtn.classList.add('hidden');
+        addFolderBtn.classList.add('hidden');
     }
 }
 

@@ -12,6 +12,9 @@ async function loadCharacters() {
         if (error) throw error;
 
         characters = data || [];
+        currentFolderId = null;
+        updateFolderBreadcrumb();
+        await loadFolders();
         renderCharacterCircles();
     } catch (error) {
         showNotification(`Error al cargar personajes: ${error.message}`, 'error');
@@ -56,7 +59,8 @@ async function addNewCharacter(e) {
             name,
             image: newCharacterImagePreview.src === '/api/placeholder/150/150' ? null : newCharacterImagePreview.src,
             personality: JSON.stringify(defaultPersonality),
-            gallery: JSON.stringify([])
+            gallery: JSON.stringify([]),
+            folder_id: currentFolderId
         };
 
         console.log("Intentando crear personaje:", newCharacter);
@@ -77,10 +81,12 @@ async function addNewCharacter(e) {
             name,
             image: newCharacterImagePreview.src !== '/api/placeholder/150/150' ? newCharacterImagePreview.src : null,
             personality: defaultPersonality,
-            gallery: []
+            gallery: [],
+            folder_id: currentFolderId
         };
 
         characters.push(characterForUI);
+        renderFolders();
         renderCharacterCircles();
         hideAddCharacterDialog();
         openBook(newCharacterId);

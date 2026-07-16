@@ -5,6 +5,11 @@ let currentPage = 1;
 const totalPages = 6;
 let editMode = false;
 
+// Estado de carpetas
+let folders = [];
+let currentFolderId = null; // null = raíz (todas las carpetas + personajes sin carpeta)
+let characterIdToMove = null;
+
 // Elementos del DOM — Libro y navegación
 const characterCircleContainer = document.getElementById('character-circle-container');
 const bookContainer = document.getElementById('book-container');
@@ -43,6 +48,20 @@ const relationImagePreview = document.getElementById('relation-image-preview');
 // Elementos del DOM — Galería
 const addGalleryImageBtn = document.getElementById('add-gallery-image-btn');
 const galleryImageUpload = document.getElementById('gallery-image-upload');
+
+// Elementos del DOM — Carpetas
+const folderContainer = document.getElementById('folder-container');
+const folderBreadcrumb = document.getElementById('folder-breadcrumb');
+const backToRootBtn = document.getElementById('back-to-root-btn');
+const folderBreadcrumbTrail = document.getElementById('folder-breadcrumb-trail');
+const addFolderBtn = document.getElementById('add-folder-btn');
+const addFolderDialog = document.getElementById('add-folder-dialog');
+const newFolderForm = document.getElementById('new-folder-form');
+const cancelAddFolderBtn = document.getElementById('cancel-add-folder');
+const moveToFolderDialog = document.getElementById('move-to-folder-dialog');
+const moveToFolderForm = document.getElementById('move-to-folder-form');
+const moveToFolderSelect = document.getElementById('move-to-folder-select');
+const cancelMoveToFolderBtn = document.getElementById('cancel-move-to-folder');
 
 // Elementos del DOM — Vínculos familiares
 const addFamilyBondDialog = document.getElementById('add-family-bond-dialog');
