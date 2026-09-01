@@ -220,76 +220,26 @@
                         <div class="book-page" id="page-2">
                             <div class="info-section">
                                 <div class="character-title"><h2>Personalidad</h2></div>
-                                
-                                <!-- 1. Impresión general -->
-                                <div class="personality-main-section">
-                                    <h3 class="personality-section-title">Impresión general</h3>
-                                    
-                                    <!-- Temperamento -->
-                                    <div class="personality-subsection">
-                                        <h4 class="subsection-title">Temperamento</h4>
-                                        <div class="temperament-tags">
-                                            <span id="temperament-1" class="temperament-tag editable" contenteditable="false">—</span>
-                                            <span id="temperament-2" class="temperament-tag editable" contenteditable="false">—</span>
-                                            <span id="temperament-3" class="temperament-tag editable" contenteditable="false">—</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Presencia -->
-                                    <div class="personality-subsection">
-                                        <h4 class="subsection-title">Presencia</h4>
-                                        <p id="presence-text" class="subsection-content editable" contenteditable="false">
-                                           Cómo se siente su presencia. Energía, ritmo y sensación que deja.
-                                        </p>
-                                    </div>
-                                    
-                                    <!-- Primera impresión social -->
-                                    <div class="personality-subsection">
-                                        <h4 class="subsection-title">Primera impresión social</h4>
-                                        <p id="first-impression-text" class="subsection-content editable" contenteditable="false">
-                                           Qué se prejuzga sin conocerlo.
-                                        </p>
-                                    </div>
-                                </div>
 
-
-                                <!-- 2. Núcleo interno -->
-                                <div class="personality-main-section">
-                                    <h3 class="personality-section-title">Núcleo interno</h3>
-                                    
-                                    <div class="core-grid">
-                                        <!-- Necesidad central -->
-                                        <div class="core-item">
-                                            <h4 class="core-label">Necesidad central</h4>
-                                            <p id="primary-need" class="core-text editable" contenteditable="false">Ej.: Sentirse útil</p>
+                                <!-- Núcleo interno -->
+                                <div class="info-section">
+                                    <h3>Núcleo interno</h3>
+                                    <div class="info-grid">
+                                        <div class="info-item">
+                                            <span class="info-label">Necesidad central:</span>
+                                            <span id="primary-need" class="editable" contenteditable="false">Ej.: Sentirse útil</span>
                                         </div>
-                                        
-                                        <!-- Creencia raíz -->
-                                        <div class="core-item">
-                                            <h4 class="core-label">Creencia raíz</h4>
-                                            <p id="root-belief" class="core-text editable" contenteditable="false">Ej.: Si no soy perfecto, no valgo</p>
+                                        <div class="info-item">
+                                            <span class="info-label">Creencia raíz:</span>
+                                            <span id="root-belief" class="editable" contenteditable="false">Ej.: Si no soy perfecto, no valgo</span>
                                         </div>
-                                        
-                                        <!-- Impulso automático -->
-                                        <div class="core-item">
-                                            <h4 class="core-label">Impulso automático</h4>
-                                            <p id="automatic-impulse" class="core-text editable" contenteditable="false">Ej.: Huir y aislarse</p>
+                                        <div class="info-item">
+                                            <span class="info-label">Mayor temor:</span>
+                                            <span id="greatest-fear" class="editable" contenteditable="false">Ej.: Ser abandonado</span>
                                         </div>
-                                        
-                                        <!-- Mayor temor -->
-                                        <div class="core-item">
-                                            <h4 class="core-label">Mayor temor</h4>
-                                            <p id="greatest-fear" class="core-text editable" contenteditable="false">Ej.: Ser abandonado</p>
-                                        </div>
-                                        
-                                        <!-- Conflicto interno -->
-                                        <div class="core-item core-conflict">
-                                            <h4 class="core-label">Conflicto interno</h4>
-                                            <div class="conflict-compact">
-                                                <p id="conflict-force-a" class="conflict-text-compact editable" contenteditable="false">Ej.: Desea cercanía</p>
-                                                <span class="conflict-vs">VS</span>
-                                                <p id="conflict-force-b" class="conflict-text-compact editable" contenteditable="false">Ej.: Teme depender</p>
-                                            </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Prioridades:</span>
+                                            <span id="character-priorities" class="editable" contenteditable="false">Ej.: Familia, libertad, reconocimiento</span>
                                         </div>
                                     </div>
                                 </div>
@@ -409,36 +359,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 5. Capas de personalidad -->
-                                <div class="personality-main-section">
-                                    <h3 class="personality-section-title">Capas de personalidad</h3>
-                                    
-                                    <div class="personality-layers">
-                                        <div class="layer-box layer-public">
-                                            <h4 class="layer-title">Máscara pública</h4>
-                                            <p class="layer-subtitle">Lo que proyecta</p>
-                                            <p id="layer-public-text" class="layer-content editable" contenteditable="false">
-                                                Cómo se presenta al mundo
-                                            </p>
-                                        </div>
-                                        
-                                        <div class="layer-box layer-private">
-                                            <h4 class="layer-title">Con la guardia baja</h4>
-                                            <p class="layer-subtitle">Con gente cercana</p>
-                                            <p id="layer-private-text" class="layer-content editable" contenteditable="false">
-                                                Cómo es con quienes confía
-                                            </p>
-                                        </div>
-                                        
-                                        <div class="layer-box layer-alone">
-                                            <h4 class="layer-title">A solas</h4>
-                                            <p class="layer-subtitle">Consigo mismo</p>
-                                            <p id="layer-alone-text" class="layer-content editable" contenteditable="false">
-                                                Cómo es cuando nadie lo ve
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="page-number">2</div>
                         </div>
@@ -575,28 +495,12 @@
                                             <span id="family-climate" class="info-item editable" contenteditable="false">—</span>
                                         </div>
                                         <div class="family-info-item">
-                                            <span class="info-label">Rol que ocupa:</span>
-                                            <span id="family-role-current" class="info-item editable" contenteditable="false">—</span>
-                                        </div>
-                                        <div class="family-info-item">
-                                            <span class="info-label">Rol que desea ocupar:</span>
-                                            <span id="family-role-desired" class="info-item editable" contenteditable="false">—</span>
-                                        </div>
-                                        <div class="family-info-item">
                                             <span class="info-label">Mayor decepción:</span>
                                             <span id="family-disappointment" class="info-item editable" contenteditable="false">—</span>
                                         </div>
                                         <div class="family-info-item">
                                             <span class="info-label">Mayor orgullo:</span>
                                             <span id="family-pride" class="info-item editable" contenteditable="false">—</span>
-                                        </div>
-                                        <div class="family-info-item full-width">
-                                            <span class="info-label">Tradiciones que mantienen:</span>
-                                            <span id="family-traditions" class="info-item editable" contenteditable="false">—</span>
-                                        </div>
-                                        <div class="family-info-item full-width">
-                                            <span class="info-label">Tabúes familiares:</span>
-                                            <span id="family-taboos" class="info-item editable" contenteditable="false">—</span>
                                         </div>
                                     </div>
                                 </div>
@@ -618,8 +522,180 @@
                             <div class="page-number">4</div>
                         </div>
 
-                        <!-- Página 5: Historia del personaje -->
+                        <!-- Página 5: Habilidades -->
                         <div class="book-page" id="page-5">
+                            <div class="info-section">
+                                <div class="character-title"><h2>Habilidades</h2></div>
+
+                                <!-- Tipo de maná -->
+                                <div class="skills-section">
+                                    <h3>Tipo de Maná</h3>
+                                    <div class="mana-type-row">
+                                        <div class="mana-type-options">
+                                            <label class="checkbox-option">
+                                                <input type="radio" name="mana-type" id="mana-type-nutritivo" class="mana-type-radio" value="nutritivo" disabled>
+                                                Nutritivo
+                                            </label>
+                                            <label class="checkbox-option">
+                                                <input type="radio" name="mana-type" id="mana-type-convencional" class="mana-type-radio" value="convencional" disabled>
+                                                Convencional
+                                            </label>
+                                            <label class="checkbox-option">
+                                                <input type="radio" name="mana-type" id="mana-type-versatil" class="mana-type-radio" value="versatil" disabled>
+                                                Versátil
+                                            </label>
+                                            <label class="checkbox-option">
+                                                <input type="radio" name="mana-type" id="mana-type-corrosivo" class="mana-type-radio" value="corrosivo" disabled>
+                                                Corrosivo
+                                            </label>
+                                            <label class="checkbox-option">
+                                                <input type="radio" name="mana-type" id="mana-type-no-identificado" class="mana-type-radio" value="no_identificado" disabled>
+                                                No identificado
+                                            </label>
+                                        </div>
+                                        <div class="mana-control-field">
+                                            <label for="mana-control-input">Control de maná</label>
+                                            <div class="mana-control-input-wrapper">
+                                                <input type="number" id="mana-control-input" class="mana-control-input" min="0" max="100" value="0" disabled>
+                                                <span class="mana-control-suffix">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tipo de guerrero -->
+                                <div class="skills-section">
+                                    <h3>Tipo de Guerrero</h3>
+                                    <div class="warrior-type-box">
+                                        <div class="warrior-category">
+                                            <label class="checkbox-option warrior-category-toggle">
+                                                <input type="checkbox" id="warrior-melee" class="warrior-category-checkbox" data-category="melee" disabled>
+                                                Cuerpo a cuerpo
+                                            </label>
+                                            <div class="warrior-subtypes" data-category-subtypes="melee">
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="warrior-melee-tanque" class="warrior-subtype-checkbox" data-category="melee" data-subtype="tanque" disabled>
+                                                    Tanque
+                                                </label>
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="warrior-melee-luchador" class="warrior-subtype-checkbox" data-category="melee" data-subtype="luchador" disabled>
+                                                    Luchador
+                                                </label>
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="warrior-melee-asesino" class="warrior-subtype-checkbox" data-category="melee" data-subtype="asesino" disabled>
+                                                    Asesino
+                                                </label>
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="warrior-melee-esgrimista" class="warrior-subtype-checkbox" data-category="melee" data-subtype="esgrimista" disabled>
+                                                    Esgrimista
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="warrior-category">
+                                            <label class="checkbox-option warrior-category-toggle">
+                                                <input type="checkbox" id="warrior-ranged" class="warrior-category-checkbox" data-category="ranged" disabled>
+                                                Combate a distancia
+                                            </label>
+                                            <div class="warrior-subtypes" data-category-subtypes="ranged">
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="warrior-ranged-tirador" class="warrior-subtype-checkbox" data-category="ranged" data-subtype="tirador" disabled>
+                                                    Tirador
+                                                </label>
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="warrior-ranged-mago" class="warrior-subtype-checkbox" data-category="ranged" data-subtype="mago" disabled>
+                                                    Mago
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="warrior-category">
+                                            <label class="checkbox-option warrior-category-toggle">
+                                                <input type="checkbox" id="warrior-support" class="warrior-category-checkbox" data-category="support" disabled>
+                                                Soporte
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Elementos -->
+                                <div class="skills-section">
+                                    <h3>Elementos</h3>
+                                    <div class="elements-grid">
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" id="element-agua" class="element-checkbox" data-element="agua" disabled>
+                                            Agua
+                                        </label>
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" id="element-viento" class="element-checkbox" data-element="viento" disabled>
+                                            Viento
+                                        </label>
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" id="element-fuego" class="element-checkbox" data-element="fuego" disabled>
+                                            Fuego
+                                        </label>
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" id="element-tierra" class="element-checkbox" data-element="tierra" disabled>
+                                            Tierra
+                                        </label>
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" id="element-rayo" class="element-checkbox" data-element="rayo" disabled>
+                                            Rayo
+                                        </label>
+                                    </div>
+
+                                    <h4 class="subelements-title">Subelementos</h4>
+                                    <div class="subelements-grid" id="subelements-grid">
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-hielo" class="subelement-checkbox" data-subelement="hielo" data-requires="agua,viento" disabled>
+                                            Hielo <span class="subelement-req">(Agua + Viento)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-calor" class="subelement-checkbox" data-subelement="calor" data-requires="fuego,viento" disabled>
+                                            Calor <span class="subelement-req">(Fuego + Viento)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-iman" class="subelement-checkbox" data-subelement="iman" data-requires="rayo,viento" disabled>
+                                            Imán <span class="subelement-req">(Rayo + Viento)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-explosion" class="subelement-checkbox" data-subelement="explosion" data-requires="tierra,viento" disabled>
+                                            Explosión <span class="subelement-req">(Tierra + Viento)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-cristal" class="subelement-checkbox" data-subelement="cristal" data-requires="rayo,tierra" disabled>
+                                            Cristal <span class="subelement-req">(Rayo + Tierra)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-lava" class="subelement-checkbox" data-subelement="lava" data-requires="fuego,tierra" disabled>
+                                            Lava <span class="subelement-req">(Fuego + Tierra)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-barro" class="subelement-checkbox" data-subelement="barro" data-requires="agua,tierra" disabled>
+                                            Barro <span class="subelement-req">(Agua + Tierra)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-madera" class="subelement-checkbox" data-subelement="madera" data-requires="agua,tierra" disabled>
+                                            Madera <span class="subelement-req">(Agua + Tierra)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-vapor" class="subelement-checkbox" data-subelement="vapor" data-requires="agua,fuego" disabled>
+                                            Vapor <span class="subelement-req">(Agua + Fuego)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-tormenta" class="subelement-checkbox" data-subelement="tormenta" data-requires="agua,rayo" disabled>
+                                            Tormenta <span class="subelement-req">(Agua + Rayo)</span>
+                                        </label>
+                                        <label class="checkbox-option subelement-option">
+                                            <input type="checkbox" id="subelement-plasma" class="subelement-checkbox" data-subelement="plasma" data-requires="rayo,fuego" disabled>
+                                            Plasma <span class="subelement-req">(Rayo + Fuego)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page-number">5</div>
+                        </div>
+
+                        <!-- Página 6: Historia del personaje -->
+                        <div class="book-page" id="page-6">
                             <div class="info-section">
                                 <div class="character-title">
                                     <h2>Historia</h2>
@@ -628,11 +704,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="page-number">5</div>
+                            <div class="page-number">6</div>
                         </div>
 
-                        <!-- Página 6: Galería de imágenes -->
-                        <div class="book-page" id="page-6">
+                        <!-- Página 7: Galería de imágenes -->
+                        <div class="book-page" id="page-7">
                             <div class="info-section">
                                 <div class="character-title"><h2>Galería</h2></div>
                                 <div id="character-gallery" class="gallery-grid">
@@ -643,13 +719,13 @@
                                 </button>
                                 <input type="file" id="gallery-image-upload" accept="image/*" class="hidden">
                             </div>
-                            <div class="page-number">6</div>
+                            <div class="page-number">7</div>
                         </div>
                     </div>
 
                     <div class="book-navigation">
                         <button id="prev-page" class="nav-button"><i class="fas fa-chevron-left"></i></button>
-                        <span id="page-indicator">Página 1 de 6</span>
+                        <span id="page-indicator">Página 1 de 7</span>
                         <button id="next-page" class="nav-button"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
@@ -853,6 +929,7 @@
     <script src="src/family-bonds.js"></script>
     <script src="src/characters.js"></script>
     <script src="src/folders.js"></script>
+    <script src="src/skills.js"></script>
     <script src="src/main.js"></script>
 </body>
 

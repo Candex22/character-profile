@@ -72,6 +72,16 @@ function setupEventListeners() {
     cancelMoveToFolderBtn.addEventListener('click', hideMoveToFolderDialog);
     moveToFolderForm.addEventListener('submit', moveCharacterToFolder);
 
+    // Habilidades: elementos -> disponibilidad de subelementos
+    document.querySelectorAll('.element-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateSubelementAvailability);
+    });
+
+    // Habilidades: categoría de guerrero -> disponibilidad de subtipos
+    document.querySelectorAll('.warrior-category-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateWarriorSubtypeAvailability);
+    });
+
     // Permitir soltar un personaje sobre el área raíz para sacarlo de su carpeta
     characterCircleContainer.addEventListener('dragover', (e) => {
         if (currentFolderId !== null) e.preventDefault();

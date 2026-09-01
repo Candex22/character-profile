@@ -639,117 +639,6 @@ header h1 {
     border-bottom: 2px solid var(--primary-light);
 }
 
-/* Subsecciones */
-.personality-subsection {
-    margin-bottom: 25px;
-}
-
-.personality-subsection:last-child {
-    margin-bottom: 0;
-}
-
-.subsection-title {
-    color: var(--primary-color);
-    font-size: 1.1rem;
-    margin-bottom: 12px;
-    font-weight: 600;
-}
-
-.subsection-content {
-    background-color: var(--white);
-    padding: 15px;
-    border-radius: 6px;
-    line-height: 1.6;
-    color: var(--text-color);
-    min-height: 80px;
-    border: 1px solid var(--secondary-color);
-}
-
-/* Temperamento - Tags */
-.temperament-tags {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.temperament-tag {
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--secondary-color);
-    color: var(--text-light);
-    border-radius: 25px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.temperament-tag:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.4);
-}
-
-/* ========================================
-   NÚCLEO INTERNO - VERSIÓN SIMPLIFICADA
-   ======================================== */
-
-.core-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.core-item {
-    background-color: var(--white);
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 3px solid var(--primary-color);
-}
-
-.core-conflict {
-    grid-column: 1 / -1;
-}
-
-.core-label {
-    color: var(--primary-color);
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
-}
-
-.core-text {
-    color: var(--text-color);
-    line-height: 1.6;
-    font-size: 1.05rem;
-    min-height: 50px;
-}
-
-.conflict-compact {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    justify-content: space-between;
-}
-
-.conflict-text-compact {
-    flex: 1;
-    background-color: rgba(224, 195, 255, 0.3);
-    padding: 12px;
-    border-radius: 6px;
-    color: var(--text-color);
-    line-height: 1.5;
-    min-height: 50px;
-}
-
-.conflict-vs {
-    font-weight: 900;
-    color: var(--primary-color);
-    font-size: 1.2rem;
-    flex-shrink: 0;
-}
-
 /* ========================================
    ESPECTRO EMOCIONAL
    ======================================== */
@@ -966,65 +855,6 @@ header h1 {
     min-height: 45px;
 }
 
-
-/* ========================================
-   CAPAS DE PERSONALIDAD
-   ======================================== */
-
-.personality-layers {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-
-.layer-box {
-    background-color: var(--white);
-    padding: 20px;
-    border-radius: 8px;
-    border-top: 4px solid;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.layer-box:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(138, 43, 226, 0.25);
-}
-
-.layer-public {
-    border-top-color: #8a2be2;
-}
-
-.layer-private {
-    border-top-color: #b980ff;
-}
-
-.layer-alone {
-    border-top-color: #5e1d9d;
-}
-
-.layer-title {
-    color: var(--primary-dark);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
-.layer-subtitle {
-    color: var(--text-light);
-    font-size: 0.85rem;
-    font-style: italic;
-    margin-bottom: 15px;
-}
-
-.layer-content {
-    color: var(--text-color);
-    line-height: 1.6;
-    padding: 12px;
-    background-color: rgba(224, 195, 255, 0.2);
-    border-radius: 6px;
-    min-height: 80px;
-}
 
 /* ========================================
    ESTILOS SLIDERS DE PERSONALIDAD
@@ -1722,51 +1552,6 @@ header h1 {
         margin-bottom: 15px;
     }
     
-    .subsection-title {
-        font-size: 1rem;
-        margin-bottom: 10px;
-    }
-    
-    .temperament-tag {
-        padding: 8px 16px;
-        font-size: 0.85rem;
-    }
-    
-    .primary-need-text {
-        font-size: 1.1rem;
-    }
-    
-    .belief-text {
-        font-size: 0.95rem;
-        padding: 15px;
-    }
-    
-    .internal-conflict-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 15px;
-    }
-    
-    .conflict-divider {
-        transform: rotate(90deg);
-        font-size: 1.5rem;
-    }
-    
-    /* Responsive: Núcleo interno */
-    .core-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .conflict-compact {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .conflict-vs {
-        transform: rotate(90deg);
-        font-size: 1.5rem;
-    }
-    
     /* Responsive: Espectro emocional */
     .emotion-item {
         padding: 15px;
@@ -1785,23 +1570,6 @@ header h1 {
         font-size: 1.3rem;
     }
     
-    /* Responsive: Capas de personalidad */
-    .personality-layers {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    
-    .layer-box {
-        padding: 15px;
-    }
-    
-    .layer-title {
-        font-size: 1rem;
-    }
-    
-    .layer-subtitle {
-        font-size: 0.8rem;
-    }
 }
 
 /* Adjustments for tablets */
@@ -2297,4 +2065,197 @@ header h1 {
 
 .radar-chart {
     display: block;
+}
+
+/* ========================================
+   HABILIDADES
+   ======================================== */
+
+.skills-section {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+}
+
+.skills-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 8px;
+}
+
+.skills-section h4 {
+    color: var(--primary-color);
+    font-size: 1rem;
+    margin: 20px 0 10px;
+}
+
+/* Opciones tipo checkbox / radio, reutilizado por maná, guerrero y elementos */
+.checkbox-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background-color: var(--white);
+    border-radius: 20px;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: opacity 0.2s, box-shadow 0.2s;
+}
+
+.checkbox-option:has(input:checked) {
+    background-color: var(--secondary-color);
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+    font-weight: 600;
+}
+
+.checkbox-option:has(input:disabled) {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.checkbox-option input {
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.checkbox-option input:disabled {
+    cursor: default;
+}
+
+/* Tipo de maná */
+.mana-type-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.mana-type-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1;
+}
+
+.mana-control-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 140px;
+}
+
+.mana-control-field label {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.mana-control-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--white);
+    border-radius: 6px;
+    padding: 2px 10px;
+}
+
+.mana-control-input {
+    width: 70px;
+    padding: 6px 4px;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.mana-control-input:focus {
+    outline: none;
+}
+
+.mana-control-suffix {
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+/* Tipo de guerrero */
+.warrior-type-box {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.warrior-category {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.warrior-category-toggle {
+    align-self: flex-start;
+    font-size: 1rem;
+}
+
+.warrior-subtypes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-left: 20px;
+    transition: opacity 0.2s;
+}
+
+.warrior-subtypes.unavailable {
+    opacity: 0.5;
+}
+
+/* Elementos y subelementos */
+.elements-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.subelements-title {
+    border-top: 1px solid rgba(224, 195, 255, 0.3);
+    padding-top: 15px;
+}
+
+.subelements-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.subelement-option {
+    transition: opacity 0.2s;
+}
+
+.subelement-option.unavailable {
+    opacity: 0.5;
+}
+
+.subelement-req {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .mana-type-row {
+        flex-direction: column;
+    }
+
+    .mana-control-field {
+        width: 100%;
+    }
+
+    .warrior-subtypes {
+        padding-left: 10px;
+    }
 }

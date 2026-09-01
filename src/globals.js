@@ -2,7 +2,7 @@
 let characters = [];
 let currentCharacterId = null;
 let currentPage = 1;
-const totalPages = 6;
+const totalPages = 7;
 let editMode = false;
 
 // Estado de carpetas
@@ -19,6 +19,7 @@ const page3 = document.getElementById('page-3');
 const page4 = document.getElementById('page-4');
 const page5 = document.getElementById('page-5');
 const page6 = document.getElementById('page-6');
+const page7 = document.getElementById('page-7');
 const pageIndicator = document.getElementById('page-indicator');
 const prevPageBtn = document.getElementById('prev-page');
 const nextPageBtn = document.getElementById('next-page');

@@ -1,7 +1,7 @@
 // ---------- Navegación de páginas ----------
 
 function showPage(pageNumber) {
-    [page1, page2, page3, page4, page5, page6].forEach(page => {
+    [page1, page2, page3, page4, page5, page6, page7].forEach(page => {
         page.classList.remove('active');
     });
 
@@ -85,18 +85,11 @@ function fillCharacterData(character) {
     document.getElementById('character-pronunciation').textContent = character.pronunciation || '—';
     document.getElementById('character-accent').textContent = character.accent || '—';
 
-    // Página 2: Personalidad
-    document.getElementById('temperament-1').textContent = character.temperament_1 || '—';
-    document.getElementById('temperament-2').textContent = character.temperament_2 || '—';
-    document.getElementById('temperament-3').textContent = character.temperament_3 || '—';
-    document.getElementById('presence-text').textContent = character.presence || 'Cómo se siente su presencia. Energía, ritmo y sensación que deja.';
-    document.getElementById('first-impression-text').textContent = character.first_impression || 'Qué se prejuzga sin conocerlo.';
+    // Página 2: Personalidad — Núcleo interno
     document.getElementById('primary-need').textContent = character.primary_need || 'Aquello que necesita para sentirse completo (Ej.: Pertenecer / Control).';
     document.getElementById('root-belief').textContent = character.root_belief || 'Ej.: "Si no soy útil, no valgo." / "El afecto siempre tiene un costo."';
-    document.getElementById('automatic-impulse').textContent = character.automatic_impulse || 'Reacción instintiva ante la amenaza.';
-    document.getElementById('conflict-force-a').textContent = character.conflict_force_a || 'Ej.: Desea cercanía';
-    document.getElementById('conflict-force-b').textContent = character.conflict_force_b || 'Ej.: Teme depender';
     document.getElementById('greatest-fear').textContent = character.greatest_fear || 'Ser abandonado';
+    document.getElementById('character-priorities').textContent = character.priorities || 'Ej.: Familia, libertad, reconocimiento';
 
     // Espectro emocional
     const emotions = ['anger', 'joy', 'fear', 'sadness', 'surprise', 'disgust'];
@@ -110,11 +103,6 @@ function fillCharacterData(character) {
     document.getElementById('trigger-red').textContent = character.trigger_red || 'Que lo subestimen, perder el control';
     document.getElementById('trigger-yellow').textContent = character.trigger_yellow || 'Silencios prolongados, preguntas sobre su pasado';
     document.getElementById('trigger-green').textContent = character.trigger_green || 'Rutinas predecibles, que le pidan consejo';
-
-    // Capas de personalidad
-    document.getElementById('layer-public-text').textContent = character.layer_public || 'Cómo se presenta al mundo';
-    document.getElementById('layer-private-text').textContent = character.layer_private || 'Cómo es con quienes confía';
-    document.getElementById('layer-alone-text').textContent = character.layer_alone || 'Cómo es cuando nadie lo ve';
 
     // Página 3: Rasgos (sliders)
     if (character.personality) {
@@ -131,19 +119,18 @@ function fillCharacterData(character) {
 
     // Página 4: Vínculos familiares
     document.getElementById('family-climate').textContent = character.family_climate || '—';
-    document.getElementById('family-role-current').textContent = character.family_role_current || '—';
-    document.getElementById('family-role-desired').textContent = character.family_role_desired || '—';
     document.getElementById('family-disappointment').textContent = character.family_disappointment || '—';
     document.getElementById('family-pride').textContent = character.family_pride || '—';
-    document.getElementById('family-traditions').textContent = character.family_traditions || '—';
-    document.getElementById('family-taboos').textContent = character.family_taboos || '—';
 
     const familyBonds = character.family_bonds
         ? (typeof character.family_bonds === 'string' ? JSON.parse(character.family_bonds) : character.family_bonds)
         : [];
     renderFamilyBonds(familyBonds);
 
-    // Página 5: Historia y galería
+    // Página 5: Habilidades
+    fillSkills(character);
+
+    // Página 6: Historia y galería
     document.getElementById('character-story').textContent = character.story || 'La historia del personaje aparecerá aquí...';
     renderGallery(character.gallery || []);
 }
@@ -154,18 +141,15 @@ function fillCharacterData(character) {
 const placeholderValues = [
     '—', 'DD/MM/YYYY', '—cm', '—kg',
     'La historia del personaje aparecerá aquí...',
-    'Cómo se siente su presencia. Energía, ritmo y sensación que deja.',
-    'Qué se prejuzga sin conocerlo.',
     'Aquello que necesita para sentirse completo (Ej.: Pertenecer / Control).',
     'Ej.: "Si no soy útil, no valgo." / "El afecto siempre tiene un costo."',
-    'Reacción instintiva ante la amenaza.',
-    'Ej.: Desea cercanía', 'Ej.: Teme depender', 'Ser abandonado',
+    'Ser abandonado',
+    'Ej.: Familia, libertad, reconocimiento',
     'Sarcasmo cortante', 'Sonrisa contenida', 'Hiperactividad, necesidad de control',
     'Silencio, aislamiento', 'Ligera elevación de cejas', 'Mueca sutil',
     'Que lo subestimen, perder el control',
     'Silencios prolongados, preguntas sobre su pasado',
-    'Rutinas predecibles, que le pidan consejo',
-    'Cómo se presenta al mundo', 'Cómo es con quienes confía', 'Cómo es cuando nadie lo ve'
+    'Rutinas predecibles, que le pidan consejo'
 ];
 
 function setupPlaceholderClear(element) {
@@ -225,6 +209,8 @@ function setEditMode(enabled) {
     });
 
     document.querySelectorAll('.personality-slider').forEach(s => { s.disabled = !enabled; });
+
+    setSkillsEditMode(enabled);
 
     const character = characters.find(c => c.id === currentCharacterId);
     if (character) {

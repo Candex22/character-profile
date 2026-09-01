@@ -140,20 +140,11 @@ async function saveCharacter() {
     character.pronunciation   = document.getElementById('character-pronunciation').textContent;
     character.accent          = document.getElementById('character-accent').textContent;
 
-    // Personalidad — Impresión general
-    character.temperament_1    = document.getElementById('temperament-1').textContent;
-    character.temperament_2    = document.getElementById('temperament-2').textContent;
-    character.temperament_3    = document.getElementById('temperament-3').textContent;
-    character.presence         = document.getElementById('presence-text').textContent;
-    character.first_impression = document.getElementById('first-impression-text').textContent;
-
     // Núcleo interno
-    character.primary_need      = document.getElementById('primary-need').textContent;
-    character.root_belief       = document.getElementById('root-belief').textContent;
-    character.automatic_impulse = document.getElementById('automatic-impulse').textContent;
-    character.conflict_force_a  = document.getElementById('conflict-force-a').textContent;
-    character.conflict_force_b  = document.getElementById('conflict-force-b').textContent;
-    character.greatest_fear     = document.getElementById('greatest-fear').textContent;
+    character.primary_need  = document.getElementById('primary-need').textContent;
+    character.root_belief   = document.getElementById('root-belief').textContent;
+    character.greatest_fear = document.getElementById('greatest-fear').textContent;
+    character.priorities    = document.getElementById('character-priorities').textContent;
 
     // Espectro emocional
     const emotions = ['anger', 'joy', 'fear', 'sadness', 'surprise', 'disgust'];
@@ -167,11 +158,6 @@ async function saveCharacter() {
     character.trigger_yellow = document.getElementById('trigger-yellow').textContent;
     character.trigger_green  = document.getElementById('trigger-green').textContent;
 
-    // Capas de personalidad
-    character.layer_public  = document.getElementById('layer-public-text').textContent;
-    character.layer_private = document.getElementById('layer-private-text').textContent;
-    character.layer_alone   = document.getElementById('layer-alone-text').textContent;
-
     // Página 3: Rasgos (sliders)
     const personality = {};
     document.querySelectorAll('.personality-slider').forEach(slider => {
@@ -180,13 +166,9 @@ async function saveCharacter() {
     character.personality = personality;
 
     // Página 4: Vínculos familiares — datos generales
-    character.family_climate       = document.getElementById('family-climate').textContent;
-    character.family_role_current  = document.getElementById('family-role-current').textContent;
-    character.family_role_desired  = document.getElementById('family-role-desired').textContent;
+    character.family_climate        = document.getElementById('family-climate').textContent;
     character.family_disappointment = document.getElementById('family-disappointment').textContent;
-    character.family_pride         = document.getElementById('family-pride').textContent;
-    character.family_traditions    = document.getElementById('family-traditions').textContent;
-    character.family_taboos        = document.getElementById('family-taboos').textContent;
+    character.family_pride          = document.getElementById('family-pride').textContent;
 
     // Notas y métricas de cada vínculo familiar
     if (character.family_bonds) {
@@ -206,7 +188,10 @@ async function saveCharacter() {
         character.family_bonds = familyBonds;
     }
 
-    // Página 5: Historia
+    // Página 5: Habilidades
+    collectSkillsData(character);
+
+    // Página 6: Historia
     character.story = document.getElementById('character-story').textContent;
 
     try {
