@@ -2,7 +2,7 @@
 let characters = [];
 let currentCharacterId = null;
 let currentPage = 1;
-const totalPages = 7;
+const totalPages = 8;
 let editMode = false;
 
 // Estado de carpetas
@@ -20,6 +20,7 @@ const page4 = document.getElementById('page-4');
 const page5 = document.getElementById('page-5');
 const page6 = document.getElementById('page-6');
 const page7 = document.getElementById('page-7');
+const page8 = document.getElementById('page-8');
 const pageIndicator = document.getElementById('page-indicator');
 const prevPageBtn = document.getElementById('prev-page');
 const nextPageBtn = document.getElementById('next-page');
@@ -68,3 +69,11 @@ const cancelMoveToFolderBtn = document.getElementById('cancel-move-to-folder');
 const addFamilyBondDialog = document.getElementById('add-family-bond-dialog');
 const newFamilyBondForm = document.getElementById('new-family-bond-form');
 const cancelAddBondBtn = document.getElementById('cancel-add-bond');
+
+// Elementos del DOM — Habilidades únicas
+const addUniqueSkillBtn = document.getElementById('add-unique-skill-btn');
+const addUniqueSkillDialog = document.getElementById('add-unique-skill-dialog');
+const newUniqueSkillForm = document.getElementById('new-unique-skill-form');
+const cancelAddUniqueSkillBtn = document.getElementById('cancel-add-unique-skill');
+const uniqueSkillImageInput = document.getElementById('unique-skill-image');
+const uniqueSkillImagePreview = document.getElementById('unique-skill-image-preview');

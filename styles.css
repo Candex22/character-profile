@@ -2071,43 +2071,25 @@ header h1 {
    HABILIDADES
    ======================================== */
 
-.skills-section {
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    margin-bottom: 25px;
+.skill-display {
+    color: var(--text-color);
 }
 
-.skills-section h3 {
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-    border-bottom: 2px solid var(--primary-light);
-    padding-bottom: 8px;
-}
-
-.skills-section h4 {
-    color: var(--primary-color);
-    font-size: 1rem;
-    margin: 20px 0 10px;
-}
-
-/* Opciones tipo checkbox / radio, reutilizado por maná, guerrero y elementos */
+/* Opciones tipo checkbox, reutilizado por guerrero y elementos en modo edición */
 .checkbox-option {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 14px;
+    padding: 6px 12px;
     background-color: var(--white);
-    border-radius: 20px;
-    font-size: 0.95rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
     color: var(--text-color);
     cursor: pointer;
     transition: opacity 0.2s, box-shadow 0.2s;
 }
 
 .checkbox-option:has(input:checked) {
-    background-color: var(--secondary-color);
     box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
     font-weight: 600;
 }
@@ -2126,56 +2108,45 @@ header h1 {
     cursor: default;
 }
 
-/* Tipo de maná */
-.mana-type-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.mana-type-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    flex: 1;
-}
-
-.mana-control-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 140px;
-}
-
-.mana-control-field label {
-    color: var(--primary-color);
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.mana-control-input-wrapper {
-    display: flex;
+/* Tipo de maná — desplegable en modo edición */
+.skill-select {
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background-color: var(--white);
-    border-radius: 6px;
-    padding: 2px 10px;
 }
 
-.mana-control-input {
-    width: 70px;
-    padding: 6px 4px;
+select.skill-select {
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px dashed var(--primary-color);
+    background-color: rgba(224, 195, 255, 0.3);
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+select.skill-select:focus {
+    outline: none;
+}
+
+.mana-control-edit-wrapper {
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px dashed var(--primary-color);
+    background-color: rgba(224, 195, 255, 0.3);
+}
+
+.skill-number-input {
+    width: 55px;
+    padding: 0;
     border: none;
     background: transparent;
     color: var(--text-color);
     text-align: center;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
-.mana-control-input:focus {
+.skill-number-input:focus {
     outline: none;
 }
 
@@ -2184,29 +2155,53 @@ header h1 {
     font-weight: 600;
 }
 
-/* Tipo de guerrero */
+/* Tipo de guerrero, Elementos, Subelementos — rectángulos por cada uno seleccionado (vista) */
+.tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.skill-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: var(--white);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.empty-tag {
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Tipo de guerrero — checkboxes en modo edición */
 .warrior-type-box {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 14px;
+    margin-top: 4px;
 }
 
 .warrior-category {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .warrior-category-toggle {
     align-self: flex-start;
-    font-size: 1rem;
 }
 
 .warrior-subtypes {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    padding-left: 20px;
+    gap: 8px;
+    padding-left: 18px;
     transition: opacity 0.2s;
 }
 
@@ -2214,22 +2209,13 @@ header h1 {
     opacity: 0.5;
 }
 
-/* Elementos y subelementos */
-.elements-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.subelements-title {
-    border-top: 1px solid rgba(224, 195, 255, 0.3);
-    padding-top: 15px;
-}
-
+/* Elementos y subelementos — checkboxes en modo edición */
+.elements-grid,
 .subelements-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 4px;
 }
 
 .subelement-option {
@@ -2241,21 +2227,103 @@ header h1 {
 }
 
 .subelement-req {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--text-light);
     font-weight: 400;
 }
 
 @media (max-width: 768px) {
-    .mana-type-row {
+    .warrior-subtypes {
+        padding-left: 10px;
+    }
+}
+
+/* ========================================
+   HABILIDADES ÚNICAS
+   ======================================== */
+
+.empty-placeholder {
+    color: var(--text-light);
+    font-style: italic;
+    padding: 15px 0;
+}
+
+.unique-skills-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.unique-skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.unique-skill-card {
+    display: flex;
+    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    position: relative;
+}
+
+.unique-skill-image-wrapper {
+    flex-shrink: 0;
+    width: 110px;
+    height: 110px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--white);
+}
+
+.unique-skill-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.unique-skill-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.unique-skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.unique-skill-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-dark);
+}
+
+.unique-skill-type {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.unique-skill-description {
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .unique-skill-card {
         flex-direction: column;
     }
 
-    .mana-control-field {
+    .unique-skill-image-wrapper {
         width: 100%;
-    }
-
-    .warrior-subtypes {
-        padding-left: 10px;
+        height: 160px;
     }
 }

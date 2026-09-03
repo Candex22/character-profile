@@ -59,6 +59,14 @@ function setupEventListeners() {
     cancelAddBondBtn.addEventListener('click', hideAddFamilyBondDialog);
     newFamilyBondForm.addEventListener('submit', addNewFamilyBond);
 
+    // Habilidades únicas
+    if (addUniqueSkillBtn) addUniqueSkillBtn.addEventListener('click', showAddUniqueSkillDialog);
+    cancelAddUniqueSkillBtn.addEventListener('click', hideAddUniqueSkillDialog);
+    newUniqueSkillForm.addEventListener('submit', addNewUniqueSkill);
+    uniqueSkillImageInput.addEventListener('change', (e) => {
+        previewImage(e.target, uniqueSkillImagePreview);
+    });
+
     // Sliders de personalidad
     document.querySelectorAll('.personality-slider').forEach(slider => {
         slider.addEventListener('input', function () { /* feedback visual si se necesita */ });

@@ -188,10 +188,24 @@ async function saveCharacter() {
         character.family_bonds = familyBonds;
     }
 
+    // Descripciones de habilidades únicas
+    if (character.unique_skills) {
+        const uniqueSkills = typeof character.unique_skills === 'string'
+            ? JSON.parse(character.unique_skills)
+            : character.unique_skills;
+
+        uniqueSkills.forEach(skill => {
+            const descriptionEl = document.querySelector(`.unique-skill-description[data-skill-id="${skill.id}"]`);
+            if (descriptionEl) skill.description = descriptionEl.textContent;
+        });
+
+        character.unique_skills = uniqueSkills;
+    }
+
     // Página 5: Habilidades
     collectSkillsData(character);
 
-    // Página 6: Historia
+    // Página 7: Historia
     character.story = document.getElementById('character-story').textContent;
 
     try {

@@ -1,7 +1,7 @@
 // ---------- Navegación de páginas ----------
 
 function showPage(pageNumber) {
-    [page1, page2, page3, page4, page5, page6, page7].forEach(page => {
+    [page1, page2, page3, page4, page5, page6, page7, page8].forEach(page => {
         page.classList.remove('active');
     });
 
@@ -130,7 +130,13 @@ function fillCharacterData(character) {
     // Página 5: Habilidades
     fillSkills(character);
 
-    // Página 6: Historia y galería
+    // Página 6: Habilidades Únicas
+    const uniqueSkills = character.unique_skills
+        ? (typeof character.unique_skills === 'string' ? JSON.parse(character.unique_skills) : character.unique_skills)
+        : [];
+    renderUniqueSkills(uniqueSkills);
+
+    // Página 7: Historia y galería
     document.getElementById('character-story').textContent = character.story || 'La historia del personaje aparecerá aquí...';
     renderGallery(character.gallery || []);
 }
@@ -198,6 +204,8 @@ function setEditMode(enabled) {
     const addFamilyBondBtn = document.getElementById('add-family-bond-btn');
     if (addFamilyBondBtn) addFamilyBondBtn.classList.toggle('hidden', !enabled);
 
+    if (addUniqueSkillBtn) addUniqueSkillBtn.classList.toggle('hidden', !enabled);
+
     document.querySelectorAll('.editable').forEach(el => {
         el.contentEditable = enabled;
         if (enabled) {
@@ -219,5 +227,10 @@ function setEditMode(enabled) {
             ? (typeof character.family_bonds === 'string' ? JSON.parse(character.family_bonds) : character.family_bonds)
             : [];
         renderFamilyBonds(bonds);
+
+        const uniqueSkills = character.unique_skills
+            ? (typeof character.unique_skills === 'string' ? JSON.parse(character.unique_skills) : character.unique_skills)
+            : [];
+        renderUniqueSkills(uniqueSkills);
     }
 }
