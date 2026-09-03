@@ -17,6 +17,7 @@ function initSupabase() {
         window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         console.log('Cliente de Supabase inicializado correctamente');
+        document.dispatchEvent(new Event('supabaseReady'));
         return true;
     } catch (error) {
         console.error('Error al inicializar Supabase:', error);

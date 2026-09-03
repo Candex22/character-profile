@@ -31,6 +31,7 @@ async function initAuth() {
 
     if (session) {
         await setAuthenticatedUser(session.user);
+        hideLoginDialog();
     } else {
         showLoginDialog();
     }
@@ -405,6 +406,3 @@ function loadMyLibrary() {
         showNotification('Cargando tu biblioteca');
     }
 }
-
-// Iniciar autenticación cuando DOM esté listo
-document.addEventListener('DOMContentLoaded', initAuth);
