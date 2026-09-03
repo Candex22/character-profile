@@ -2265,12 +2265,17 @@ select.skill-select:focus {
 
 .unique-skill-card {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--primary-light);
     border-radius: var(--border-radius);
     padding: 20px;
     position: relative;
+}
+
+.unique-skill-main {
+    display: flex;
+    gap: 20px;
 }
 
 .unique-skill-image-wrapper {
@@ -2317,8 +2322,60 @@ select.skill-select:focus {
     color: var(--text-color);
 }
 
+.unique-skill-card.has-children {
+    cursor: pointer;
+}
+
+.unique-skill-title-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.unique-skill-toggle-icon {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    transition: transform 0.2s;
+}
+
+.unique-skill-card.expanded > .unique-skill-main .unique-skill-toggle-icon {
+    transform: rotate(90deg);
+}
+
+.unique-skill-child-count {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.unique-skill-children {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+    padding-left: 20px;
+    border-left: 3px solid var(--primary-light);
+}
+
+.unique-skill-card.expanded > .unique-skill-children {
+    display: flex;
+}
+
+.unique-skill-children .unique-skill-card {
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 15px;
+}
+
+.unique-skill-children .unique-skill-image-wrapper {
+    width: 80px;
+    height: 80px;
+}
+
 @media (max-width: 768px) {
-    .unique-skill-card {
+    .unique-skill-main {
         flex-direction: column;
     }
 
