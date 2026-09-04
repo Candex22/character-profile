@@ -1,12 +1,67 @@
 // ---------- Diálogo ----------
 
-function showAddFamilyBondDialog() {
+let allLinkableCharacters = [];
+
+async function populateBondLinkedCharacterOptions() {
+    const select = document.getElementById('bond-linked-character');
+    select.innerHTML = '<option value="">Ninguno (solo texto)</option>';
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('characters')
+            .select('id, name, user_id')
+            .neq('id', currentCharacterId);
+
+        if (error) throw error;
+
+        allLinkableCharacters = data || [];
+    } catch (error) {
+        console.error('Error al cargar personajes para vincular:', error);
+        allLinkableCharacters = [];
+    }
+
+    // Orden alfabético (insensible a mayúsculas/acentos)
+    const sorted = [...allLinkableCharacters].sort((a, b) =>
+        a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+    );
+
+    sorted.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c.id;
+        option.textContent = c.name;
+        select.appendChild(option);
+    });
+}
+
+function handleBondLinkedCharacterChange(e) {
+    const characterId = e.target.value;
+    const reverseGroup = document.getElementById('bond-reverse-relationship-group');
+
+    if (!characterId) {
+        reverseGroup.classList.add('hidden');
+        document.getElementById('bond-reverse-relationship').value = '';
+        return;
+    }
+
+    const linkedCharacter = allLinkableCharacters.find(c => c.id === characterId);
+    if (linkedCharacter) {
+        document.getElementById('bond-name').value = linkedCharacter.name;
+    }
+
+    reverseGroup.classList.remove('hidden');
+}
+
+async function showAddFamilyBondDialog() {
     addFamilyBondDialog.classList.remove('hidden');
     document.getElementById('bond-name').value = '';
     document.getElementById('bond-relationship').value = '';
     ['bond-affinity', 'bond-trust', 'bond-admiration', 'bond-influence', 'bond-dependence']
         .forEach(id => { document.getElementById(id).value = 5; });
     document.getElementById('bond-notes').value = '';
+    document.getElementById('bond-linked-character').value = '';
+    document.getElementById('bond-reverse-relationship').value = '';
+    document.getElementById('bond-reverse-relationship-group').classList.add('hidden');
+    await populateBondLinkedCharacterOptions();
 }
 
 function hideAddFamilyBondDialog() {
@@ -23,14 +78,16 @@ async function addNewFamilyBond(e) {
         return;
     }
 
-    const name         = document.getElementById('bond-name').value.trim();
-    const relationship = document.getElementById('bond-relationship').value.trim();
-    const affinity     = parseInt(document.getElementById('bond-affinity').value);
-    const trust        = parseInt(document.getElementById('bond-trust').value);
-    const admiration   = parseInt(document.getElementById('bond-admiration').value);
-    const influence    = parseInt(document.getElementById('bond-influence').value);
-    const dependence   = parseInt(document.getElementById('bond-dependence').value);
-    const notes        = document.getElementById('bond-notes').value.trim();
+    const name              = document.getElementById('bond-name').value.trim();
+    const relationship      = document.getElementById('bond-relationship').value.trim();
+    const linkedCharacterId = document.getElementById('bond-linked-character').value || null;
+    const reverseRelationship = document.getElementById('bond-reverse-relationship').value.trim();
+    const affinity          = parseInt(document.getElementById('bond-affinity').value);
+    const trust             = parseInt(document.getElementById('bond-trust').value);
+    const admiration        = parseInt(document.getElementById('bond-admiration').value);
+    const influence         = parseInt(document.getElementById('bond-influence').value);
+    const dependence        = parseInt(document.getElementById('bond-dependence').value);
+    const notes             = document.getElementById('bond-notes').value.trim();
 
     if (!name || !relationship) {
         showNotification('Por favor, completa el nombre y vínculo', 'error');
@@ -44,6 +101,7 @@ async function addNewFamilyBond(e) {
     const newBond = {
         id: Date.now().toString(),
         name, relationship,
+        linkedCharacterId,
         metrics: { affinity, trust, admiration, influence, dependence },
         notes
     };
@@ -62,10 +120,79 @@ async function addNewFamilyBond(e) {
         renderFamilyBonds(character.family_bonds);
         hideAddFamilyBondDialog();
         showNotification('Vínculo familiar añadido');
+
+        if (linkedCharacterId) {
+            await addReciprocalFamilyBond(linkedCharacterId, character, reverseRelationship || relationship);
+        }
     } catch (error) {
         character.family_bonds.pop();
         showNotification(`Error: ${error.message}`, 'error');
     }
+}
+
+// ---------- Reflejar el vínculo en el personaje vinculado ----------
+
+async function addReciprocalFamilyBond(targetCharacterId, sourceCharacter, reverseRelationship) {
+    const reciprocalBond = {
+        id: `${Date.now()}-r`,
+        name: sourceCharacter.name,
+        relationship: reverseRelationship,
+        linkedCharacterId: sourceCharacter.id,
+        metrics: { affinity: 5, trust: 5, admiration: 5, influence: 5, dependence: 5 },
+        notes: ''
+    };
+
+    try {
+        const { error } = await supabaseClient.rpc('add_reciprocal_family_bond', {
+            target_character_id: targetCharacterId,
+            new_bond: reciprocalBond
+        });
+
+        if (error) throw error;
+
+        // Si el personaje vinculado ya está cargado localmente (misma biblioteca), lo reflejamos al toque
+        const targetCharacter = characters.find(c => c.id === targetCharacterId);
+        if (targetCharacter) {
+            if (!targetCharacter.family_bonds) targetCharacter.family_bonds = [];
+            targetCharacter.family_bonds.push(reciprocalBond);
+        }
+
+        showNotification('Vínculo reflejado en el otro personaje');
+    } catch (error) {
+        console.error('Error al reflejar el vínculo en el otro personaje:', error);
+        showNotification(
+            'El vínculo se guardó, pero no se pudo reflejar automáticamente en el otro personaje. ' +
+            'Puede que falte crear la función add_reciprocal_family_bond en Supabase.',
+            'error'
+        );
+    }
+}
+
+// ---------- Abrir un personaje vinculado (propio o de otro usuario) ----------
+
+async function openLinkedCharacter(characterId) {
+    let character = characters.find(c => c.id === characterId);
+
+    if (!character) {
+        try {
+            const { data, error } = await supabaseClient
+                .from('characters')
+                .select('*')
+                .eq('id', characterId)
+                .single();
+
+            if (error) throw error;
+            if (!data) throw new Error('No existe');
+
+            character = data;
+            characters.push(character);
+        } catch (error) {
+            showNotification('El personaje vinculado ya no existe o no se pudo cargar', 'error');
+            return;
+        }
+    }
+
+    openBook(characterId);
 }
 
 // ---------- Eliminar vínculo ----------
@@ -128,7 +255,24 @@ function renderFamilyBonds(bonds) {
         const bondInfo = document.createElement('div');
         const bondTitle = document.createElement('div');
         bondTitle.className = 'bond-title';
-        bondTitle.textContent = bond.name;
+
+        if (bond.linkedCharacterId) {
+            const link = document.createElement('a');
+            link.href = '#';
+            link.className = 'bond-title-link';
+            link.innerHTML = `<i class="fas fa-link"></i> ${bond.name}`;
+            link.title = 'Ver la ficha vinculada';
+            link.addEventListener('click', async (ev) => {
+                ev.preventDefault();
+                if (editMode && !confirm('Tenés cambios sin guardar en este personaje. ¿Ir de todas formas a la ficha vinculada?')) {
+                    return;
+                }
+                await openLinkedCharacter(bond.linkedCharacterId);
+            });
+            bondTitle.appendChild(link);
+        } else {
+            bondTitle.textContent = bond.name;
+        }
 
         const bondRelationship = document.createElement('div');
         bondRelationship.className = 'bond-relationship';

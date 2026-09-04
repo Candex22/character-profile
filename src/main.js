@@ -58,6 +58,7 @@ function setupEventListeners() {
     if (addFamilyBondBtn) addFamilyBondBtn.addEventListener('click', showAddFamilyBondDialog);
     cancelAddBondBtn.addEventListener('click', hideAddFamilyBondDialog);
     newFamilyBondForm.addEventListener('submit', addNewFamilyBond);
+    document.getElementById('bond-linked-character').addEventListener('change', handleBondLinkedCharacterChange);
 
     // Habilidades únicas
     if (addUniqueSkillBtn) addUniqueSkillBtn.addEventListener('click', showAddUniqueSkillDialog);

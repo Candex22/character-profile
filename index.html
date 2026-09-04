@@ -942,8 +942,18 @@
                     <input type="text" id="bond-name" required>
                 </div>
                 <div class="form-group">
+                    <label for="bond-linked-character">Vincular con un personaje existente (opcional):</label>
+                    <select id="bond-linked-character">
+                        <option value="">Ninguno (solo texto)</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="bond-relationship">Vínculo:</label>
                     <input type="text" id="bond-relationship" placeholder="Ej: Madre, Hermano, Tío..." required>
+                </div>
+                <div class="form-group hidden" id="bond-reverse-relationship-group">
+                    <label for="bond-reverse-relationship">Cómo te ve el otro personaje (opcional):</label>
+                    <input type="text" id="bond-reverse-relationship" placeholder="Ej: Hijo, Hermana, Sobrino...">
                 </div>
                 <div class="form-group">
                     <label>Métricas de relación (0-10):</label>

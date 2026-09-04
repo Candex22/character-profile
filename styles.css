@@ -1902,6 +1902,23 @@ header h1 {
     color: var(--primary-dark);
 }
 
+.bond-title-link {
+    color: var(--primary-dark);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.bond-title-link:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.bond-title-link i {
+    font-size: 0.85rem;
+    margin-right: 2px;
+}
+
 .bond-relationship {
     font-size: 0.9rem;
     color: var(--text-light);
