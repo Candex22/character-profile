@@ -150,7 +150,9 @@ function renderFolders() {
 function renderCharacterCircles() {
     characterCircleContainer.innerHTML = '';
 
-    const visibleCharacters = characters.filter(c => (c.folder_id || null) === currentFolderId);
+    const visibleCharacters = characters
+        .filter(c => (c.folder_id || null) === currentFolderId)
+        .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
     const isOwnLibrary = currentUser && viewingUserId === currentUser.id;
 
     if (visibleCharacters.length === 0) {
@@ -192,6 +194,25 @@ function renderCharacterCircles() {
             });
             circle.addEventListener('dragend', () => circle.classList.remove('dragging'));
 
+            // Soltar un personaje sobre otro reordena ambos en el mismo lugar (misma carpeta o raíz)
+            circle.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                circle.classList.add('drop-target');
+            });
+            circle.addEventListener('dragleave', () => {
+                circle.classList.remove('drop-target');
+            });
+            circle.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                circle.classList.remove('drop-target');
+                const draggedId = e.dataTransfer.getData('text/character-id');
+                if (draggedId && draggedId !== character.id) {
+                    reorderCharacters(draggedId, character.id);
+                }
+            });
+
             const moveBtn = document.createElement('button');
             moveBtn.className = 'circle-move-btn';
             moveBtn.title = 'Mover a carpeta';
@@ -205,4 +226,48 @@ function renderCharacterCircles() {
 
         characterCircleContainer.appendChild(circle);
     });
+}
+
+// ---------- Reordenar personajes (arrastrar y soltar sobre otro) ----------
+
+async function reorderCharacters(draggedId, targetId) {
+    if (!currentUser || viewingUserId !== currentUser.id) return;
+
+    const draggedCharacter = characters.find(c => c.id === draggedId);
+    const targetCharacter = characters.find(c => c.id === targetId);
+    if (!draggedCharacter || !targetCharacter) return;
+
+    // Solo reordena si ambos están en el mismo lugar (misma carpeta, o ambos en la raíz)
+    const folderId = targetCharacter.folder_id || null;
+    if ((draggedCharacter.folder_id || null) !== folderId) return;
+
+    const scoped = characters
+        .filter(c => (c.folder_id || null) === folderId)
+        .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
+
+    const fromIndex = scoped.findIndex(c => c.id === draggedId);
+    const toIndex = scoped.findIndex(c => c.id === targetId);
+    if (fromIndex === -1 || toIndex === -1) return;
+
+    scoped.splice(toIndex, 0, scoped.splice(fromIndex, 1)[0]);
+    scoped.forEach((c, index) => { c.order_index = index; });
+
+    renderCharacterCircles();
+
+    try {
+        const results = await Promise.all(
+            scoped.map(c =>
+                supabaseClient
+                    .from('characters')
+                    .update({ order_index: c.order_index })
+                    .eq('id', c.id)
+                    .eq('user_id', currentUser.id)
+            )
+        );
+
+        const failed = results.find(r => r.error);
+        if (failed) throw failed.error;
+    } catch (error) {
+        showNotification(`Error al guardar el orden: ${error.message}`, 'error');
+    }
 }

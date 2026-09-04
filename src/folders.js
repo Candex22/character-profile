@@ -267,17 +267,24 @@ async function moveCharacterToFolder(e) {
 async function assignCharacterToFolderDirect(characterId, folderId, notify = true) {
     if (!currentUser || viewingUserId !== currentUser.id) return;
 
+    const destinationOrderIndex = characters.filter(c =>
+        c.id !== characterId && (c.folder_id || null) === (folderId || null)
+    ).length;
+
     try {
         const { error } = await supabaseClient
             .from('characters')
-            .update({ folder_id: folderId })
+            .update({ folder_id: folderId, order_index: destinationOrderIndex })
             .eq('id', characterId)
             .eq('user_id', currentUser.id);
 
         if (error) throw error;
 
         const character = characters.find(c => c.id === characterId);
-        if (character) character.folder_id = folderId;
+        if (character) {
+            character.folder_id = folderId;
+            character.order_index = destinationOrderIndex;
+        }
 
         renderFolders();
         renderCharacterCircles();

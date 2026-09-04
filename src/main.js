@@ -96,7 +96,7 @@ function setupEventListeners() {
         if (currentFolderId !== null) e.preventDefault();
     });
     characterCircleContainer.addEventListener('drop', (e) => {
-        if (currentFolderId !== null) return;
+        if (currentFolderId === null) return;
         e.preventDefault();
         const characterId = e.dataTransfer.getData('text/character-id');
         if (characterId) assignCharacterToFolderDirect(characterId, null);

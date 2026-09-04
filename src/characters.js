@@ -54,13 +54,16 @@ async function addNewCharacter(e) {
             if (slider) defaultPersonality[slider.getAttribute('data-trait')] = 50;
         }
 
+        const nextOrderIndex = characters.filter(c => (c.folder_id || null) === (currentFolderId || null)).length;
+
         const newCharacter = {
             user_id: currentUser.id,
             name,
             image: newCharacterImagePreview.src === '/api/placeholder/150/150' ? null : newCharacterImagePreview.src,
             personality: JSON.stringify(defaultPersonality),
             gallery: JSON.stringify([]),
-            folder_id: currentFolderId
+            folder_id: currentFolderId,
+            order_index: nextOrderIndex
         };
 
         console.log("Intentando crear personaje:", newCharacter);
@@ -82,7 +85,8 @@ async function addNewCharacter(e) {
             image: newCharacterImagePreview.src !== '/api/placeholder/150/150' ? newCharacterImagePreview.src : null,
             personality: defaultPersonality,
             gallery: [],
-            folder_id: currentFolderId
+            folder_id: currentFolderId,
+            order_index: nextOrderIndex
         };
 
         characters.push(characterForUI);

@@ -320,6 +320,11 @@ header h1 {
     opacity: 0.4;
 }
 
+.character-circle.drop-target .circle-image {
+    box-shadow: 0 0 0 4px var(--primary-color), 0 6px 14px rgba(138, 43, 226, 0.4);
+    transform: scale(1.08);
+}
+
 .circle-image {
     width: 150px;
     height: 150px;
