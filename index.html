@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
 </head>
 
 <body>
@@ -219,7 +221,9 @@
                         <!-- Página 2: Personalidad (Nueva estructura) -->
                         <div class="book-page" id="page-2">
                             <div class="info-section">
-                                <div class="character-title"><h2>Personalidad</h2></div>
+                                <div class="character-title">
+                                    <h2>Personalidad</h2>
+                                </div>
 
                                 <!-- Núcleo interno -->
                                 <div class="info-section">
@@ -227,26 +231,30 @@
                                     <div class="info-grid">
                                         <div class="info-item">
                                             <span class="info-label">Necesidad central:</span>
-                                            <span id="primary-need" class="editable" contenteditable="false">Ej.: Sentirse útil</span>
+                                            <span id="primary-need" class="editable" contenteditable="false">Ej.:
+                                                Sentirse útil</span>
                                         </div>
                                         <div class="info-item">
                                             <span class="info-label">Creencia raíz:</span>
-                                            <span id="root-belief" class="editable" contenteditable="false">Ej.: Si no soy perfecto, no valgo</span>
+                                            <span id="root-belief" class="editable" contenteditable="false">Ej.: Si no
+                                                soy perfecto, no valgo</span>
                                         </div>
                                         <div class="info-item">
                                             <span class="info-label">Mayor temor:</span>
-                                            <span id="greatest-fear" class="editable" contenteditable="false">Ej.: Ser abandonado</span>
+                                            <span id="greatest-fear" class="editable" contenteditable="false">Ej.: Ser
+                                                abandonado</span>
                                         </div>
                                         <div class="info-item">
                                             <span class="info-label">Prioridades:</span>
-                                            <span id="character-priorities" class="editable" contenteditable="false">Ej.: Familia, libertad, reconocimiento</span>
+                                            <span id="character-priorities" class="editable"
+                                                contenteditable="false">Ej.: Familia, libertad, reconocimiento</span>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- 3. Espectro de reacciones emocionales -->
                                 <div class="personality-main-section">
                                     <h3 class="personality-section-title">Espectro emocional</h3>
-                                    
+
                                     <div class="emotion-spectrum">
                                         <!-- Enojo -->
                                         <div class="emotion-item">
@@ -254,10 +262,12 @@
                                                 <span class="emotion-label">Enojo</span>
                                                 <span class="emotion-value" id="anger-value">5/10</span>
                                             </div>
-                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-anger" data-emotion="anger">
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider"
+                                                id="emotion-anger" data-emotion="anger">
                                             <div class="emotion-expression">
                                                 <span class="expression-label">¿Cómo lo expresa?</span>
-                                                <p id="anger-expression" class="expression-text editable" contenteditable="false">Sarcasmo cortante</p>
+                                                <p id="anger-expression" class="expression-text editable"
+                                                    contenteditable="false">Sarcasmo cortante</p>
                                             </div>
                                         </div>
 
@@ -267,10 +277,12 @@
                                                 <span class="emotion-label">Alegría</span>
                                                 <span class="emotion-value" id="joy-value">5/10</span>
                                             </div>
-                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-joy" data-emotion="joy">
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider"
+                                                id="emotion-joy" data-emotion="joy">
                                             <div class="emotion-expression">
                                                 <span class="expression-label">¿Cómo lo expresa?</span>
-                                                <p id="joy-expression" class="expression-text editable" contenteditable="false">Sonrisa contenida</p>
+                                                <p id="joy-expression" class="expression-text editable"
+                                                    contenteditable="false">Sonrisa contenida</p>
                                             </div>
                                         </div>
 
@@ -280,10 +292,12 @@
                                                 <span class="emotion-label">Miedo</span>
                                                 <span class="emotion-value" id="fear-value">5/10</span>
                                             </div>
-                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-fear" data-emotion="fear">
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider"
+                                                id="emotion-fear" data-emotion="fear">
                                             <div class="emotion-expression">
                                                 <span class="expression-label">¿Cómo lo expresa?</span>
-                                                <p id="fear-expression" class="expression-text editable" contenteditable="false">Hiperactividad, necesidad de control</p>
+                                                <p id="fear-expression" class="expression-text editable"
+                                                    contenteditable="false">Hiperactividad, necesidad de control</p>
                                             </div>
                                         </div>
 
@@ -293,10 +307,12 @@
                                                 <span class="emotion-label">Tristeza</span>
                                                 <span class="emotion-value" id="sadness-value">5/10</span>
                                             </div>
-                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-sadness" data-emotion="sadness">
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider"
+                                                id="emotion-sadness" data-emotion="sadness">
                                             <div class="emotion-expression">
                                                 <span class="expression-label">¿Cómo lo expresa?</span>
-                                                <p id="sadness-expression" class="expression-text editable" contenteditable="false">Silencio, aislamiento</p>
+                                                <p id="sadness-expression" class="expression-text editable"
+                                                    contenteditable="false">Silencio, aislamiento</p>
                                             </div>
                                         </div>
 
@@ -306,10 +322,12 @@
                                                 <span class="emotion-label">Sorpresa</span>
                                                 <span class="emotion-value" id="surprise-value">5/10</span>
                                             </div>
-                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-surprise" data-emotion="surprise">
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider"
+                                                id="emotion-surprise" data-emotion="surprise">
                                             <div class="emotion-expression">
                                                 <span class="expression-label">¿Cómo lo expresa?</span>
-                                                <p id="surprise-expression" class="expression-text editable" contenteditable="false">Ligera elevación de cejas</p>
+                                                <p id="surprise-expression" class="expression-text editable"
+                                                    contenteditable="false">Ligera elevación de cejas</p>
                                             </div>
                                         </div>
 
@@ -319,10 +337,12 @@
                                                 <span class="emotion-label">Disgusto</span>
                                                 <span class="emotion-value" id="disgust-value">5/10</span>
                                             </div>
-                                            <input type="range" min="0" max="10" value="5" class="emotion-slider" id="emotion-disgust" data-emotion="disgust">
+                                            <input type="range" min="0" max="10" value="5" class="emotion-slider"
+                                                id="emotion-disgust" data-emotion="disgust">
                                             <div class="emotion-expression">
                                                 <span class="expression-label">¿Cómo lo expresa?</span>
-                                                <p id="disgust-expression" class="expression-text editable" contenteditable="false">Mueca sutil</p>
+                                                <p id="disgust-expression" class="expression-text editable"
+                                                    contenteditable="false">Mueca sutil</p>
                                             </div>
                                         </div>
                                     </div>
@@ -331,29 +351,34 @@
                                 <!-- 4. Gatillos emocionales -->
                                 <div class="personality-main-section">
                                     <h3 class="personality-section-title">Gatillos emocionales</h3>
-                                    
+
                                     <div class="triggers-compact">
                                         <div class="trigger-row trigger-red">
                                             <span class="trigger-emoji">🔴</span>
                                             <div class="trigger-content">
                                                 <strong>Lo hacen explotar:</strong>
-                                                <p id="trigger-red" class="trigger-text editable" contenteditable="false">Que lo subestimen, perder el control</p>
+                                                <p id="trigger-red" class="trigger-text editable"
+                                                    contenteditable="false">Que lo subestimen, perder el control</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="trigger-row trigger-yellow">
                                             <span class="trigger-emoji">🟡</span>
                                             <div class="trigger-content">
                                                 <strong>Lo ponen nervioso:</strong>
-                                                <p id="trigger-yellow" class="trigger-text editable" contenteditable="false">Silencios prolongados, preguntas sobre su pasado</p>
+                                                <p id="trigger-yellow" class="trigger-text editable"
+                                                    contenteditable="false">Silencios prolongados, preguntas sobre su
+                                                    pasado</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="trigger-row trigger-green">
                                             <span class="trigger-emoji">🟢</span>
                                             <div class="trigger-content">
                                                 <strong>Lo calman/alegran:</strong>
-                                                <p id="trigger-green" class="trigger-text editable" contenteditable="false">Rutinas predecibles, que le pidan consejo</p>
+                                                <p id="trigger-green" class="trigger-text editable"
+                                                    contenteditable="false">Rutinas predecibles, que le pidan consejo
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -366,7 +391,9 @@
                         <!-- Página 3: Rasgos de Personalidad (Sliders) -->
                         <div class="book-page" id="page-3">
                             <div class="info-section">
-                                <div class="character-title"><h2>Rasgos de Personalidad</h2></div>
+                                <div class="character-title">
+                                    <h2>Rasgos de Personalidad</h2>
+                                </div>
                                 <div class="personality-section">
                                     <div class="personality-trait">
                                         <label class="trait-left">Introvertido</label>
@@ -484,23 +511,28 @@
                         <!-- Página 4: Vínculos Familiares -->
                         <div class="book-page" id="page-4">
                             <div class="info-section">
-                                <div class="character-title"><h2>Vínculos Familiares</h2></div>
-                                
+                                <div class="character-title">
+                                    <h2>Vínculos Familiares</h2>
+                                </div>
+
                                 <!-- Bloque 1: Relaciones Generales -->
                                 <div class="family-general-section">
                                     <h3>Contexto Familiar General</h3>
                                     <div class="family-info-grid">
                                         <div class="family-info-item full-width">
                                             <span class="info-label">Clima emocional general:</span>
-                                            <span id="family-climate" class="info-item editable" contenteditable="false">—</span>
+                                            <span id="family-climate" class="info-item editable"
+                                                contenteditable="false">—</span>
                                         </div>
                                         <div class="family-info-item">
                                             <span class="info-label">Mayor decepción:</span>
-                                            <span id="family-disappointment" class="info-item editable" contenteditable="false">—</span>
+                                            <span id="family-disappointment" class="info-item editable"
+                                                contenteditable="false">—</span>
                                         </div>
                                         <div class="family-info-item">
                                             <span class="info-label">Mayor orgullo:</span>
-                                            <span id="family-pride" class="info-item editable" contenteditable="false">—</span>
+                                            <span id="family-pride" class="info-item editable"
+                                                contenteditable="false">—</span>
                                         </div>
                                     </div>
                                 </div>
@@ -525,7 +557,9 @@
                         <!-- Página 5: Habilidades -->
                         <div class="book-page" id="page-5">
                             <div class="info-section">
-                                <div class="character-title"><h2>Habilidades</h2></div>
+                                <div class="character-title">
+                                    <h2>Habilidades</h2>
+                                </div>
 
                                 <div class="character-info">
                                     <!-- Tipo de maná -->
@@ -548,7 +582,8 @@
                                                 <span class="info-label">Control de maná:</span>
                                                 <span id="mana-control-display" class="skill-display">0%</span>
                                                 <span class="skill-select hidden mana-control-edit-wrapper">
-                                                    <input type="number" id="mana-control-input" class="skill-number-input" min="0" max="100" value="0">
+                                                    <input type="number" id="mana-control-input"
+                                                        class="skill-number-input" min="0" max="100" value="0">
                                                     <span class="mana-control-suffix">%</span>
                                                 </span>
                                             </div>
@@ -566,47 +601,62 @@
                                             <div id="warrior-type-edit" class="warrior-type-box hidden">
                                                 <div class="warrior-category">
                                                     <label class="checkbox-option warrior-category-toggle">
-                                                        <input type="checkbox" id="warrior-melee" class="warrior-category-checkbox" data-category="melee">
+                                                        <input type="checkbox" id="warrior-melee"
+                                                            class="warrior-category-checkbox" data-category="melee">
                                                         Cuerpo a cuerpo
                                                     </label>
                                                     <div class="warrior-subtypes" data-category-subtypes="melee">
                                                         <label class="checkbox-option">
-                                                            <input type="checkbox" id="warrior-melee-tanque" class="warrior-subtype-checkbox" data-category="melee" data-subtype="tanque">
+                                                            <input type="checkbox" id="warrior-melee-tanque"
+                                                                class="warrior-subtype-checkbox" data-category="melee"
+                                                                data-subtype="tanque">
                                                             Tanque
                                                         </label>
                                                         <label class="checkbox-option">
-                                                            <input type="checkbox" id="warrior-melee-luchador" class="warrior-subtype-checkbox" data-category="melee" data-subtype="luchador">
+                                                            <input type="checkbox" id="warrior-melee-luchador"
+                                                                class="warrior-subtype-checkbox" data-category="melee"
+                                                                data-subtype="luchador">
                                                             Luchador
                                                         </label>
                                                         <label class="checkbox-option">
-                                                            <input type="checkbox" id="warrior-melee-asesino" class="warrior-subtype-checkbox" data-category="melee" data-subtype="asesino">
+                                                            <input type="checkbox" id="warrior-melee-asesino"
+                                                                class="warrior-subtype-checkbox" data-category="melee"
+                                                                data-subtype="asesino">
                                                             Asesino
                                                         </label>
                                                         <label class="checkbox-option">
-                                                            <input type="checkbox" id="warrior-melee-esgrimista" class="warrior-subtype-checkbox" data-category="melee" data-subtype="esgrimista">
+                                                            <input type="checkbox" id="warrior-melee-esgrimista"
+                                                                class="warrior-subtype-checkbox" data-category="melee"
+                                                                data-subtype="esgrimista">
                                                             Esgrimista
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="warrior-category">
                                                     <label class="checkbox-option warrior-category-toggle">
-                                                        <input type="checkbox" id="warrior-ranged" class="warrior-category-checkbox" data-category="ranged">
+                                                        <input type="checkbox" id="warrior-ranged"
+                                                            class="warrior-category-checkbox" data-category="ranged">
                                                         Combate a distancia
                                                     </label>
                                                     <div class="warrior-subtypes" data-category-subtypes="ranged">
                                                         <label class="checkbox-option">
-                                                            <input type="checkbox" id="warrior-ranged-tirador" class="warrior-subtype-checkbox" data-category="ranged" data-subtype="tirador">
+                                                            <input type="checkbox" id="warrior-ranged-tirador"
+                                                                class="warrior-subtype-checkbox" data-category="ranged"
+                                                                data-subtype="tirador">
                                                             Tirador
                                                         </label>
                                                         <label class="checkbox-option">
-                                                            <input type="checkbox" id="warrior-ranged-mago" class="warrior-subtype-checkbox" data-category="ranged" data-subtype="mago">
+                                                            <input type="checkbox" id="warrior-ranged-mago"
+                                                                class="warrior-subtype-checkbox" data-category="ranged"
+                                                                data-subtype="mago">
                                                             Mago
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="warrior-category">
                                                     <label class="checkbox-option warrior-category-toggle">
-                                                        <input type="checkbox" id="warrior-support" class="warrior-category-checkbox" data-category="support">
+                                                        <input type="checkbox" id="warrior-support"
+                                                            class="warrior-category-checkbox" data-category="support">
                                                         Soporte
                                                     </label>
                                                 </div>
@@ -624,23 +674,28 @@
                                             </div>
                                             <div id="elements-edit" class="elements-grid hidden">
                                                 <label class="checkbox-option">
-                                                    <input type="checkbox" id="element-agua" class="element-checkbox" data-element="agua">
+                                                    <input type="checkbox" id="element-agua" class="element-checkbox"
+                                                        data-element="agua">
                                                     Agua
                                                 </label>
                                                 <label class="checkbox-option">
-                                                    <input type="checkbox" id="element-viento" class="element-checkbox" data-element="viento">
+                                                    <input type="checkbox" id="element-viento" class="element-checkbox"
+                                                        data-element="viento">
                                                     Viento
                                                 </label>
                                                 <label class="checkbox-option">
-                                                    <input type="checkbox" id="element-fuego" class="element-checkbox" data-element="fuego">
+                                                    <input type="checkbox" id="element-fuego" class="element-checkbox"
+                                                        data-element="fuego">
                                                     Fuego
                                                 </label>
                                                 <label class="checkbox-option">
-                                                    <input type="checkbox" id="element-tierra" class="element-checkbox" data-element="tierra">
+                                                    <input type="checkbox" id="element-tierra" class="element-checkbox"
+                                                        data-element="tierra">
                                                     Tierra
                                                 </label>
                                                 <label class="checkbox-option">
-                                                    <input type="checkbox" id="element-rayo" class="element-checkbox" data-element="rayo">
+                                                    <input type="checkbox" id="element-rayo" class="element-checkbox"
+                                                        data-element="rayo">
                                                     Rayo
                                                 </label>
                                             </div>
@@ -652,47 +707,69 @@
                                             </div>
                                             <div id="subelements-edit" class="subelements-grid hidden">
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-hielo" class="subelement-checkbox" data-subelement="hielo" data-requires="agua,viento">
+                                                    <input type="checkbox" id="subelement-hielo"
+                                                        class="subelement-checkbox" data-subelement="hielo"
+                                                        data-requires="agua,viento">
                                                     Hielo <span class="subelement-req">(Agua + Viento)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-calor" class="subelement-checkbox" data-subelement="calor" data-requires="fuego,viento">
+                                                    <input type="checkbox" id="subelement-calor"
+                                                        class="subelement-checkbox" data-subelement="calor"
+                                                        data-requires="fuego,viento">
                                                     Calor <span class="subelement-req">(Fuego + Viento)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-iman" class="subelement-checkbox" data-subelement="iman" data-requires="rayo,viento">
+                                                    <input type="checkbox" id="subelement-iman"
+                                                        class="subelement-checkbox" data-subelement="iman"
+                                                        data-requires="rayo,viento">
                                                     Imán <span class="subelement-req">(Rayo + Viento)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-explosion" class="subelement-checkbox" data-subelement="explosion" data-requires="tierra,viento">
+                                                    <input type="checkbox" id="subelement-explosion"
+                                                        class="subelement-checkbox" data-subelement="explosion"
+                                                        data-requires="tierra,viento">
                                                     Explosión <span class="subelement-req">(Tierra + Viento)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-cristal" class="subelement-checkbox" data-subelement="cristal" data-requires="rayo,tierra">
+                                                    <input type="checkbox" id="subelement-cristal"
+                                                        class="subelement-checkbox" data-subelement="cristal"
+                                                        data-requires="rayo,tierra">
                                                     Cristal <span class="subelement-req">(Rayo + Tierra)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-lava" class="subelement-checkbox" data-subelement="lava" data-requires="fuego,tierra">
+                                                    <input type="checkbox" id="subelement-lava"
+                                                        class="subelement-checkbox" data-subelement="lava"
+                                                        data-requires="fuego,tierra">
                                                     Lava <span class="subelement-req">(Fuego + Tierra)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-barro" class="subelement-checkbox" data-subelement="barro" data-requires="agua,tierra">
+                                                    <input type="checkbox" id="subelement-barro"
+                                                        class="subelement-checkbox" data-subelement="barro"
+                                                        data-requires="agua,tierra">
                                                     Barro <span class="subelement-req">(Agua + Tierra)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-madera" class="subelement-checkbox" data-subelement="madera" data-requires="agua,tierra">
+                                                    <input type="checkbox" id="subelement-madera"
+                                                        class="subelement-checkbox" data-subelement="madera"
+                                                        data-requires="agua,tierra">
                                                     Madera <span class="subelement-req">(Agua + Tierra)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-vapor" class="subelement-checkbox" data-subelement="vapor" data-requires="agua,fuego">
+                                                    <input type="checkbox" id="subelement-vapor"
+                                                        class="subelement-checkbox" data-subelement="vapor"
+                                                        data-requires="agua,fuego">
                                                     Vapor <span class="subelement-req">(Agua + Fuego)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-tormenta" class="subelement-checkbox" data-subelement="tormenta" data-requires="agua,rayo">
+                                                    <input type="checkbox" id="subelement-tormenta"
+                                                        class="subelement-checkbox" data-subelement="tormenta"
+                                                        data-requires="agua,rayo">
                                                     Tormenta <span class="subelement-req">(Agua + Rayo)</span>
                                                 </label>
                                                 <label class="checkbox-option subelement-option">
-                                                    <input type="checkbox" id="subelement-plasma" class="subelement-checkbox" data-subelement="plasma" data-requires="rayo,fuego">
+                                                    <input type="checkbox" id="subelement-plasma"
+                                                        class="subelement-checkbox" data-subelement="plasma"
+                                                        data-requires="rayo,fuego">
                                                     Plasma <span class="subelement-req">(Rayo + Fuego)</span>
                                                 </label>
                                             </div>
@@ -706,7 +783,9 @@
                         <!-- Página 6: Habilidades Únicas -->
                         <div class="book-page" id="page-6">
                             <div class="info-section">
-                                <div class="character-title"><h2>Habilidades Únicas</h2></div>
+                                <div class="character-title">
+                                    <h2>Habilidades Únicas</h2>
+                                </div>
 
                                 <div class="unique-skills-header">
                                     <button id="add-unique-skill-btn" class="small-action-button hidden">
@@ -737,7 +816,9 @@
                         <!-- Página 8: Galería de imágenes -->
                         <div class="book-page" id="page-8">
                             <div class="info-section">
-                                <div class="character-title"><h2>Galería</h2></div>
+                                <div class="character-title">
+                                    <h2>Galería</h2>
+                                </div>
                                 <div id="character-gallery" class="gallery-grid">
                                     <!-- Las imágenes se generarán dinámicamente aquí -->
                                 </div>
@@ -793,7 +874,8 @@
                 </div>
                 <div class="form-group">
                     <label for="unique-skill-description">Descripción:</label>
-                    <textarea id="unique-skill-description" rows="4" placeholder="Qué hace esta habilidad..."></textarea>
+                    <textarea id="unique-skill-description" rows="4"
+                        placeholder="Qué hace esta habilidad..."></textarea>
                 </div>
                 <div class="dialog-buttons">
                     <button type="button" id="cancel-add-unique-skill" class="button secondary">Cancelar</button>
@@ -982,7 +1064,8 @@
                 </div>
                 <div class="form-group">
                     <label for="bond-notes">Notas adicionales:</label>
-                    <textarea id="bond-notes" rows="4" placeholder="Descripción de la relación, dinámicas, eventos importantes..."></textarea>
+                    <textarea id="bond-notes" rows="4"
+                        placeholder="Descripción de la relación, dinámicas, eventos importantes..."></textarea>
                 </div>
                 <div class="dialog-buttons">
                     <button type="button" id="cancel-add-bond" class="button secondary">Cancelar</button>
